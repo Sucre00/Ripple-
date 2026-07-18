@@ -704,7 +704,7 @@ export default function RipplLandingPage() {
               </div>
               <div className="mt-4 space-y-4">
                 <p className="text-3xl font-extrabold text-slate-950 leading-none">
-                  {billingCycle === "monthly" ? "₦15,000" : "₦12,750"}{" "}
+                  ₦0{" "}
                   <span className="text-[10px] text-slate-400 font-light">/month</span>
                 </p>
                 <Link
