@@ -129,7 +129,10 @@ export default function SuperAdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
+    <div className="min-h-screen bg-[#f3f6f9] flex font-sans antialiased text-slate-800 relative overflow-hidden">
+      {/* Background ambient glowing radial blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#e15b3e]/3 blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/3 blur-[150px] pointer-events-none -z-10" />
       
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-[#0a0d10] border-r border-slate-900 flex flex-col justify-between p-6 shrink-0 text-slate-400 z-30">
@@ -205,22 +208,22 @@ export default function SuperAdminDashboard() {
             
             {/* Platform Stats Summary row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Gross Payout Volume</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">₦42.1M</p>
                 <p className="text-[9px] text-slate-400 font-medium">Reconciled this MTD</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Platform Fee Revenue</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">₦1.84M</p>
                 <p className="text-[9px] text-slate-400 font-medium">1.5% average fee cut</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Registered Merchants</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">104 Brands</p>
                 <p className="text-[9px] text-slate-400 font-medium">{businessQueue.length} awaiting verification</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 border-l-4 border-l-red-600">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300 border-l-4 border-l-[#e15b3e]">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Ambassadors</p>
                 <p className="text-2xl font-semibold text-slate-900 mt-1">2,410 Users</p>
                 <p className="text-[9px] text-slate-400 font-medium">Daily signup frequency: +42</p>

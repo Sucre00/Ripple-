@@ -179,7 +179,10 @@ export default function AffiliateDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
+    <div className="min-h-screen bg-[#f3f6f9] flex font-sans antialiased text-slate-800 relative overflow-hidden">
+      {/* Background ambient glowing radial blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#e15b3e]/3 blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/3 blur-[150px] pointer-events-none -z-10" />
       
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30">
@@ -203,9 +206,9 @@ export default function AffiliateDashboard() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
+                className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-bold transition-all hover:scale-[1.01] active:scale-[0.98] ${
                   activeTab === tab.id
-                    ? "bg-[#e15b3e]/10 text-[#e15b3e] border border-[#e15b3e]/20"
+                    ? "bg-[#e15b3e] text-white shadow-md shadow-[#e15b3e]/10"
                     : "text-slate-500 hover:text-slate-800 hover:bg-slate-50 border border-transparent"
                 }`}
               >
@@ -345,17 +348,17 @@ export default function AffiliateDashboard() {
 
             {/* Wallet Balances Card Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Pending Audit</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">₦125,000.00</p>
                 <p className="text-[9px] text-slate-400 font-medium">Under active review checks</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Clearing Ledger</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">₦43,200.00</p>
                 <p className="text-[9px] text-slate-400 font-medium">Fraud-cleared; clearing phase</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow border-l-4 border-l-[#e15b3e]">
+              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300 border-l-4 border-l-[#e15b3e]">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Cleared & Available</p>
                 <p className="text-2xl font-semibold text-slate-900 mt-1">₦81,450.00</p>
                 <button
