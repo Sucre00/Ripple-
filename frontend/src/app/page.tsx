@@ -154,58 +154,66 @@ export default function RipplLandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="px-6 py-16 md:py-24 max-w-5xl mx-auto text-center flex flex-col items-center gap-6 relative">
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[#e15b3e]/5 blur-3xl -z-10 pointer-events-none"></div>
+      {/* Hero Section - Redesigned to be modern, pristine, and clean */}
+      <section 
+        style={{
+          backgroundImage: 'radial-gradient(circle, #e2e8f0 1.2px, transparent 1.2px)',
+          backgroundSize: '24px 24px'
+        }}
+        className="px-6 py-20 md:py-32 max-w-5xl mx-auto text-center flex flex-col items-center gap-8 relative rounded-[3rem] border border-slate-200/30 bg-white/50 backdrop-blur-sm shadow-sm mt-6"
+      >
+        {/* Glow ambient background elements */}
+        <div className="absolute top-10 left-1/4 w-80 h-80 rounded-full bg-[#e15b3e]/5 blur-[80px] pointer-events-none -z-10"></div>
+        <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-blue-500/5 blur-[100px] pointer-events-none -z-10"></div>
 
         {/* Pill highlight */}
-        <span className="px-3.5 py-1 rounded-full bg-[#fcece9] text-[#e15b3e] text-[10px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+        <span className="px-4 py-1.5 rounded-full bg-white border border-[#e15b3e]/20 text-[#e15b3e] text-[9px] font-extrabold uppercase tracking-widest shadow-sm flex items-center gap-1.5 backdrop-blur-md">
           <IconSparkles className="w-3.5 h-3.5 animate-pulse" />
-          Africa's dedicated Growth Infrastructure
+          Africa's Dedicated Growth Infrastructure
         </span>
 
         {/* Hero title */}
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 max-w-3xl leading-[1.15]">
-          Turn every customer into a growth channel.
+        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-950 max-w-4xl leading-[1.08] select-none">
+          Turn every customer into a <span className="text-[#e15b3e]">growth channel</span>
         </h1>
 
-        <p className="text-sm text-slate-500 font-light max-w-xl leading-relaxed">
-          Rippl is the referral and affiliate infrastructure built for Nigerian businesses — trackable links, instant payouts, zero spreadsheets.
+        <p className="text-xs md:text-sm text-slate-500 font-light max-w-2xl leading-relaxed">
+          Rippl is the referral and affiliate infrastructure built for emerging markets. Track referred checkouts instantly, clear payouts securely, and automate creator rewards with zero manual spreadsheets.
         </p>
 
         {/* Hero CTAs */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
+        <div className="flex flex-col sm:flex-row items-center gap-3.5 mt-2 w-full sm:w-auto">
           <Link
             href="/auth"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-1"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#e15b3e]/15 transition-all active:scale-[0.98] flex items-center justify-center gap-1.5"
           >
             Start a Campaign
             <IconChevronRight className="w-4 h-4" />
           </Link>
           <Link
             href="/auth"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-all active:scale-[0.98]"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white border border-slate-200 text-slate-755 hover:bg-slate-50 text-xs font-bold uppercase tracking-wider shadow-sm transition-all active:scale-[0.98]"
           >
             Become an Affiliate
           </Link>
         </div>
 
         {/* Trust Anchors Badges with CBN and NDPR Elevated */}
-        <div className="flex flex-wrap justify-center items-center gap-6 mt-8 pt-6 border-t border-slate-200/50 w-full max-w-xl">
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+        <div className="flex flex-wrap justify-center items-center gap-6 mt-8 pt-8 border-t border-slate-200/50 w-full max-w-2xl text-[9px] font-bold text-slate-400 uppercase tracking-widest">
+          <div className="flex items-center gap-1.5">
             <IconShieldCheck className="w-4 h-4 text-green-600" />
             <span>NDPR Data Protected</span>
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-600"><IconSparkles className="w-3.5 h-3.5 text-[#e15b3e]" /></span>
+          <div className="flex items-center gap-1.5">
+            <IconSparkles className="w-4 h-4 text-[#e15b3e]" />
             <span>Paystack Secured Payouts</span>
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            <IconFingerprint className="w-4 h-4 text-[#e15b3e]" />
+          <div className="flex items-center gap-1.5">
+            <IconFingerprint className="w-4 h-4 text-slate-400" />
             <span>BVN Identity Verified</span>
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            <span className="px-2 py-0.5 bg-slate-200/60 rounded text-[9px] text-slate-600 font-extrabold">CBN Compliant</span>
+          <div className="flex items-center gap-1.5">
+            <span className="px-1.5 py-0.5 bg-slate-200/60 rounded-[4px] text-[8px] text-slate-500 font-extrabold">CBN Compliant</span>
           </div>
         </div>
       </section>
