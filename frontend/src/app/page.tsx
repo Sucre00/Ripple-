@@ -233,41 +233,101 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Agitation Block: Stark Old Way vs Rippl Way Split (Section 4) */}
-      <section className="px-6 py-12 max-w-5xl mx-auto w-full text-center space-y-8">
+      {/* Redesigned Agitation Block: Stark Old Way vs Rippl Way Split (Section 4) */}
+      <section className="px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-10">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-slate-900">The Growth Bottleneck</h2>
-          <p className="text-xs text-slate-400 font-light mt-1">Manual sheets kill trust. Automation scales campaigns.</p>
+          <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">The Comparison</span>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900 mt-2.5">The Growth Bottleneck</h2>
+          <p className="text-xs text-slate-450 font-light mt-1 max-w-md mx-auto">Manual sheets kill trust. Rippl's automated clearing layers keep your brand ambassadors motivated.</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-          {/* Old Way */}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between text-left gap-6 border-t-4 border-t-slate-400">
-            <div className="space-y-4">
-              <span className="w-10 h-10 rounded-full bg-red-50 text-red-600 flex items-center justify-center"><IconX className="w-5 h-5" /></span>
-              <h3 className="font-bold text-slate-800 text-sm">The Manual Way (WhatsApp & Sheets)</h3>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">
-                Manually managing referred orders on spreadsheets. Affiliates wait weeks for reconciliation. No transparency on click conversions, leading to disputes, fraud, and dropped participation.
-              </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          
+          {/* Old Way (5 Cols) */}
+          <div className="lg:col-span-5 bg-[#0f1319] rounded-[2.5rem] p-8 border border-slate-800 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-800/10 rounded-full blur-2xl"></div>
+            
+            <div className="space-y-5 relative z-10">
+              <div className="flex items-center gap-2.5">
+                <span className="w-9 h-9 rounded-full bg-red-950/40 text-red-500 flex items-center justify-center">
+                  <IconX className="w-4 h-4" />
+                </span>
+                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider bg-red-950/20 px-2.5 py-0.5 rounded-full">Old Way</span>
+              </div>
+              
+              <h3 className="text-base font-bold text-white tracking-tight">Manual WhatsApp & Excel Sheets</h3>
+              
+              <div className="space-y-3.5 pt-1 text-[11px] text-slate-400 font-light leading-relaxed">
+                <div className="flex items-start gap-2">
+                  <span className="text-red-500 mt-0.5">•</span>
+                  <p>Reconciling referred orders on spreadsheets takes weeks of manual reviews.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-red-500 mt-0.5">•</span>
+                  <p>Affiliates get zero transparency on conversion statuses, creating friction.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-red-500 mt-0.5">•</span>
+                  <p>Fails to block duplicate self-referrals or device-fingerprint spoofing.</p>
+                </div>
+              </div>
             </div>
-            <div className="p-4 bg-slate-50 rounded-2xl text-[10px] text-slate-400 font-medium">
-              Attribution: Manual matching. Payouts: 30–90 Days.
+
+            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl text-[10px] font-mono text-slate-500 text-center relative z-10">
+              [ spreadsheet_attributions_v2.xlsx ]
             </div>
           </div>
 
-          {/* Rippl Way */}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between text-left gap-6 border-t-4 border-t-[#e15b3e]">
-            <div className="space-y-4">
-              <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center"><IconSparkles className="w-5 h-5 animate-pulse" /></span>
-              <h3 className="font-bold text-slate-800 text-sm">The Rippl Infrastructure</h3>
-              <p className="text-xs text-slate-400 font-light leading-relaxed">
-                Automated cookie-tracking pixels and API attribution logs. Affiliates get real-time dashboards and clear bank payouts instantly from funded reserves under 24 hours. Anti-fraud filters block duplicate clicks.
-              </p>
+          {/* Rippl Way (7 Cols) */}
+          <div className="lg:col-span-7 bg-white rounded-[2.5rem] p-8 border border-[#e15b3e]/20 shadow-xl shadow-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left border-l-4 border-l-[#e15b3e]">
+            <div className="absolute top-0 right-0 w-44 h-44 bg-[#fcece9]/20 rounded-full blur-3xl"></div>
+
+            <div className="space-y-5 relative z-10">
+              <div className="flex items-center gap-2.5">
+                <span className="w-9 h-9 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+                  <IconSparkles className="w-4 h-4 animate-pulse" />
+                </span>
+                <span className="text-[10px] font-bold text-[#e15b3e] uppercase tracking-wider bg-[#fcece9] px-2.5 py-0.5 rounded-full">Rippl Way</span>
+              </div>
+              
+              <h3 className="text-base font-bold text-slate-900 tracking-tight">Automated, Secure Infrastructure</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div className="space-y-3.5 text-[11px] text-slate-500 font-light leading-relaxed">
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
+                    <p>Lightweight cookie-pixels attribute checkouts instantly.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
+                    <p>Real-time analytics portal shows conversion states.</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3.5 text-[11px] text-slate-500 font-light leading-relaxed">
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
+                    <p>Fraud engine blocks self-referral IP matching loops.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
+                    <p>Deposited reserves settle cashouts in &lt;24 hours.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="p-4 bg-[#fcece9] text-[#e15b3e] rounded-2xl text-[10px] font-bold">
-              Attribution: Cookie Pixel. Payouts: &lt;24 Hours.
+
+            <div className="p-4 bg-[#fcece9]/40 border border-[#fbdcd4]/40 rounded-2xl flex items-center justify-between relative z-10">
+              <div>
+                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none">Wallet Cleared Reserves</p>
+                <p className="text-lg font-extrabold text-slate-900 mt-1 leading-none">₦81,450.00</p>
+              </div>
+              <span className="px-3.5 py-1.5 bg-black text-white text-[9px] font-bold rounded-xl shadow-sm uppercase tracking-wider flex items-center gap-1">
+                <IconShieldCheck className="w-3.5 h-3.5 text-green-500" /> Secure
+              </span>
             </div>
           </div>
+
         </div>
       </section>
 
