@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   IconBuildingBank,
   IconClock,
@@ -37,13 +38,9 @@ export default function Home() {
           </button>
           
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
-              №
-            </div>
-            <div>
-              <h1 className="font-semibold text-lg leading-tight text-slate-900">Financial</h1>
-              <p className="text-sm text-slate-400 font-light">Dashboard</p>
-            </div>
+            <Link href="/" className="flex items-center">
+              <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
+            </Link>
           </div>
         </div>
 

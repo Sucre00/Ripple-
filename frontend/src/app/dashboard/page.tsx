@@ -185,16 +185,8 @@ export default function AffiliateDashboard() {
       <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30">
         <div className="space-y-8">
           {/* Brand header */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
-              №
-            </div>
-            <div>
-              <span className="font-extrabold text-slate-900 tracking-tight text-lg">Rippl</span>
-              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none mt-0.5">
-                Affiliate Portal
-              </p>
-            </div>
+          <Link href="/" className="flex items-center">
+            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Nav links */}

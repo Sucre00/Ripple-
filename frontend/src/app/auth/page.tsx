@@ -54,11 +54,8 @@ export default function AuthPage() {
         
         {/* Brand logo */}
         <div className="flex flex-col items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-black text-base">
-              №
-            </div>
-            <span className="font-extrabold text-slate-900 tracking-tight text-lg">Rippl</span>
+          <Link href="/" className="flex items-center">
+            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
           </Link>
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
             Referral & rewards infrastructure

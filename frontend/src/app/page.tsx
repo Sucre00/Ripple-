@@ -125,16 +125,8 @@ export default function RipplLandingPage() {
       {/* Sticky Header */}
       <header className="sticky top-0 bg-white/70 backdrop-blur-md border-b border-slate-200/40 px-6 py-4 flex items-center justify-between z-40">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
-              №
-            </div>
-            <div>
-              <span className="font-extrabold text-slate-900 tracking-tight text-lg">Rippl</span>
-              <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none mt-0.5">
-                Growth Infra
-              </p>
-            </div>
+          <Link href="/" className="flex items-center">
+            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
           </Link>
 
           {/* Desktop links */}
@@ -862,11 +854,8 @@ export default function RipplLandingPage() {
           
           {/* Column 1: Brand Info (Double width on desktop) */}
           <div className="col-span-2 space-y-4 text-left">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
-                №
-              </div>
-              <span className="font-extrabold text-slate-900 tracking-tight text-lg">Rippl</span>
+            <Link href="/" className="flex items-center">
+              <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
             </Link>
             <p className="text-[11px] text-slate-400 font-light max-w-xs leading-relaxed">
               Nigeria & emerging market's first growth and rewards infrastructure. Empowering brands to launch automated, fraud-aware referral channels.

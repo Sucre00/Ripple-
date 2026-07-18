@@ -222,16 +222,8 @@ export default function MerchantDashboard() {
       <aside className="w-64 bg-[#0c1015] border-r border-slate-800 flex flex-col justify-between p-6 shrink-0 text-slate-300 z-30">
         <div className="space-y-8">
           {/* Brand header */}
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#e15b3e] text-white flex items-center justify-center font-bold text-lg">
-              №
-            </div>
-            <div>
-              <span className="font-extrabold text-white tracking-tight text-lg">Rippl</span>
-              <p className="text-[9px] text-[#e15b3e] font-bold uppercase tracking-wider leading-none mt-0.5">
-                Merchant Admin
-              </p>
-            </div>
+          <Link href="/" className="flex items-center bg-white px-3 py-1.5 rounded-xl">
+            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-6 w-auto" />
           </Link>
 
           {/* Navigation Links */}
