@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   IconBuildingBank,
@@ -29,33 +29,80 @@ import {
   IconUser,
   IconBriefcase,
   IconSparkles,
-  IconPower
+  IconPower,
+  IconDeviceLaptop,
+  IconDeviceMobile,
+  IconShieldCheck,
+  IconCertificate,
+  IconPhoto,
+  IconUserCheck,
+  IconTrash,
+  IconFingerprint
 } from "@tabler/icons-react";
 
 export default function AffiliateDashboard() {
-  const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "support">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support">("overview");
   
-  // Link generation states
-  const [showLinkModal, setShowLinkModal] = useState(false);
+  // Guided Onboarding Checklist States
+  const [checklist, setChecklist] = useState({
+    profile: true,
+    phone: false,
+    campaign: false,
+    share: false,
+    kyc: false,
+    withdraw: false
+  });
+
+  const onboardingProgress = useMemo(() => {
+    const steps = Object.values(checklist);
+    const completed = steps.filter(Boolean).length;
+    return Math.round((completed / steps.length) * 100);
+  }, [checklist]);
+
+  // Campaign Marketplace states
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
-  const [generatedLink, setGeneratedLink] = useState("");
+  const [utmSource, setUtmSource] = useState("whatsapp");
+  const [utmMedium, setUtmMedium] = useState("social");
   const [copiedLink, setCopiedLink] = useState(false);
 
-  // Bank resolve and withdrawal states
+  // Link analytics preview toggle
+  const generatedLink = useMemo(() => {
+    if (!selectedCampaign) return "";
+    const slug = selectedCampaign.brand.toLowerCase().replace(" ", "-");
+    return `https://rippl.io/r/dwayne-${slug}?utm_source=${utmSource}&utm_medium=${utmMedium}`;
+  }, [selectedCampaign, utmSource, utmMedium]);
+
+  // Progressive KYC Modal states
+  const [showKycModal, setShowKycModal] = useState(false);
+  const [kycStep, setKycStep] = useState<"bvn" | "verify" | "upload" | "selfie" | "success">("bvn");
+  const [bvnNumber, setBvnNumber] = useState("");
+  const [kycLevel, setKycLevel] = useState<"Tier 2" | "Tier 3">("Tier 2");
+
+  // Bank resolve and cashout states
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawPin, setWithdrawPin] = useState("");
   const [savedBank, setSavedBank] = useState({ name: "Access Bank", number: "1029384756", holder: "Dwayne Tatum" });
   const [withdrawStep, setWithdrawStep] = useState<"form" | "confirm" | "success">("form");
   const [isProcessingWithdraw, setIsProcessingWithdraw] = useState(false);
 
-  // Notifications state
+  // Security sessions manager states
+  const [activeSessions, setActiveSessions] = useState([
+    { id: 1, device: "macOS Sequoia", browser: "Chrome", location: "Lagos, NG", current: true },
+    { id: 2, device: "iPhone 15 Pro", browser: "Safari", location: "Abuja, NG", current: false },
+    { id: 3, device: "Windows 11", browser: "Edge", location: "Enugu, NG", current: false }
+  ]);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [show2faSetup, setShow2faSetup] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+
+  // Notification center states
   const [showNotifications, setShowNotifications] = useState(false);
 
   const campaignsData = [
-    { id: 1, name: "Shopify NG Campaign", brand: "Shopify NG", commission: "15%", cookie: "30 Days", type: "CPS", logo: "🛍", active: true },
-    { id: 2, name: "Flutterwave Merchant Referral", brand: "Flutterwave", commission: "₦1,500 flat", cookie: "60 Days", type: "CPA", logo: "🌊", active: true },
-    { id: 3, name: "PiggyVest Onboarding", brand: "PiggyVest", commission: "₦500 flat", cookie: "15 Days", type: "CPL", logo: "🐷", active: false },
-    { id: 4, name: "Paystack Store Setup", brand: "Paystack", commission: "10%", cookie: "45 Days", type: "CPS", logo: "💳", active: true }
+    { id: 1, name: "Shopify NG Campaign", brand: "Shopify NG", commission: "15%", cookie: "30 Days", type: "CPS", logo: "🛍", active: true, desc: "Promote e-commerce storefront setups in West Africa. Converts when a merchant subscribes to a paid plan." },
+    { id: 2, name: "Flutterwave Merchant Referral", brand: "Flutterwave", commission: "₦1,500 flat", cookie: "60 Days", type: "CPA", logo: "🌊", active: true, desc: "Invite retail vendors to accept card and bank payments. Commission clears on first active checkout transaction." },
+    { id: 3, name: "PiggyVest Savings Campaign", brand: "PiggyVest", commission: "₦500 flat", cookie: "15 Days", type: "CPL", logo: "🐷", active: false, desc: "Encourage user savings habit. Commission clears when user links a debit card and saves ₦1,000 minimum." },
+    { id: 4, name: "Paystack Store Setup", brand: "Paystack", commission: "10%", cookie: "45 Days", type: "CPS", logo: "💳", active: true, desc: "Help merchants create free online storefronts. Payout runs on aggregate transaction volumes." }
   ];
 
   const referralsData = [
@@ -65,10 +112,28 @@ export default function AffiliateDashboard() {
     { id: 104, name: "Aisha Bello", campaign: "PiggyVest", amount: "₦500", date: "July 12, 2026", status: "disputed" }
   ];
 
+  // Leaderboard data
+  const leaderboardData = [
+    { rank: 1, name: "Chinedu Okafor", conversions: 480, earnings: "₦1,840,000", badge: "Platinum", active: false },
+    { rank: 2, name: "Funmi Alao", conversions: 198, earnings: "₦780,000", badge: "Gold", active: false },
+    { rank: 3, name: "Aisha Bello", conversions: 62, earnings: "₦240,000", badge: "Silver", active: false },
+    { rank: 4, name: "Dwayne Tatum (You)", conversions: 48, earnings: "₦81,450", badge: "Silver", active: true },
+    { rank: 5, name: "Tunde Bakare", conversions: 24, earnings: "₦36,000", badge: "Bronze", active: false }
+  ];
+
   const handleCopyLink = () => {
     navigator.clipboard.writeText(generatedLink);
     setCopiedLink(true);
+    setChecklist({ ...checklist, share: true });
     setTimeout(() => setCopiedLink(false), 2000);
+  };
+
+  const handleVerifyBvn = (e: React.FormEvent) => {
+    e.preventDefault();
+    setKycStep("verify");
+    setTimeout(() => {
+      setKycStep("upload");
+    }, 2000);
   };
 
   const handleWithdraw = (e: React.FormEvent) => {
@@ -80,15 +145,27 @@ export default function AffiliateDashboard() {
       setTimeout(() => {
         setIsProcessingWithdraw(false);
         setWithdrawStep("success");
+        setChecklist({ ...checklist, withdraw: true });
       }, 1500);
     }
+  };
+
+  const handleRevokeSession = (id: number) => {
+    setActiveSessions(activeSessions.filter(s => s.id !== id));
+  };
+
+  const handleSetup2fa = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTwoFactorEnabled(true);
+    setShow2faSetup(false);
+    setVerificationCode("");
   };
 
   return (
     <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
       
       {/* Sidebar Navigation */}
-      <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0">
+      <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30">
         <div className="space-y-8">
           {/* Brand header */}
           <Link href="/" className="flex items-center gap-3">
@@ -110,6 +187,8 @@ export default function AffiliateDashboard() {
               { id: "campaigns", label: "Marketplace", Icon: IconBriefcase },
               { id: "wallet", label: "Wallet & Cashout", Icon: IconWallet },
               { id: "analytics", label: "Analytics", Icon: IconReportAnalytics },
+              { id: "leaderboard", label: "Leaderboard", Icon: IconCertificate },
+              { id: "security", label: "Security Settings", Icon: IconLock },
               { id: "support", label: "Help & Support", Icon: IconHelp }
             ].map((tab) => (
               <button
@@ -136,7 +215,9 @@ export default function AffiliateDashboard() {
             </div>
             <div className="text-left">
               <h4 className="text-xs font-semibold text-slate-800 leading-tight">Dwayne Tatum</h4>
-              <p className="text-[9px] text-slate-400 font-light uppercase tracking-wider leading-tight">Tier 2 Verified</p>
+              <p className="text-[9px] text-slate-400 font-light uppercase tracking-wider leading-tight">
+                {kycLevel} Verified
+              </p>
             </div>
           </div>
           <Link
@@ -150,9 +231,9 @@ export default function AffiliateDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-8 flex flex-col gap-6 overflow-y-auto">
+      <main className="flex-1 p-8 flex flex-col gap-6 overflow-y-auto z-10">
         
-        {/* Top Hub Bar */}
+        {/* Top Header Hub */}
         <header className="flex justify-between items-center pb-2 border-b border-slate-200/50">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900 capitalize">
@@ -168,7 +249,7 @@ export default function AffiliateDashboard() {
               <span className="text-[#e15b3e]">₦81,450.00</span>
             </div>
 
-            {/* Notifications toggle */}
+            {/* Notifications Toggle */}
             <button
               onClick={() => setShowNotifications(!showNotifications)}
               className="w-10 h-10 rounded-full bg-white hover:bg-slate-50 flex items-center justify-center border border-slate-200/50 shadow-sm relative active:scale-95 transition-all text-slate-700"
@@ -178,7 +259,7 @@ export default function AffiliateDashboard() {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 top-12 w-80 bg-white rounded-3xl border border-slate-200 shadow-xl p-4 z-50 flex flex-col gap-3">
+              <div className="absolute right-0 top-12 w-80 bg-white rounded-3xl border border-slate-200 shadow-xl p-4 z-50 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
                 <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Unread Alerts</h4>
                 <div className="flex flex-col gap-2">
                   <div className="text-xs p-2 rounded-xl bg-slate-50 border border-slate-100 flex flex-col gap-1">
@@ -195,12 +276,64 @@ export default function AffiliateDashboard() {
           </div>
         </header>
 
-        {/* Dynamic subpages rendering */}
-
-        {/* 1. OVERVIEW SUBVIEW */}
+        {/* 1. OVERVIEW SUBVIEW (includes guided checklist) */}
         {activeTab === "overview" && (
           <div className="flex flex-col gap-6">
             
+            {/* Guided Onboarding Checklist Widget */}
+            <div className="bg-white border border-slate-200/50 shadow-sm rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+              <div className="flex-1 space-y-3">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold text-sm text-slate-800 flex items-center gap-1.5">
+                    Onboarding Progress
+                    <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-2 py-0.5 rounded-full font-bold">
+                      {onboardingProgress}% Completed
+                    </span>
+                  </h3>
+                </div>
+                <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="bg-[#e15b3e] h-1.5 rounded-full transition-all duration-500"
+                    style={{ width: `${onboardingProgress}%` }}
+                  ></div>
+                </div>
+                
+                {/* Visual steps grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+                  {[
+                    { key: "profile", label: "Complete Profile" },
+                    { key: "phone", label: "Verify Phone" },
+                    { key: "campaign", label: "Browse Marketplace" },
+                    { key: "share", label: "Share First Link" },
+                    { key: "kyc", label: "Verify Identity" },
+                    { key: "withdraw", label: "Request Cashout" }
+                  ].map((step) => {
+                    const isDone = (checklist as any)[step.key];
+                    return (
+                      <button
+                        key={step.key}
+                        onClick={() => {
+                          setChecklist({ ...checklist, [step.key]: !isDone });
+                        }}
+                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between ${
+                          isDone
+                            ? "border-green-200 bg-green-50/50 text-green-700"
+                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                        }`}
+                      >
+                        <span>{step.label}</span>
+                        <span className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold ${
+                          isDone ? "bg-green-600 text-white" : "bg-slate-100 text-slate-400"
+                        }`}>
+                          {isDone ? "✓" : ""}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
             {/* Wallet Balances Card Row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
@@ -225,24 +358,20 @@ export default function AffiliateDashboard() {
               </div>
             </div>
 
-            {/* Quick Actions Greeting */}
+            {/* Conversational helper banner */}
             <div className="bg-white/40 backdrop-blur-sm border border-white/60 rounded-3xl p-5 flex items-center justify-between gap-4 shadow-sm hover:shadow-md transition-all">
               <div>
                 <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-                  Ready to share your links? <IconSparkles className="w-5 h-5 text-slate-600" />
+                  Need custom marketing assets? <IconSparkles className="w-5 h-5 text-slate-600" />
                 </h2>
-                <p className="text-xs text-slate-400 font-light">Copy your global tracking ID or explore campaigns marketplace.</p>
+                <p className="text-xs text-slate-400 font-light">Browse the campaign list and download branding banners per campaign.</p>
               </div>
               
               <button
-                onClick={() => {
-                  setSelectedCampaign(campaignsData[0]);
-                  setGeneratedLink("https://rippl.io/r/dwayne-shopify");
-                  setShowLinkModal(true);
-                }}
-                className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-95"
+                onClick={() => setActiveTab("campaigns")}
+                className="px-5 py-2.5 rounded-full bg-black hover:bg-slate-800 text-white text-xs font-semibold shadow-sm transition-all"
               >
-                Generate Link
+                Browse Campaigns
               </button>
             </div>
 
@@ -363,88 +492,182 @@ export default function AffiliateDashboard() {
           </div>
         )}
 
-        {/* 2. CAMPAIGNS SUBVIEW */}
+        {/* 2. CAMPAIGNS & MARKETPLACE SUBVIEW (Includes campaign assets & details) */}
         {activeTab === "campaigns" && (
-          <div className="flex flex-col gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Search and Filters bar */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
-              <div className="w-full md:w-80 relative">
-                <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Filter campaigns ..."
-                  className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:border-[#e15b3e] focus:ring-1 focus:ring-[#e15b3e]"
-                />
-              </div>
+            {/* Left side: Campaign Marketplace List (7 Cols) */}
+            <div className="lg:col-span-7 flex flex-col gap-6">
               
-              <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto">
-                {["All Categories", "Fintech", "E-commerce", "SaaS"].map((cat, i) => (
-                  <span
-                    key={i}
-                    className={`px-3 py-1 rounded-full text-[10px] font-semibold cursor-pointer transition-colors ${
-                      i === 0 ? "bg-[#e15b3e] text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              {/* Search filter banner */}
+              <div className="flex justify-between items-center gap-4 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
+                <div className="flex-1 relative">
+                  <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search marketplace campaigns ..."
+                    className="w-full pl-9 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-full focus:outline-none focus:border-[#e15b3e]"
+                  />
+                </div>
+              </div>
+
+              {/* Campaign list database */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {campaignsData.map((c) => (
+                  <div
+                    key={c.id}
+                    onClick={() => {
+                      setSelectedCampaign(c);
+                      setChecklist({ ...checklist, campaign: true });
+                    }}
+                    className={`bg-white rounded-[2rem] p-5 border shadow-sm flex flex-col justify-between min-h-[170px] cursor-pointer hover:shadow-md transition-all ${
+                      selectedCampaign?.id === c.id ? "border-[#e15b3e] ring-1 ring-[#e15b3e]" : "border-slate-100"
                     }`}
                   >
-                    {cat}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Campaign grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {campaignsData.map((c) => (
-                <div key={c.id} className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow min-h-[220px]">
-                  <div className="flex justify-between items-start">
-                    <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-lg">
-                      {c.logo}
-                    </span>
-                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
-                      c.active ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"
-                    }`}>
-                      {c.active ? "Active" : "Apply Only"}
-                    </span>
-                  </div>
-
-                  <div className="my-4">
-                    <h3 className="font-semibold text-sm text-slate-800">{c.name}</h3>
-                    <p className="text-[10px] text-slate-400 font-light mt-1">Cookie Window: {c.cookie}</p>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t border-slate-50 pt-4 mt-2">
-                    <div>
-                      <p className="text-[10px] text-slate-400 font-medium">Payout Rate</p>
-                      <p className="text-xs font-semibold text-[#e15b3e] mt-0.5">{c.commission}</p>
+                    <div className="flex justify-between items-start">
+                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-lg">
+                        {c.logo}
+                      </span>
+                      <span className="text-[10px] font-bold text-[#e15b3e]">{c.commission}</span>
                     </div>
 
-                    <button
-                      onClick={() => {
-                        setSelectedCampaign(c);
-                        setGeneratedLink(`https://rippl.io/r/dwayne-${c.brand.toLowerCase()}`);
-                        setShowLinkModal(true);
-                      }}
-                      className="px-3.5 py-1.5 rounded-full bg-black text-white text-[10px] font-semibold hover:bg-slate-800 transition-all"
-                    >
-                      Get Link
-                    </button>
+                    <div className="my-2">
+                      <h4 className="font-semibold text-xs text-slate-800 leading-tight">{c.name}</h4>
+                      <p className="text-[9px] text-slate-400 mt-1">Cookie Window: {c.cookie} • {c.type}</p>
+                    </div>
+
+                    <span className="text-[9px] font-semibold text-[#e15b3e] hover:underline flex items-center gap-0.5 self-start">
+                      Configure & share &rarr;
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+
+            {/* Right side: Detailed Campaign Assets Expansion (5 Cols) */}
+            <div className="lg:col-span-5 bg-white rounded-[2.5rem] p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[480px]">
+              {selectedCampaign ? (
+                <div className="flex flex-col gap-5 text-left h-full justify-between">
+                  <div className="space-y-4">
+                    {/* Header detail */}
+                    <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
+                      <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center text-lg shrink-0">
+                        {selectedCampaign.logo}
+                      </span>
+                      <div>
+                        <h4 className="font-semibold text-slate-800 text-xs">{selectedCampaign.name}</h4>
+                        <p className="text-[9px] text-slate-400 font-medium">Payout Rate: {selectedCampaign.commission}</p>
+                      </div>
+                    </div>
+
+                    {/* Campaign description */}
+                    <div>
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Campaign Overview</p>
+                      <p className="text-[10px] text-slate-500 font-light leading-relaxed mt-1">
+                        {selectedCampaign.desc}
+                      </p>
+                    </div>
+
+                    {/* Downloadable marketing assets/creatives */}
+                    <div>
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider mb-2">Creatives & Banners</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl flex items-center justify-between text-[10px] text-slate-600">
+                          <span className="flex items-center gap-1"><IconPhoto className="w-3.5 h-3.5 text-slate-400" /> Banner 300x250</span>
+                          <button className="text-[#e15b3e] font-semibold hover:underline">DL</button>
+                        </div>
+                        <div className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl flex items-center justify-between text-[10px] text-slate-600">
+                          <span className="flex items-center gap-1"><IconPhoto className="w-3.5 h-3.5 text-slate-400" /> Header 728x90</span>
+                          <button className="text-[#e15b3e] font-semibold hover:underline">DL</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Pre-written Copy templates */}
+                    <div>
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Social Copy Script</p>
+                      <div className="p-3 bg-slate-50 border border-slate-200/50 rounded-xl text-[10px] text-slate-500 italic mt-1 leading-normal relative group">
+                        "Hey guys! Setup your online storefront in Nigeria in under 10 minutes using Rippl and Shopify. Use my code to launch free today!"
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(`"Hey guys! Setup your online storefront in Nigeria in under 10 minutes using Rippl and Shopify. Use my code to launch free today!"`);
+                            alert("Copy script copied!");
+                          }}
+                          className="absolute right-2 bottom-2 text-[#e15b3e] font-bold hover:underline"
+                        >
+                          Copy
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* UTM Link customizations */}
+                    <div className="space-y-3 pt-2">
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Custom tracking variables</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[8px] text-slate-400 font-semibold uppercase tracking-wider">UTM Source</label>
+                          <input
+                            type="text"
+                            value={utmSource}
+                            onChange={(e) => setUtmSource(e.target.value)}
+                            className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[10px]"
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-[8px] text-slate-400 font-semibold uppercase tracking-wider">UTM Medium</label>
+                          <input
+                            type="text"
+                            value={utmMedium}
+                            onChange={(e) => setUtmMedium(e.target.value)}
+                            className="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-[10px]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Copy Button block */}
+                  <div className="border-t border-slate-100 pt-4 mt-4">
+                    <p className="text-[9px] text-slate-400 font-medium leading-none mb-2">Configure & Copy UTM Link</p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        readOnly
+                        value={generatedLink}
+                        className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] text-slate-500 focus:outline-none"
+                      />
+                      <button
+                        onClick={handleCopyLink}
+                        className="px-4 py-2 bg-black hover:bg-slate-800 text-white rounded-xl text-[10px] font-semibold flex items-center justify-center gap-1.5 shrink-0"
+                      >
+                        {copiedLink ? <IconCheck className="w-3.5 h-3.5 text-green-500" /> : <IconCopy className="w-3.5 h-3.5" />}
+                        {copiedLink ? "Copied" : "Copy Link"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              ))}
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center text-slate-400 py-12 gap-2">
+                  <IconBriefcase className="w-10 h-10 text-slate-300" />
+                  <p className="text-xs font-semibold">Select a campaign to configure assets</p>
+                  <p className="text-[10px] text-slate-400 font-light max-w-xs">Details, pre-written copy scripts, and customizable links will show up here.</p>
+                </div>
+              )}
             </div>
 
           </div>
         )}
 
-        {/* 3. WALLET SUBVIEW */}
+        {/* 3. WALLET & CASHOUT SUBVIEW (Includes KYC triggers) */}
         {activeTab === "wallet" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* Left side: Cashout request form (7 Cols) */}
+            {/* Left side: Cashout form (7 Cols) */}
             <div className="lg:col-span-7 bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[400px] hover:shadow-md transition-shadow">
               <div>
                 <h3 className="font-semibold text-sm text-slate-800 mb-2">Request Cashout</h3>
-                <p className="text-xs text-slate-400 font-light mb-6">Cleared earnings are transferred directly to your bank.</p>
+                <p className="text-xs text-slate-400 font-light mb-6">Cleared available earnings are transferred directly to your bank.</p>
                 
                 {withdrawStep === "form" && (
                   <form onSubmit={handleWithdraw} className="flex flex-col gap-4">
@@ -498,12 +721,12 @@ export default function AffiliateDashboard() {
                         <span className="text-slate-500">Gross Cashout:</span>
                         <span className="font-semibold text-slate-800">₦{Number(withdrawAmount).toLocaleString()}</span>
                       </div>
-                      <div className="flex justify-between items-center text-[10px] text-slate-400 border-t border-slate-200/50 pt-2">
+                      <div className="flex justify-between items-center text-[10px] text-slate-400 border-t border-slate-200/50 pt-2 font-medium">
                         <span>WHT Withholding (5%):</span>
                         <span>- ₦{(Number(withdrawAmount) * 0.05).toLocaleString()}</span>
                       </div>
                       <div className="flex justify-between items-center font-semibold text-sm border-t border-slate-200/50 pt-2">
-                        <span className="text-slate-800">Net payout:</span>
+                        <span className="text-slate-800">Net Payout:</span>
                         <span className="text-[#e15b3e]">₦{(Number(withdrawAmount) * 0.95).toLocaleString()}</span>
                       </div>
                     </div>
@@ -568,11 +791,11 @@ export default function AffiliateDashboard() {
                     <span className="text-slate-400">Standard Payout:</span>
                     <span>Access Bank</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-200/40 pt-2 mt-1">
+                  <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-200/40 pt-2 mt-1 font-medium">
                     <span>Account Number:</span>
                     <span>1029384756</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-200/40 pt-2">
+                  <div className="flex justify-between items-center text-xs text-slate-500 border-t border-slate-200/40 pt-2 font-medium">
                     <span>Verification:</span>
                     <span className="text-green-600 font-semibold uppercase tracking-wider text-[9px]">Verified</span>
                   </div>
@@ -584,15 +807,22 @@ export default function AffiliateDashboard() {
                 <div className="flex items-start gap-2.5">
                   <IconSun className="w-5 h-5 text-[#e15b3e] shrink-0" />
                   <div>
-                    <h4 className="font-semibold text-xs text-slate-800">Standard KYC Tier 2</h4>
+                    <h4 className="font-semibold text-xs text-slate-800">Standard KYC {kycLevel}</h4>
                     <p className="text-[10px] text-slate-400 font-medium leading-relaxed mt-1">
-                      Your identity has been verified via basic BVN records. Daily cashout limit: ₦1,000,000. Upgrade to Tier 3 for unlimited transfers.
+                      {kycLevel === "Tier 2"
+                        ? "Your identity has been verified via basic BVN records. Daily cashout limit: ₦1,000,000."
+                        : "Enhanced KYC verified via government ID and liveness check. Unlimited daily cashouts."}
                     </p>
                   </div>
                 </div>
-                <button className="w-full mt-2 py-1.5 rounded-xl bg-[#fcece9] text-[#e15b3e] text-[10px] font-semibold hover:bg-[#fbdcd4] transition-colors">
-                  Upgrade Limits
-                </button>
+                {kycLevel === "Tier 2" && (
+                  <button
+                    onClick={() => { setKycStep("bvn"); setShowKycModal(true); }}
+                    className="w-full mt-2 py-1.5 rounded-xl bg-[#fcece9] text-[#e15b3e] text-[10px] font-semibold hover:bg-[#fbdcd4] transition-colors"
+                  >
+                    Upgrade KYC Limits
+                  </button>
+                )}
               </div>
 
             </div>
@@ -619,7 +849,6 @@ export default function AffiliateDashboard() {
                   <line x1="0" y1="70" x2="500" y2="70" stroke="#f1f5f9" strokeWidth="1" />
                   <line x1="0" y1="100" x2="500" y2="100" stroke="#e2e8f0" strokeWidth="1" />
                   
-                  {/* Wave area graph */}
                   <path
                     d="M 10,90 Q 60,30 110,60 T 210,20 T 310,80 T 410,30 T 490,10 L 490,100 L 10,100 Z"
                     fill="url(#areaGrad)"
@@ -683,7 +912,173 @@ export default function AffiliateDashboard() {
           </div>
         )}
 
-        {/* 5. SUPPORT SUBVIEW */}
+        {/* 5. LEADERBOARD SUBVIEW (New tab) */}
+        {activeTab === "leaderboard" && (
+          <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-5 hover:shadow-md transition-shadow animate-in fade-in duration-200">
+            <div>
+              <h3 className="font-semibold text-sm text-slate-800">Affiliate Leaderboard rankings</h3>
+              <p className="text-xs text-slate-400 font-light mt-1">Gamified rankings calculated MTD. Boost conversions to achieve Platinum badge rewards.</p>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-100 text-slate-400 font-semibold uppercase tracking-wider">
+                    <th className="pb-3">Rank</th>
+                    <th className="pb-3">Ambassador</th>
+                    <th className="pb-3 text-center">Conversions</th>
+                    <th className="pb-3">MTD Cleared Earnings</th>
+                    <th className="pb-3 text-right">Badge Level</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboardData.map((user) => (
+                    <tr
+                      key={user.rank}
+                      className={`border-b border-slate-50 last:border-0 hover:bg-slate-50/50 ${
+                        user.active ? "bg-[#fcece9]/40 border-l-4 border-l-[#e15b3e]" : ""
+                      }`}
+                    >
+                      <td className="py-3.5 font-bold text-slate-800 text-xs">#{user.rank}</td>
+                      <td className="py-3.5 font-semibold text-slate-800">
+                        {user.name} {user.active && <span className="text-[9px] bg-[#e15b3e] text-white px-1.5 py-0.5 rounded-full font-bold ml-1">You</span>}
+                      </td>
+                      <td className="py-3.5 text-center text-slate-600 font-semibold">{user.conversions}</td>
+                      <td className="py-3.5 font-semibold text-[#e15b3e]">{user.earnings}</td>
+                      <td className="py-3.5 text-right">
+                        <span className={`px-2.5 py-1 rounded-full text-[9px] font-semibold uppercase tracking-wider ${
+                          user.badge === "Platinum" ? "bg-purple-50 text-purple-600" :
+                          user.badge === "Gold" ? "bg-amber-50 text-amber-600" :
+                          user.badge === "Silver" ? "bg-slate-100 text-slate-600" :
+                          "bg-orange-50 text-orange-600"
+                        }`}>
+                          {user.badge}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* 6. SECURITY & SESSIONS MANAGER SUBVIEW (New tab) */}
+        {activeTab === "security" && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch animate-in fade-in duration-200">
+            
+            {/* Left side: Active sessions list (7 Cols) */}
+            <div className="lg:col-span-7 bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[400px]">
+              <div>
+                <h3 className="font-semibold text-sm text-slate-800 mb-1">Active Login Sessions</h3>
+                <p className="text-xs text-slate-400 font-light mb-6">Inspect and revoke active credentials currently signed in under your account.</p>
+                
+                <div className="flex flex-col gap-3">
+                  {activeSessions.map((session) => (
+                    <div key={session.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        {session.device.includes("iPhone") ? (
+                          <IconDeviceMobile className="w-5 h-5 text-slate-400" />
+                        ) : (
+                          <IconDeviceLaptop className="w-5 h-5 text-slate-400" />
+                        )}
+                        <div>
+                          <p className="text-xs font-semibold text-slate-800">
+                            {session.device} • {session.browser}
+                          </p>
+                          <p className="text-[9px] text-slate-400 mt-0.5">Location: {session.location}</p>
+                        </div>
+                      </div>
+
+                      {session.current ? (
+                        <span className="text-[9px] bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                          Current
+                        </span>
+                      ) : (
+                        <button
+                          onClick={() => handleRevokeSession(session.id)}
+                          className="px-2.5 py-1 rounded-full border border-slate-200 hover:bg-red-50 hover:text-red-500 text-[10px] font-semibold text-slate-500 transition-colors"
+                        >
+                          Revoke
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right side: 2FA controls (5 Cols) */}
+            <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col justify-between min-h-[400px]">
+              <div>
+                <h3 className="font-semibold text-sm text-slate-800 mb-2">Two-Factor Authentication (2FA)</h3>
+                <p className="text-xs text-slate-400 font-light mb-6">Require a Google Authenticator TOTP verification token on log in.</p>
+                
+                {twoFactorEnabled ? (
+                  <div className="p-4 bg-green-50 border border-green-100/50 rounded-2xl flex flex-col gap-2">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-green-700">
+                      <IconShieldCheck className="w-4 h-4" />
+                      2FA Enabled
+                    </div>
+                    <p className="text-[10px] text-green-600 leading-normal font-medium">
+                      Your credentials are secure. Standard cashouts now verify with MFA prompts.
+                    </p>
+                    <button
+                      onClick={() => setTwoFactorEnabled(false)}
+                      className="mt-2 text-left text-[10px] font-bold text-red-500 hover:underline"
+                    >
+                      Disable Two-Factor Auth
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <button
+                      onClick={() => setShow2faSetup(true)}
+                      className="w-full py-2.5 rounded-xl bg-black hover:bg-slate-800 text-white text-xs font-semibold"
+                    >
+                      Configure 2FA Setup
+                    </button>
+
+                    {show2faSetup && (
+                      <form onSubmit={handleSetup2fa} className="space-y-3 pt-3 border-t border-slate-150 animate-in fade-in duration-200">
+                        <div className="flex flex-col items-center gap-2 p-3 bg-slate-50 border border-slate-100 rounded-2xl">
+                          {/* Simulated QR Code */}
+                          <div className="w-24 h-24 bg-slate-200 border-2 border-white rounded-lg flex items-center justify-center font-bold text-slate-500 text-[10px] shadow-sm">
+                            [ Mock QR Code ]
+                          </div>
+                          <code className="text-[8px] font-mono text-slate-400">KEY: RPL-2918-FA98-MFA</code>
+                        </div>
+
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Verification Token</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="Enter 6-digit code"
+                            maxLength={6}
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-center tracking-widest focus:outline-none focus:border-[#e15b3e]"
+                          />
+                        </div>
+
+                        <button
+                          type="submit"
+                          className="w-full py-2 bg-[#e15b3e] text-white rounded-xl text-xs font-semibold"
+                        >
+                          Enable Two-Factor Auth
+                        </button>
+                      </form>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* 7. SUPPORT SUBVIEW */}
         {activeTab === "support" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
@@ -748,52 +1143,133 @@ export default function AffiliateDashboard() {
 
       </main>
 
-      {/* Link Generator Modal Popup */}
-      {showLinkModal && selectedCampaign && (
+      {/* Progressive KYC Modal Popup (Matches Screen #27 specifications) */}
+      {showKycModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="w-full max-w-md bg-white rounded-[2rem] border border-slate-200/50 shadow-2xl p-6 flex flex-col gap-5 relative animate-in fade-in zoom-in duration-200">
-            <div className="flex justify-between items-center border-b border-slate-50 pb-3">
-              <h3 className="font-semibold text-slate-800 text-sm">Campaign referral Link</h3>
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
+                <IconFingerprint className="w-4 h-4 text-[#e15b3e]" />
+                KYC Identity Verification
+              </h3>
               <button
-                onClick={() => setShowLinkModal(false)}
+                onClick={() => setShowKycModal(false)}
                 className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600"
               >
                 ✕
               </button>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="w-12 h-12 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-2xl shrink-0">
-                {selectedCampaign.logo}
-              </span>
-              <div>
-                <h4 className="font-semibold text-slate-800 text-xs leading-tight">{selectedCampaign.name}</h4>
-                <p className="text-[9px] text-slate-400 font-medium leading-none mt-1">Payout: {selectedCampaign.commission}</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 mt-1">
-              <label className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">UTM Custom Referral Link</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  readOnly
-                  value={generatedLink}
-                  className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-600 focus:outline-none"
-                />
+            {/* KYC Step 1: BVN Input */}
+            {kycStep === "bvn" && (
+              <form onSubmit={handleVerifyBvn} className="space-y-4">
+                <div className="flex flex-col gap-1">
+                  <label className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">11-Digit Bank Verification Number (BVN)</label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={11}
+                    placeholder="22283948571"
+                    value={bvnNumber}
+                    onChange={(e) => setBvnNumber(e.target.value)}
+                    className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
+                  />
+                </div>
+                <p className="text-[9px] text-slate-400 leading-normal">
+                  Verification runs secure Dojah node query logs matching your banking records. Rippl does not store your BVN.
+                </p>
                 <button
-                  onClick={handleCopyLink}
-                  className="px-3.5 bg-black hover:bg-slate-800 text-white rounded-xl flex items-center justify-center transition-colors shrink-0"
+                  type="submit"
+                  className="w-full py-3 bg-[#e15b3e] text-white rounded-full text-xs font-semibold shadow-sm"
                 >
-                  {copiedLink ? <IconCheck className="w-4 h-4" /> : <IconCopy className="w-4 h-4" />}
+                  Verify BVN Identity
+                </button>
+              </form>
+            )}
+
+            {/* KYC Step 2: Dojah verification loader */}
+            {kycStep === "verify" && (
+              <div className="flex flex-col items-center justify-center py-10 text-center gap-4">
+                <span className="w-10 h-10 border-3 border-[#e15b3e] border-t-transparent rounded-full animate-spin"></span>
+                <div>
+                  <h4 className="font-semibold text-slate-800 text-xs">Querying Banking Databases</h4>
+                  <p className="text-[9px] text-slate-400 mt-1">Authenticating BVN parameters via secure Dojah nodes...</p>
+                </div>
+              </div>
+            )}
+
+            {/* KYC Step 3: Government ID Photo Upload */}
+            {kycStep === "upload" && (
+              <div className="space-y-4 text-left">
+                <div className="p-3 bg-green-50 border border-green-100 rounded-xl text-[9px] text-green-700 leading-normal font-medium">
+                  ✓ BVN Matched: Dwayne Tatum. Please upload matching identity card photo.
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <label className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Government ID Type</label>
+                  <select className="px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+                    <option>NIN Slip</option>
+                    <option>Driver's License</option>
+                    <option>Voters Card</option>
+                  </select>
+                </div>
+
+                <div className="h-28 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 cursor-pointer hover:bg-slate-50 transition-colors">
+                  <IconPhoto className="w-8 h-8 text-slate-300" />
+                  <span className="text-[10px] font-semibold mt-1">Upload Photo of Card</span>
+                </div>
+
+                <button
+                  onClick={() => setKycStep("selfie")}
+                  className="w-full py-3 bg-[#e15b3e] text-white rounded-full text-xs font-semibold"
+                >
+                  Continue to Liveness Check
                 </button>
               </div>
-            </div>
+            )}
 
-            <div className="p-3 bg-green-50 border border-green-100/50 rounded-xl flex items-start gap-2.5 text-[9px] text-green-700 leading-normal mt-1">
-              <span className="font-bold shrink-0">ℹ</span>
-              <span>Attributions are backed by double-cookie fallback checks. Cleared payouts arrive directly inside your clearing wallet ledger.</span>
-            </div>
+            {/* KYC Step 4: Liveness Selfie upload */}
+            {kycStep === "selfie" && (
+              <div className="space-y-4 text-center">
+                <h4 className="font-semibold text-slate-800 text-xs">Liveness Verification Check</h4>
+                <p className="text-[9px] text-slate-400">Position your face inside the circle and blink to confirm identity.</p>
+                
+                <div className="w-32 h-32 rounded-full border-4 border-[#e15b3e] bg-slate-100 mx-auto flex items-center justify-center font-bold text-slate-400 text-[10px]">
+                  [ Webcam Active ]
+                </div>
+
+                <button
+                  onClick={() => {
+                    setKycStep("success");
+                    setKycLevel("Tier 3");
+                    setChecklist({ ...checklist, kyc: true });
+                  }}
+                  className="w-full py-3 bg-black text-white rounded-full text-xs font-semibold"
+                >
+                  Confirm Selfie Match
+                </button>
+              </div>
+            )}
+
+            {/* KYC Step 5: Success check */}
+            {kycStep === "success" && (
+              <div className="flex flex-col items-center justify-center py-6 text-center gap-4">
+                <span className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-xl font-bold">✓</span>
+                <div>
+                  <h4 className="font-semibold text-slate-800 text-xs">Enhanced Verification Submitted</h4>
+                  <p className="text-[9px] text-slate-400 mt-1 max-w-xs leading-normal">
+                    Your Tier 3 verification is approved! Cashout limits are now set to unlimited transfers.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowKycModal(false)}
+                  className="px-4 py-2 rounded-full bg-slate-100 text-slate-700 text-[10px] font-semibold hover:bg-slate-200"
+                >
+                  Close Modal
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
       )}
