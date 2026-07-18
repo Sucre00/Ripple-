@@ -505,13 +505,63 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-auto bg-white border-t border-slate-200/40 px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
-        <span>&copy; 2026 Rippl Inc. NDPR & AML Compliant.</span>
-        <div className="flex gap-4">
-          <a href="#" className="hover:underline">Terms of Service</a>
-          <a href="#" className="hover:underline">Privacy Policy</a>
-          <a href="#" className="hover:underline">Integrations SDK</a>
+      {/* Detailed Multi-Column SaaS Footer */}
+      <footer className="mt-auto bg-white border-t border-slate-200/40 pt-16 pb-8 px-6 md:px-12 flex flex-col gap-10 text-xs text-slate-500 font-medium">
+        <div className="max-w-5xl mx-auto w-full grid grid-cols-2 md:grid-cols-5 gap-8">
+          
+          {/* Column 1: Brand Info (Double width on desktop) */}
+          <div className="col-span-2 space-y-4 text-left">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
+                №
+              </div>
+              <span className="font-extrabold text-slate-900 tracking-tight text-lg">Rippl</span>
+            </Link>
+            <p className="text-[11px] text-slate-400 font-light max-w-xs leading-relaxed">
+              Nigeria & emerging market's first growth and rewards infrastructure. Empowering brands to launch automated, fraud-aware referral channels.
+            </p>
+            <div className="flex gap-2.5 pt-1">
+              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[8px] font-bold text-slate-400 uppercase tracking-wider">NDPR</span>
+              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[8px] font-bold text-slate-400 uppercase tracking-wider">CBN Guideline</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#fcece9] text-[8px] font-bold text-[#e15b3e] uppercase tracking-wider">Paystack Partner</span>
+            </div>
+          </div>
+
+          {/* Column 2: Products */}
+          <div className="flex flex-col gap-3 text-left">
+            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Products</h4>
+            <Link href="/auth" className="hover:text-slate-900 transition-colors">For Merchants</Link>
+            <Link href="/auth" className="hover:text-slate-900 transition-colors">For Ambassadors</Link>
+            <a href="#roi-simulator" className="hover:text-slate-900 transition-colors">ROI Simulator</a>
+            <Link href="/design-system" className="hover:text-slate-900 transition-colors">Design System</Link>
+          </div>
+
+          {/* Column 3: Company */}
+          <div className="flex flex-col gap-3 text-left">
+            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Company</h4>
+            <a href="#" className="hover:text-slate-900 transition-colors">About Us</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Careers</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Blog & News</a>
+            <Link href="/archive-dashboard" className="hover:text-slate-900 transition-colors">Mockup Archive</Link>
+          </div>
+
+          {/* Column 4: Help & Legal */}
+          <div className="flex flex-col gap-3 text-left">
+            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trust & Legal</h4>
+            <a href="#" className="hover:text-slate-900 transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">GDPR & Cookies</a>
+            <a href="#" className="hover:text-slate-900 transition-colors">Compliance reports</a>
+          </div>
+
+        </div>
+
+        {/* Bottom Partnership Bar */}
+        <div className="max-w-5xl mx-auto w-full border-t border-slate-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left text-[10px] text-slate-400 leading-relaxed font-medium">
+          <p className="max-w-md">
+            Payment processing services are securely provided by Paystack and Flutterwave, licensed by the Central Bank of Nigeria (CBN). Rippl is NDPR compliant and operates under strict anti-money laundering frameworks.
+          </p>
+          <span className="shrink-0">&copy; 2026 Rippl Inc. All rights reserved.</span>
         </div>
       </footer>
 
