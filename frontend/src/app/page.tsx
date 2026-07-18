@@ -670,7 +670,7 @@ export default function RipplLandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch pt-4">
           
           {/* Card 1: Starter Plan */}
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div className="h-full bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
             {/* Top section */}
             <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white">
               <div className="space-y-1">
@@ -712,7 +712,7 @@ export default function RipplLandingPage() {
           </div>
 
           {/* Card 2: Growth Plan (Highlighted Center Card) */}
-          <div className="rounded-3xl border-2 border-[#e15b3e] shadow-xl flex flex-col justify-between overflow-hidden relative">
+          <div className="h-full bg-white rounded-3xl border-2 border-[#e15b3e] shadow-xl flex flex-col justify-between overflow-hidden relative">
             {/* Top section with grid pattern overlay background */}
             <div 
               style={{
@@ -761,7 +761,7 @@ export default function RipplLandingPage() {
           </div>
 
           {/* Card 3: Pro Enterprise Plan */}
-          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
+          <div className="h-full bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
             {/* Top section */}
             <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white">
               <div className="space-y-1">
