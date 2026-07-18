@@ -160,7 +160,6 @@ export default function RipplLandingPage() {
 
         {/* Pill highlight */}
         <span className="px-3.5 py-1 rounded-full bg-[#fcece9] text-[#e15b3e] text-[10px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
-          <IconSparkles className="w-3.5 h-3.5 animate-pulse" />
           Africa's dedicated Growth Infrastructure
         </span>
 
