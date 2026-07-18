@@ -158,7 +158,6 @@ export default function RipplLandingPage() {
             <a href="#roi-simulator" className="hover:text-slate-800 transition-colors">ROI Simulator</a>
             <a href="#pricing" className="hover:text-slate-800 transition-colors">Pricing</a>
             <a href="#faq" className="hover:text-slate-800 transition-colors">FAQs</a>
-            <Link href="/archive-dashboard" className="text-[#e15b3e] hover:text-[#d04e32] transition-colors font-bold">Mockup Archive</Link>
           </nav>
         </div>
 
