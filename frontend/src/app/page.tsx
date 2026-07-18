@@ -307,82 +307,143 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Audience Segmented How It Works (Section 5) */}
-      <section className="px-6 py-12 max-w-5xl mx-auto w-full space-y-8">
-        
-        {/* Toggle selectors */}
-        <div className="flex bg-white/60 backdrop-blur-sm border border-slate-200/40 p-1.5 rounded-full max-w-md mx-auto shadow-sm">
+      {/* Audience Segmented How It Works (Section 5) - Redesigned for more context and cleaner aesthetics */}
+      <section className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
+            ✦ Workflow
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">How Rippl Works</h2>
+          <p className="text-xs text-slate-450 font-light max-w-sm mx-auto">
+            Select your role to explore the step-by-step referral and commission journey.
+          </p>
+        </div>
+
+        {/* Toggle selectors switch */}
+        <div className="inline-flex bg-slate-100 p-1 rounded-full border border-slate-200/50 max-w-[320px] mx-auto shadow-inner">
           <button
             onClick={() => setActiveSegment("merchants")}
-            className={`flex-1 py-2.5 text-xs font-semibold rounded-full transition-all flex items-center justify-center gap-1.5 ${
+            className={`px-5 py-2 text-xs font-bold rounded-full transition-all flex items-center gap-1.5 ${
               activeSegment === "merchants"
-                ? "bg-black text-white shadow-sm"
+                ? "bg-[#e15b3e] text-white shadow-sm"
                 : "text-slate-500 hover:text-slate-800"
             }`}
           >
-            <IconBriefcase className="w-4 h-4" />
+            <IconBriefcase className="w-3.5 h-3.5" />
             For Businesses
           </button>
           <button
             onClick={() => setActiveSegment("ambassadors")}
-            className={`flex-1 py-2.5 text-xs font-semibold rounded-full transition-all flex items-center justify-center gap-1.5 ${
+            className={`px-5 py-2 text-xs font-bold rounded-full transition-all flex items-center gap-1.5 ${
               activeSegment === "ambassadors"
-                ? "bg-black text-white shadow-sm"
+                ? "bg-[#e15b3e] text-white shadow-sm"
                 : "text-slate-500 hover:text-slate-800"
             }`}
           >
-            <IconUsers className="w-4 h-4" />
+            <IconUsers className="w-3.5 h-3.5" />
             For Affiliates
           </button>
         </div>
 
         {/* Step-by-step visual roadmap */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
           {activeSegment === "merchants" ? (
             <>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-xs">1</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Install Pixel</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Embed our lightweight tracking script on checkout pages to capture referrals automatically.</p>
+              {/* Step 1 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+                    <IconFileCode className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 01</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Install Pixel</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Embed our lightweight tracking script on checkout pages to capture referrals automatically.
+                  </p>
                 </div>
               </div>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">2</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Set Commission</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Set flat rates or percentages per conversion type, cookie periods, and clearance rules.</p>
+
+              {/* Step 2 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <IconShare className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 02</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Set Commission</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Define flat rates or percentage rules per conversion category, cookies, and clearances.
+                  </p>
                 </div>
               </div>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">3</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Approve Payouts</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Fund reserve balances to trigger automated, fraud-aware payments directly to bank details.</p>
+
+              {/* Step 3 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <IconBuildingBank className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 03</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Approve Payouts</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Fund reserve balances to trigger automated, fraud-aware payments directly to banks.
+                  </p>
                 </div>
               </div>
             </>
           ) : (
             <>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-xs">1</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Sign Up</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Browse verified brand campaigns on the marketplace. Sign up easily with no upfront fees.</p>
+              {/* Step 1 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+                    <IconUsers className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 01</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Sign Up</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Browse verified brand campaigns on the marketplace. Sign up easily with no upfront fees.
+                  </p>
                 </div>
               </div>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">2</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Share Link</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Generate unique UTM affiliate links and tracking banners to share with your audience.</p>
+
+              {/* Step 2 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <IconShare className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 02</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Share Link</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Generate unique UTM affiliate links and tracking banners to share with your audience.
+                  </p>
                 </div>
               </div>
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
-                <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">3</span>
-                <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Get Paid</h4>
-                  <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Request payments to bank details. Funds transfer instantly within 24 hours.</p>
+
+              {/* Step 3 */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow text-left flex flex-col justify-between min-h-[190px]">
+                <div className="flex justify-between items-start">
+                  <span className="w-10 h-10 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <IconBuildingBank className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-305">STEP 03</span>
+                </div>
+                <div className="mt-4">
+                  <h4 className="font-extrabold text-slate-800 text-xs">Get Paid</h4>
+                  <p className="text-[10px] text-slate-400 font-light mt-1.5 leading-relaxed">
+                    Request payments to bank details. Funds transfer instantly within 24 hours.
+                  </p>
                 </div>
               </div>
             </>
