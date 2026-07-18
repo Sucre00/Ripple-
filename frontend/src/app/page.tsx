@@ -446,22 +446,28 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Interactive ROI / Earnings Calculator (Section 6) */}
-      <section id="roi-simulator" className="px-6 py-12 max-w-5xl mx-auto w-full">
-        <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-xl p-8 flex flex-col lg:flex-row items-stretch gap-8">
+      <section id="roi-simulator" className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
+            ✦ Calculator
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Growth & ROI Simulator</h2>
+          <p className="text-xs text-slate-450 font-light max-w-md mx-auto">
+            Estimate your monthly referral sales volume and compare commission costs.
+          </p>
+        </div>
+
+        <div className="bg-white rounded-[2.5rem] border border-slate-200/60 shadow-xl p-6 md:p-8 flex flex-col lg:flex-row items-stretch gap-8 text-left">
           
           {/* Left panel: Control sliders (7 Cols) */}
-          <div className="flex-1 flex flex-col gap-5 justify-between">
-            <div>
-              <h3 className="font-semibold text-lg text-slate-800 mb-1">Growth & ROI Simulator</h3>
-              <p className="text-xs text-slate-400 font-light">Estimate your monthly referral sales volume and compare commission costs.</p>
-            </div>
-
-            <div className="space-y-5">
+          <div className="flex-1 flex flex-col justify-between gap-6">
+            <div className="space-y-6">
+              
               {/* Slider 1 */}
-              <div className="flex flex-col gap-2">
+              <div className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-3">
                 <div className="flex justify-between items-center text-xs font-semibold text-slate-800">
-                  <span className="text-slate-400">Monthly Referred Conversions:</span>
-                  <span className="text-[#e15b3e]">{conversionVolume} sales</span>
+                  <span className="text-slate-500 font-medium">Monthly Referred Conversions</span>
+                  <span className="text-[#e15b3e] font-extrabold text-sm">{conversionVolume} sales</span>
                 </div>
                 <input
                   type="range"
@@ -470,15 +476,20 @@ export default function RipplLandingPage() {
                   step="10"
                   value={conversionVolume}
                   onChange={(e) => setConversionVolume(Number(e.target.value))}
-                  className="w-full h-1 bg-slate-100 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
+                  className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
                 />
+                <div className="flex justify-between text-[9px] text-slate-400 font-light">
+                  <span>10 sales</span>
+                  <span>500 sales</span>
+                  <span>1,000 sales</span>
+                </div>
               </div>
 
               {/* Slider 2 */}
-              <div className="flex flex-col gap-2">
+              <div className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-3">
                 <div className="flex justify-between items-center text-xs font-semibold text-slate-800">
-                  <span className="text-slate-400">Average Order Value (AOV):</span>
-                  <span className="text-[#e15b3e]">₦{avgOrderValue.toLocaleString()}</span>
+                  <span className="text-slate-500 font-medium">Average Order Value (AOV)</span>
+                  <span className="text-[#e15b3e] font-extrabold text-sm">₦{avgOrderValue.toLocaleString()}</span>
                 </div>
                 <input
                   type="range"
@@ -487,15 +498,20 @@ export default function RipplLandingPage() {
                   step="1000"
                   value={avgOrderValue}
                   onChange={(e) => setAvgOrderValue(Number(e.target.value))}
-                  className="w-full h-1 bg-slate-100 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
+                  className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
                 />
+                <div className="flex justify-between text-[9px] text-slate-400 font-light">
+                  <span>₦2,000</span>
+                  <span>₦50,000</span>
+                  <span>₦100,000</span>
+                </div>
               </div>
 
               {/* Slider 3 */}
-              <div className="flex flex-col gap-2">
+              <div className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-3">
                 <div className="flex justify-between items-center text-xs font-semibold text-slate-800">
-                  <span className="text-slate-400">Commission Rate (%):</span>
-                  <span className="text-[#e15b3e]">{commissionPct}%</span>
+                  <span className="text-slate-500 font-medium">Commission Rate (%)</span>
+                  <span className="text-[#e15b3e] font-extrabold text-sm">{commissionPct}%</span>
                 </div>
                 <input
                   type="range"
@@ -504,34 +520,52 @@ export default function RipplLandingPage() {
                   step="1"
                   value={commissionPct}
                   onChange={(e) => setCommissionPct(Number(e.target.value))}
-                  className="w-full h-1 bg-slate-100 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
+                  className="w-full h-1.5 bg-slate-200 rounded-full appearance-none cursor-pointer accent-[#e15b3e]"
                 />
+                <div className="flex justify-between text-[9px] text-slate-400 font-light">
+                  <span>2%</span>
+                  <span>15%</span>
+                  <span>30%</span>
+                </div>
               </div>
+
             </div>
           </div>
 
-          {/* Right panel: Financial projections (5 Cols) */}
-          <div className="w-full lg:w-80 rounded-3xl p-6 bg-slate-50 border border-slate-100 flex flex-col justify-between gap-6 shrink-0">
-            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Estimated Projections</h4>
+          {/* Right panel: Financial projections dashboard widget */}
+          <div className="w-full lg:w-80 rounded-[2rem] p-6 bg-gradient-to-br from-[#0c1015] to-[#1a222f] text-white flex flex-col justify-between gap-6 shrink-0 relative overflow-hidden shadow-2xl border border-slate-800">
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#e15b3e]/15 rounded-full blur-2xl pointer-events-none"></div>
+            
+            <div className="space-y-5 relative z-10">
+              <div>
+                <h4 className="text-[9px] text-[#e15b3e] font-bold uppercase tracking-widest">Monthly Outlook</h4>
+                <p className="text-3xl font-black mt-2 tracking-tight text-white">
+                  ₦{calculateNetRoi().toLocaleString()}
+                </p>
+                <p className="text-[10px] text-slate-400 font-light mt-0.5">Projected Net Business Profit</p>
+              </div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-500">Gross Referral Sales:</span>
-                <span className="font-semibold text-slate-800">₦{calculateRevenue().toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between items-center text-xs border-t border-slate-200/40 pt-3">
-                <span className="text-slate-500">Commissions Owed:</span>
-                <span className="font-semibold text-[#e15b3e]">₦{calculateCommissionCost().toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between items-center text-sm font-semibold border-t border-slate-200/40 pt-3">
-                <span className="text-slate-800">Net Business profit:</span>
-                <span className="text-green-600">₦{calculateNetRoi().toLocaleString()}</span>
+              <div className="space-y-3.5 border-t border-slate-800 pt-4 text-xs font-medium">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 font-normal">Gross Referral Sales</span>
+                  <span className="text-white font-bold">₦{calculateRevenue().toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-400 font-normal">Commissions Owed</span>
+                  <span className="text-[#e15b3e] font-bold">₦{calculateCommissionCost().toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center border-t border-slate-800 pt-3">
+                  <span className="text-slate-400 font-normal">Channel Efficiency</span>
+                  <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-[8px] font-bold rounded uppercase tracking-wider">
+                    {Math.round((calculateRevenue() / (calculateCommissionCost() || 1)) * 100)}% ROI
+                  </span>
+                </div>
               </div>
             </div>
 
             <Link
               href="/auth"
-              className="w-full py-3 rounded-full bg-black hover:bg-slate-800 text-white text-xs font-semibold text-center transition-all active:scale-[0.97]"
+              className="w-full block py-2.5 bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-bold text-center rounded-xl transition-all active:scale-[0.98] shadow-lg shadow-[#e15b3e]/10 uppercase tracking-wider relative z-10"
             >
               Start Free Trial
             </Link>
