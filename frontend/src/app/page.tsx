@@ -367,21 +367,21 @@ export default function RipplLandingPage() {
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-xs">1</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Install SDK Pixel</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Install Pixel</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Embed our lightweight tracking script on checkout pages to capture referrals automatically.</p>
                 </div>
               </div>
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">2</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Define commission rule</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Set Commission</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Set flat rates or percentages per conversion type, cookie periods, and clearance rules.</p>
                 </div>
               </div>
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">3</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Fund & approve</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Approve Payouts</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Fund reserve balances to trigger automated, fraud-aware payments directly to bank details.</p>
                 </div>
               </div>
@@ -391,21 +391,21 @@ export default function RipplLandingPage() {
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-xs">1</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Join Campaign</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Sign Up</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Browse verified brand campaigns on the marketplace. Sign up easily with no upfront fees.</p>
                 </div>
               </div>
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">2</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Share custom link</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Share Link</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Generate unique UTM affiliate links and tracking banners to share with your audience.</p>
                 </div>
               </div>
               <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm text-left flex flex-col justify-between min-h-[180px]">
                 <span className="w-10 h-10 rounded-full bg-slate-150 text-slate-700 flex items-center justify-center font-bold text-xs">3</span>
                 <div>
-                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Withdraw Cashout</h4>
+                  <h4 className="font-semibold text-slate-800 text-xs mt-4">Get Paid</h4>
                   <p className="text-[10px] text-slate-400 font-light mt-1 leading-relaxed">Request payments to bank details. Funds transfer instantly within 24 hours.</p>
                 </div>
               </div>
@@ -437,7 +437,7 @@ export default function RipplLandingPage() {
         <div className="flex flex-col md:flex-row-reverse items-center gap-8">
           <div className="flex-1 space-y-4 text-left">
             <span className="px-3 py-1 bg-slate-100 text-slate-750 text-[9px] font-bold rounded-full uppercase tracking-wider">Secure Safeguards</span>
-            <h3 className="text-xl font-bold text-slate-900 leading-tight">BVN-verified, IP-scored, fraud blocked</h3>
+            <h3 className="text-xl font-bold text-slate-900 leading-tight">BVN-verified, IP-scored, self-referral blocked automatically</h3>
             <p className="text-xs text-slate-450 font-light leading-relaxed">
               Our embedded anti-fraud engine performs device fingerprint checks, logs geo IP scopes, and triggers progressive KYC lookups to protect businesses from self-referral leakage.
             </p>
@@ -446,6 +446,23 @@ export default function RipplLandingPage() {
             <div>
               <p className="text-4xl font-extrabold text-slate-900">0%</p>
               <p className="text-xs text-slate-400 font-medium mt-1">Duplicate Referral Tolerance</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Highlight 3 */}
+        <div className="flex flex-col md:flex-row items-center gap-8">
+          <div className="flex-1 space-y-4 text-left">
+            <span className="px-3 py-1 bg-slate-100 text-slate-750 text-[9px] font-bold rounded-full uppercase tracking-wider">Real-time Tracking</span>
+            <h3 className="text-xl font-bold text-slate-900 leading-tight">See every click, every conversion, live</h3>
+            <p className="text-xs text-slate-450 font-light leading-relaxed">
+              No more manual guesswork or data reconciliation tables. Our cookie pixel tracks referred actions instantly and sends real-time attribution details straight to your merchant dashboard.
+            </p>
+          </div>
+          <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
+            <div>
+              <p className="text-4xl font-extrabold text-slate-900">Live</p>
+              <p className="text-xs text-slate-400 font-medium mt-1">Attribution Sync Latency</p>
             </div>
           </div>
         </div>
@@ -857,12 +874,14 @@ export default function RipplLandingPage() {
           {[
             { q: "Is this legal and compliant in Nigeria?", a: "Yes. Rippl is fully NDPR data compliant and operates payout clearances securely integrated with licensed central platforms." },
             { q: "How fast do affiliates receive cashouts?", a: "Affiliates receive bank cashout transfers instantly in under 24 hours once merchant approvals clear pending buffers." },
-            { q: "How do you block self-referral and fraud?", a: "Our system performs double-cookie tests, device fingerprint matching, and logs IP details to suspend fraudulent attributions automatically." },
-            { q: "Can I upgrade or downgrade my plan?", a: "Yes. You can manage subscription plans, change billing preferences, or download invoices directly from Billing." }
+            { q: "What if someone tries to cheat the system?", a: "Our system performs double-cookie tests, device fingerprint matching, and logs IP details to suspend fraudulent attributions automatically." },
+            { q: "Can I upgrade or downgrade my plan?", a: "Yes. You can manage subscription plans, change billing preferences, or download invoices directly from Billing." },
+            { q: "What integration methods are supported?", a: "We support a lightweight web SDK tracking pixel, custom API attribution webhooks, and popular platform plugins (Shopify and WooCommerce)." },
+            { q: "Are there any hidden payout or transaction fees?", a: "None. Affiliates cash out cleared earnings directly to local banks with standard processing fees. Businesses only pay their selected monthly subscription and defined payouts." }
           ].map((faq, i) => (
             <div key={i} className="p-4 bg-white border border-slate-200/50 rounded-2xl text-xs">
               <h4 className="font-semibold text-slate-800 flex items-center gap-1.5">
-                <span className="text-red-500">Q.</span> {faq.q}
+                <span className="text-red-550">Q.</span> {faq.q}
               </h4>
               <p className="text-slate-500 font-light mt-1.5 leading-relaxed pl-4 border-l border-slate-150">
                 {faq.a}
@@ -900,7 +919,6 @@ export default function RipplLandingPage() {
             <Link href="/auth" className="hover:text-slate-900 transition-colors">For Merchants</Link>
             <Link href="/auth" className="hover:text-slate-900 transition-colors">For Ambassadors</Link>
             <a href="#roi-simulator" className="hover:text-slate-900 transition-colors">ROI Simulator</a>
-            <Link href="/design-system" className="hover:text-slate-900 transition-colors">Design System</Link>
           </div>
 
           {/* Column 3: Company */}
@@ -909,7 +927,6 @@ export default function RipplLandingPage() {
             <a href="#" className="hover:text-slate-900 transition-colors">About Us</a>
             <a href="#" className="hover:text-slate-900 transition-colors">Careers</a>
             <a href="#" className="hover:text-slate-900 transition-colors">Blog & News</a>
-            <Link href="/archive-dashboard" className="hover:text-slate-900 transition-colors">Mockup Archive</Link>
           </div>
 
           {/* Column 4: Help & Legal */}
