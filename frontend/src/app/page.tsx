@@ -82,23 +82,6 @@ export default function RipplLandingPage() {
   // Pricing Teaser states
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">("monthly");
 
-  // Live platform ticker feed states (NDPR Compliant: anonymized first names, no surnames or exact business identifiers)
-  const [tickerIndex, setTickerIndex] = useState(0);
-  const tickerEvents = [
-    "Adaeze just earned ₦4,200 from a referral conversion",
-    "Chidi's Fashion Store registered a new ambassador program",
-    "Tunde initiated an instant cashout transaction of ₦12,500",
-    "Aisha successfully completed Tier 2 BVN verification",
-    "Kelechi attributed a checkout purchase of ₦45,000 via custom UTM link"
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTickerIndex((prev) => (prev + 1) % tickerEvents.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [tickerEvents.length]);
-
   // Exit intent popup state
   const [showExitIntent, setShowExitIntent] = useState(false);
   const [exitEmail, setExitEmail] = useState("");
@@ -247,16 +230,6 @@ export default function RipplLandingPage() {
             <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconBriefcase className="w-3.5 h-3.5 text-slate-400" /> shopify ng</span>
             <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconShieldCheck className="w-3.5 h-3.5 text-slate-400" /> dojah nodes</span>
           </div>
-        </div>
-      </section>
-
-      {/* Dynamic NDPR Live Platform Ticker */}
-      <section className="bg-black text-white py-3.5 overflow-hidden w-full relative z-20">
-        <div className="max-w-5xl mx-auto px-6 flex items-center justify-center gap-2 text-xs font-semibold tracking-wide">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          <p className="animate-in fade-in slide-in-from-bottom-1 duration-300">
-            {tickerEvents[tickerIndex]}
-          </p>
         </div>
       </section>
 
