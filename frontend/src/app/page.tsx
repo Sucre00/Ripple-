@@ -225,17 +225,17 @@ export default function RipplLandingPage() {
           >
             <div className="animate-scroll flex gap-12 items-center">
               {/* Set 1 */}
-              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" />
               {/* Set 2 */}
-              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
-              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" />
             </div>
           </div>
         </div>
