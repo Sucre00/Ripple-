@@ -543,8 +543,8 @@ export default function RipplLandingPage() {
       {/* Deeper Social Proof split tab testimonials (Section 9) */}
       <section id="testimonials" className="px-6 py-12 max-w-5xl mx-auto w-full text-center space-y-8">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-slate-900">Objection Handling Stories</h2>
-          <p className="text-xs text-slate-400 font-light mt-1">Select standard tabs to review specific user feedback.</p>
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">Testimonials</h2>
+          <p className="text-xs text-slate-400 font-light mt-1">Hear what our users say about scaling with Rippl.</p>
         </div>
 
         <div className="space-y-6 max-w-2xl mx-auto">
