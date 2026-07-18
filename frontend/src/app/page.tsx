@@ -212,47 +212,14 @@ export default function RipplLandingPage() {
 
       {/* Social Proof Client Logo strip */}
       <section className="px-6 py-6 border-y border-slate-200/40 bg-white/40 backdrop-blur-sm w-full">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center">
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trusted by 200+ Nigerian businesses</span>
-          <div className="flex flex-wrap justify-center items-center gap-8 text-slate-400">
-            {/* Paystack Logo Icon */}
-            <div className="hover:opacity-80 transition-opacity cursor-default">
-              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="14" cy="14" r="10" fill="#3bb75e" />
-                <path d="M10 14h8M12 11h4M11 17h6" stroke="white" stroke-width="2" stroke-linecap="round" />
-              </svg>
-            </div>
-            {/* Flutterwave Logo Icon */}
-            <div className="hover:opacity-80 transition-opacity cursor-default">
-              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="14" cy="14" r="10" fill="#fb923c" />
-                <path d="M9 14c2-3 4-3 6 0s4 3 6 0" stroke="white" stroke-width="2.5" stroke-linecap="round" />
-              </svg>
-            </div>
-            {/* Piggyvest Logo Icon */}
-            <div className="hover:opacity-80 transition-opacity cursor-default">
-              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="4" y="4" width="20" height="20" rx="6" fill="#0d6efd" />
-                <path d="M10 12l3 3 5-5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            {/* Shopify NG Logo Icon */}
-            <div className="hover:opacity-80 transition-opacity cursor-default">
-              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 8l2-4h16l2 4v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z" fill="#95bf47" />
-                <path d="M8 8a6 6 0 0 1 12 0" stroke="white" stroke-width="2" />
-                <text x="14" y="18" font-family="Inter, sans-serif" font-weight="900" font-size="11" fill="white" text-anchor="middle">s</text>
-              </svg>
-            </div>
-            {/* Dojah Nodes Logo Icon */}
-            <div className="hover:opacity-80 transition-opacity cursor-default">
-              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="9" cy="8" r="3" fill="#e15b3e" />
-                <circle cx="19" cy="14" r="3" fill="#e15b3e" />
-                <circle cx="9" cy="20" r="3" fill="#e15b3e" />
-                <path d="M9 8l10 6m0 0l-10 6" stroke="#e15b3e" stroke-width="1.5" />
-              </svg>
-            </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-10">
+            <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
+            <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
+            <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
+            <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
+            <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
           </div>
         </div>
       </section>
