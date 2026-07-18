@@ -215,47 +215,42 @@ export default function RipplLandingPage() {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center">
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trusted by 200+ Nigerian businesses</span>
           <div className="flex flex-wrap justify-center items-center gap-8 text-slate-400">
-            {/* Paystack Logo */}
-            <div className="hover:text-slate-650 transition-colors cursor-default">
-              <svg className="h-5 w-auto" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Paystack Logo Icon */}
+            <div className="hover:opacity-80 transition-opacity cursor-default">
+              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="14" cy="14" r="10" fill="#3bb75e" />
                 <path d="M10 14h8M12 11h4M11 17h6" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <text x="32" y="20" font-family="Inter, sans-serif" font-weight="900" font-size="16" letter-spacing="-0.5" fill="currentColor">paystack</text>
               </svg>
             </div>
-            {/* Flutterwave Logo */}
-            <div className="hover:text-slate-650 transition-colors cursor-default">
-              <svg className="h-5 w-auto" viewBox="0 0 140 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Flutterwave Logo Icon */}
+            <div className="hover:opacity-80 transition-opacity cursor-default">
+              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="14" cy="14" r="10" fill="#fb923c" />
                 <path d="M9 14c2-3 4-3 6 0s4 3 6 0" stroke="white" stroke-width="2.5" stroke-linecap="round" />
-                <text x="32" y="20" font-family="Inter, sans-serif" font-weight="950" font-size="16" letter-spacing="-0.5" fill="currentColor">flutterwave</text>
               </svg>
             </div>
-            {/* Piggyvest Logo */}
-            <div className="hover:text-slate-650 transition-colors cursor-default">
-              <svg className="h-5 w-auto" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Piggyvest Logo Icon */}
+            <div className="hover:opacity-80 transition-opacity cursor-default">
+              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="4" y="4" width="20" height="20" rx="6" fill="#0d6efd" />
                 <path d="M10 12l3 3 5-5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                <text x="32" y="20" font-family="Inter, sans-serif" font-weight="900" font-size="16" letter-spacing="-0.5" fill="currentColor">piggyvest</text>
               </svg>
             </div>
-            {/* Shopify NG Logo */}
-            <div className="hover:text-slate-650 transition-colors cursor-default">
-              <svg className="h-5 w-auto" viewBox="0 0 130 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 8l2-4h8l2 4v14a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V8z" fill="#95bf47" />
-                <path d="M12 8a2 2 0 0 1 4 0" stroke="white" stroke-width="2" />
-                <text x="14" y="17" font-family="Inter, sans-serif" font-weight="900" font-size="9" fill="white" text-anchor="middle">s</text>
-                <text x="34" y="20" font-family="Inter, sans-serif" font-weight="900" font-size="16" letter-spacing="-0.5" fill="currentColor">shopify<tspan fill="#95bf47">ng</tspan></text>
+            {/* Shopify NG Logo Icon */}
+            <div className="hover:opacity-80 transition-opacity cursor-default">
+              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 8l2-4h16l2 4v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8z" fill="#95bf47" />
+                <path d="M8 8a6 6 0 0 1 12 0" stroke="white" stroke-width="2" />
+                <text x="14" y="18" font-family="Inter, sans-serif" font-weight="900" font-size="11" fill="white" text-anchor="middle">s</text>
               </svg>
             </div>
-            {/* Dojah Nodes Logo */}
-            <div className="hover:text-slate-650 transition-colors cursor-default">
-              <svg className="h-5 w-auto" viewBox="0 0 110 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="10" cy="8" r="3" fill="#e15b3e" />
-                <circle cx="20" cy="14" r="3" fill="#e15b3e" />
-                <circle cx="10" cy="20" r="3" fill="#e15b3e" />
-                <path d="M10 8l10 6m0 0l-10 6" stroke="#e15b3e" stroke-width="1.5" />
-                <text x="32" y="20" font-family="Inter, sans-serif" font-weight="900" font-size="16" letter-spacing="-0.5" fill="currentColor">dojah</text>
+            {/* Dojah Nodes Logo Icon */}
+            <div className="hover:opacity-80 transition-opacity cursor-default">
+              <svg className="h-6 w-6" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="9" cy="8" r="3" fill="#e15b3e" />
+                <circle cx="19" cy="14" r="3" fill="#e15b3e" />
+                <circle cx="9" cy="20" r="3" fill="#e15b3e" />
+                <path d="M9 8l10 6m0 0l-10 6" stroke="#e15b3e" stroke-width="1.5" />
               </svg>
             </div>
           </div>
