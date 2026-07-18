@@ -637,64 +637,179 @@ export default function RipplLandingPage() {
         </div>
 
         {/* Pricing packages cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch pt-2">
-          {/* Package 1 */}
-          <div className="bg-white rounded-[2rem] p-6 border border-slate-150 shadow-sm flex flex-col justify-between text-left min-h-[300px]">
-            <div>
-              <h4 className="text-[10px] text-slate-450 font-bold uppercase tracking-wider">Starter Plan</h4>
-              <p className="text-2xl font-extrabold text-slate-950 mt-1">
+        <div className="flex flex-col gap-6 pt-6">
+          
+          {/* Top Row: Two main columns (Growth vs Pro Enterprise) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            
+            {/* Growth Plan Card */}
+            <div className="bg-white rounded-[2.5rem] border border-[#e15b3e] ring-1 ring-[#e15b3e] shadow-md p-8 flex flex-col md:flex-row justify-between gap-8 relative text-left">
+              <span className="absolute -top-3.5 left-6 px-3 py-1 bg-[#e15b3e] text-white text-[8px] font-bold rounded-full uppercase tracking-wider">Recommended</span>
+              
+              {/* Left Column of Card */}
+              <div className="flex-1 flex flex-col justify-between gap-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+                      <IconSparkles className="w-4 h-4 animate-pulse" />
+                    </span>
+                    <h4 className="text-xs font-bold text-slate-900">Growth Plan</h4>
+                  </div>
+                  <p className="text-3xl font-extrabold text-slate-950 mt-1">
+                    {billingCycle === "monthly" ? "₦45,000" : "₦38,250"} <span className="text-[10px] text-slate-400 font-light">/mo</span>
+                  </p>
+                  <p className="text-[10px] text-slate-400 font-light leading-relaxed">
+                    Best for growing e-commerce storefronts in Nigeria.
+                  </p>
+                </div>
+                
+                <Link
+                  href="/auth"
+                  className="w-full py-3 bg-[#e15b3e] text-white text-[10px] font-bold text-center rounded-xl transition-all hover:bg-[#d04e32] flex items-center justify-center gap-1 active:scale-[0.98]"
+                >
+                  Start Free Trial &rarr;
+                </Link>
+              </div>
+
+              {/* Divider for desktop */}
+              <div className="hidden md:block w-px bg-slate-100 self-stretch"></div>
+
+              {/* Right Column of Card (Checklist features) */}
+              <div className="flex-1 flex flex-col gap-3 justify-center text-xs">
+                {[
+                  "Up to 500 active affiliates",
+                  "Unlimited campaign programs",
+                  "Up to ₦10M monthly payouts",
+                  "Standard double-cookie checks",
+                  "BVN progressive KYC validation"
+                ].map((feat, i) => (
+                  <div key={i} className="flex items-center gap-2 text-slate-600 font-medium">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                      <IconCheck className="w-2.5 h-2.5" />
+                    </span>
+                    <span className="text-[10px]">{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+
+            {/* Pro Enterprise Card */}
+            <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-sm p-8 flex flex-col md:flex-row justify-between gap-8 text-left">
+              
+              {/* Left Column of Card */}
+              <div className="flex-1 flex flex-col justify-between gap-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">
+                      <IconBriefcase className="w-4 h-4" />
+                    </span>
+                    <h4 className="text-xs font-bold text-slate-900">Pro Enterprise</h4>
+                  </div>
+                  <p className="text-3xl font-extrabold text-slate-950 mt-1">
+                    {billingCycle === "monthly" ? "₦150,000" : "₦127,500"} <span className="text-[10px] text-slate-400 font-light">/mo</span>
+                  </p>
+                  <p className="text-[10px] text-slate-400 font-light leading-relaxed">
+                    For organizations requiring dedicated Webhooks and SLA.
+                  </p>
+                </div>
+                
+                <Link
+                  href="/auth"
+                  className="w-full py-3 bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 text-[10px] font-bold text-center rounded-xl transition-all flex items-center justify-center gap-1 active:scale-[0.98]"
+                >
+                  Contact Sales &rarr;
+                </Link>
+              </div>
+
+              {/* Divider */}
+              <div className="hidden md:block w-px bg-slate-100 self-stretch"></div>
+
+              {/* Right Column of Card */}
+              <div className="flex-1 flex flex-col gap-3 justify-center text-xs">
+                {[
+                  "Everything in Growth Plan",
+                  "Dedicated account manager",
+                  "Custom webhook event selectors",
+                  "Extended SLA uptime guarantee",
+                  "FIRS, CBN, and NDPR tax exports"
+                ].map((feat, i) => (
+                  <div key={i} className="flex items-center gap-2 text-slate-600 font-medium">
+                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                      <IconCheck className="w-2.5 h-2.5" />
+                    </span>
+                    <span className="text-[10px]">{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* Bottom Card: Full-width Horizontal (Starter Plan) */}
+          <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-sm p-8 flex flex-col md:flex-row justify-between items-center gap-8 text-left">
+            
+            {/* Left section of horizontal card */}
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center">
+                  <IconBuildingBank className="w-4 h-4" />
+                </span>
+                <h4 className="text-xs font-bold text-slate-900">Starter Plan</h4>
+              </div>
+              <p className="text-[10px] text-slate-400 font-light leading-relaxed max-w-xs">
+                Perfect for getting started with basic referral campaigns.
+              </p>
+            </div>
+
+            {/* Middle Section (Checklist split columns) */}
+            <div className="flex-[2] grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs w-full">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-slate-650 font-medium">
+                  <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                    <IconCheck className="w-2.5 h-2.5" />
+                  </span>
+                  <span className="text-[10px]">Up to 50 active affiliates</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-650 font-medium">
+                  <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                    <IconCheck className="w-2.5 h-2.5" />
+                  </span>
+                  <span className="text-[10px]">Basic click and conversion tracking</span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-slate-650 font-medium">
+                  <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                    <IconCheck className="w-2.5 h-2.5" />
+                  </span>
+                  <span className="text-[10px]">Standard email support</span>
+                </div>
+                <div className="flex items-center gap-2 text-slate-650 font-medium">
+                  <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+                    <IconCheck className="w-2.5 h-2.5" />
+                  </span>
+                  <span className="text-[10px]">Paystack payment clearances</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Section (Price tag + link) */}
+            <div className="flex-1 flex flex-col items-end justify-center shrink-0 w-full md:w-auto border-t border-slate-100 md:border-t-0 pt-4 md:pt-0">
+              <p className="text-2xl font-extrabold text-slate-950">
                 {billingCycle === "monthly" ? "₦15,000" : "₦12,750"} <span className="text-[10px] text-slate-400 font-light">/mo</span>
               </p>
-              <p className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2">
-                Ideal for startups looking to launch custom referral campaigns. Limit up to 50 active affiliates and ₦1M total volume.
-              </p>
+              <Link
+                href="/auth"
+                className="text-[10px] font-bold text-[#e15b3e] hover:underline mt-1.5 flex items-center gap-0.5"
+              >
+                Get Started &rarr;
+              </Link>
             </div>
-            <Link
-              href="/auth"
-              className="w-full py-2 bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 text-[10px] font-bold text-center rounded-xl transition-all"
-            >
-              Start Free Trial
-            </Link>
+
           </div>
 
-          {/* Package 2 */}
-          <div className="bg-white rounded-[2rem] p-6 border border-[#e15b3e] ring-1 ring-[#e15b3e] shadow-md flex flex-col justify-between text-left min-h-[300px] relative">
-            <span className="absolute -top-3.5 left-6 px-3 py-1 bg-[#e15b3e] text-white text-[8px] font-bold rounded-full uppercase tracking-wider">Recommended</span>
-            <div>
-              <h4 className="text-[10px] text-slate-450 font-bold uppercase tracking-wider">Growth Plan</h4>
-              <p className="text-2xl font-extrabold text-slate-950 mt-1">
-                {billingCycle === "monthly" ? "₦45,000" : "₦38,250"} <span className="text-[10px] text-slate-400 font-light">/mo</span>
-              </p>
-              <p className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2">
-                Best for growing e-commerce storefronts in Nigeria. Limit up to 500 active affiliates, unlimited campaigns, and ₦10M payouts volume limits.
-              </p>
-            </div>
-            <Link
-              href="/auth"
-              className="w-full py-2.5 bg-[#e15b3e] text-white text-[10px] font-bold text-center rounded-xl transition-all hover:bg-[#d04e32]"
-            >
-              Start Free Trial
-            </Link>
-          </div>
-
-          {/* Package 3 */}
-          <div className="bg-white rounded-[2rem] p-6 border border-slate-150 shadow-sm flex flex-col justify-between text-left min-h-[300px]">
-            <div>
-              <h4 className="text-[10px] text-slate-450 font-bold uppercase tracking-wider">Pro Enterprise</h4>
-              <p className="text-2xl font-extrabold text-slate-950 mt-1">
-                {billingCycle === "monthly" ? "₦150,000" : "₦127,500"} <span className="text-[10px] text-slate-400 font-light">/mo</span>
-              </p>
-              <p className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2">
-                For organizations requiring dedicated SLA uptimes, compliance reporting nodes, custom webhook event controls, and 500+ ambassadors.
-              </p>
-            </div>
-            <Link
-              href="/auth"
-              className="w-full py-2 bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 text-[10px] font-bold text-center rounded-xl transition-all"
-            >
-              Contact Sales
-            </Link>
-          </div>
         </div>
       </section>
 
