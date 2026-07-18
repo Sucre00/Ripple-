@@ -40,6 +40,9 @@ export default function RipplLandingPage() {
   const [avgOrderValue, setAvgOrderValue] = useState(15000);
   const [commissionPct, setCommissionPct] = useState(10);
 
+  // FAQ accordion state
+  const [activeFaqIdx, setActiveFaqIdx] = useState<number | null>(null);
+
   const testimonials = [
     {
       quote: "Rippl cut our affiliate payout cycle from 60 days to 1. Payouts that used to take 30 days are now reconciled instantly. Our affiliate GMV grew by 180% in 3 months.",
@@ -797,13 +800,19 @@ export default function RipplLandingPage() {
       </section>
 
       {/* FAQ Accordion Section (Section 11) */}
-      <section id="faq" className="px-6 py-12 max-w-2xl mx-auto w-full space-y-6">
-        <div className="text-center">
-          <h2 className="text-xl font-semibold tracking-tight text-slate-900">Pre-Emptive Support FAQ</h2>
-          <p className="text-xs text-slate-400 font-light mt-1">Objection handling queries answered instantly.</p>
+      {/* Support & Faq Section (Section 11) - Redesigned to collapsible modern accordions */}
+      <section id="faq" className="px-6 py-16 max-w-3xl mx-auto w-full space-y-10 text-center">
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
+            ✦ Got Questions?
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Support & Faq</h2>
+          <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">
+            Objection handling queries answered instantly.
+          </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3.5 max-w-2xl mx-auto">
           {[
             { q: "Is this legal and compliant in Nigeria?", a: "Yes. Rippl is fully NDPR data compliant and operates payout clearances securely integrated with licensed central platforms." },
             { q: "How fast do affiliates receive cashouts?", a: "Affiliates receive bank cashout transfers instantly in under 24 hours once merchant approvals clear pending buffers." },
@@ -811,16 +820,57 @@ export default function RipplLandingPage() {
             { q: "Can I upgrade or downgrade my plan?", a: "Yes. You can manage subscription plans, change billing preferences, or download invoices directly from Billing." },
             { q: "What integration methods are supported?", a: "We support a lightweight web SDK tracking pixel, custom API attribution webhooks, and popular platform plugins (Shopify and WooCommerce)." },
             { q: "Are there any hidden payout or transaction fees?", a: "None. Affiliates cash out cleared earnings directly to local banks with standard processing fees. Businesses only pay their selected monthly subscription and defined payouts." }
-          ].map((faq, i) => (
-            <div key={i} className="p-4 bg-white border border-slate-200/50 rounded-2xl text-xs">
-              <h4 className="font-semibold text-slate-800 flex items-center gap-1.5">
-                <span className="text-red-550">Q.</span> {faq.q}
-              </h4>
-              <p className="text-slate-500 font-light mt-1.5 leading-relaxed pl-4 border-l border-slate-150">
-                {faq.a}
-              </p>
-            </div>
-          ))}
+          ].map((faq, i) => {
+            const isOpen = activeFaqIdx === i;
+            return (
+              <div 
+                key={i} 
+                className={`bg-white rounded-2xl border transition-all duration-300 text-left overflow-hidden ${
+                  isOpen ? "border-[#e15b3e]/30 shadow-md shadow-slate-100" : "border-slate-200/50 hover:border-slate-350"
+                }`}
+              >
+                <button
+                  onClick={() => setActiveFaqIdx(isOpen ? null : i)}
+                  className="w-full p-5 flex justify-between items-center gap-4 text-xs font-semibold text-slate-800 focus:outline-none"
+                >
+                  <span className="flex items-center gap-2">
+                    <span className={`text-[10px] ${isOpen ? "text-[#e15b3e]" : "text-slate-400"}`}>
+                      {isOpen ? "✦" : "•"}
+                    </span>
+                    {faq.q}
+                  </span>
+                  <IconChevronDown 
+                    className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180 text-[#e15b3e]" : ""
+                    }`}
+                  />
+                </button>
+                
+                <div 
+                  className={`transition-all duration-300 overflow-hidden ${
+                    isOpen ? "max-h-[150px] border-t border-slate-100/60" : "max-h-0"
+                  }`}
+                >
+                  <p className="p-5 text-slate-500 font-light text-[11px] leading-relaxed bg-slate-50/30">
+                    {faq.a}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Floating Call to Action */}
+        <div className="pt-4 text-center">
+          <p className="text-[10px] text-slate-400 font-medium">
+            Still have questions?{" "}
+            <a 
+              href="mailto:support@rippl.africa" 
+              className="text-[#e15b3e] hover:underline font-bold"
+            >
+              Get in touch with support &rarr;
+            </a>
+          </p>
         </div>
       </section>
 
