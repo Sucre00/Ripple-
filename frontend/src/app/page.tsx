@@ -473,7 +473,7 @@ export default function RipplLandingPage() {
         {/* Highlight 2 */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-8">
           <div className="flex-1 space-y-4 text-left">
-            <span className="px-3 py-1 bg-slate-100 text-slate-750 text-[9px] font-bold rounded-full uppercase tracking-wider">Secure Safeguards</span>
+            <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">Secure Safeguards</span>
             <h3 className="text-xl font-bold text-slate-900 leading-tight">BVN-verified, IP-scored, self-referral blocked automatically</h3>
             <p className="text-xs text-slate-450 font-light leading-relaxed">
               Our embedded anti-fraud engine performs device fingerprint checks, logs geo IP scopes, and triggers progressive KYC lookups to protect businesses from self-referral leakage.
@@ -481,7 +481,7 @@ export default function RipplLandingPage() {
           </div>
           <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
             <div>
-              <p className="text-4xl font-extrabold text-slate-900">0%</p>
+              <p className="text-4xl font-extrabold text-[#e15b3e]">0%</p>
               <p className="text-xs text-slate-400 font-medium mt-1">Duplicate Referral Tolerance</p>
             </div>
           </div>
@@ -490,7 +490,7 @@ export default function RipplLandingPage() {
         {/* Highlight 3 */}
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 space-y-4 text-left">
-            <span className="px-3 py-1 bg-slate-100 text-slate-750 text-[9px] font-bold rounded-full uppercase tracking-wider">Real-time Tracking</span>
+            <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">Real-time Tracking</span>
             <h3 className="text-xl font-bold text-slate-900 leading-tight">See every click, every conversion, live</h3>
             <p className="text-xs text-slate-450 font-light leading-relaxed">
               No more manual guesswork or data reconciliation tables. Our cookie pixel tracks referred actions instantly and sends real-time attribution details straight to your merchant dashboard.
@@ -498,7 +498,7 @@ export default function RipplLandingPage() {
           </div>
           <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
             <div>
-              <p className="text-4xl font-extrabold text-slate-900">Live</p>
+              <p className="text-4xl font-extrabold text-[#e15b3e]">Live</p>
               <p className="text-xs text-slate-400 font-medium mt-1">Attribution Sync Latency</p>
             </div>
           </div>
