@@ -210,16 +210,34 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Social Proof Client Logo strip */}
-      <section className="px-6 py-6 border-y border-slate-200/40 bg-white/40 backdrop-blur-sm w-full">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trusted by 200+ Nigerian businesses</span>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-10">
-            <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
-            <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
-            <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
-            <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
-            <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300" />
+      {/* Social Proof Client Logo strip - Infinite Scrolling Ticker */}
+      <section className="px-6 py-6 border-y border-slate-200/40 bg-white/40 backdrop-blur-sm w-full overflow-hidden">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider shrink-0">
+            Trusted by 200+ Nigerian businesses
+          </span>
+          
+          <div 
+            className="overflow-hidden w-full flex-grow relative"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)'
+            }}
+          >
+            <div className="animate-scroll flex gap-12 items-center">
+              {/* Set 1 */}
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              {/* Set 2 */}
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain opacity-40 hover:opacity-70 transition-opacity duration-300 shrink-0" />
+            </div>
           </div>
         </div>
       </section>
