@@ -244,36 +244,36 @@ export default function RipplLandingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
           {/* Old Way (5 Cols) */}
-          <div className="lg:col-span-5 bg-[#0f1319] rounded-[2.5rem] p-8 border border-slate-800 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-800/10 rounded-full blur-2xl"></div>
+          <div className="lg:col-span-5 bg-white rounded-[2.5rem] p-8 border border-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100/50 rounded-full blur-2xl"></div>
             
             <div className="space-y-5 relative z-10">
               <div className="flex items-center gap-2.5">
-                <span className="w-9 h-9 rounded-full bg-red-950/40 text-red-500 flex items-center justify-center">
+                <span className="w-9 h-9 rounded-full bg-red-50 text-red-650 flex items-center justify-center">
                   <IconX className="w-4 h-4" />
                 </span>
-                <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider bg-red-950/20 px-2.5 py-0.5 rounded-full">Old Way</span>
+                <span className="text-[10px] font-bold text-red-600 uppercase tracking-wider bg-red-50 px-2.5 py-0.5 rounded-full">Old Way</span>
               </div>
               
-              <h3 className="text-base font-bold text-white tracking-tight">Manual WhatsApp & Excel Sheets</h3>
+              <h3 className="text-base font-bold text-slate-900 tracking-tight">Manual WhatsApp & Excel Sheets</h3>
               
-              <div className="space-y-3.5 pt-1 text-[11px] text-slate-400 font-light leading-relaxed">
+              <div className="space-y-3.5 pt-1 text-[11px] text-slate-500 font-light leading-relaxed">
                 <div className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">•</span>
+                  <span className="text-red-550 mt-0.5">•</span>
                   <p>Reconciling referred orders on spreadsheets takes weeks of manual reviews.</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">•</span>
+                  <span className="text-red-550 mt-0.5">•</span>
                   <p>Affiliates get zero transparency on conversion statuses, creating friction.</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">•</span>
+                  <span className="text-red-550 mt-0.5">•</span>
                   <p>Fails to block duplicate self-referrals or device-fingerprint spoofing.</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl text-[10px] font-mono text-slate-500 text-center relative z-10">
+            <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-mono text-slate-400 text-center relative z-10">
               [ spreadsheet_attributions_v2.xlsx ]
             </div>
           </div>
