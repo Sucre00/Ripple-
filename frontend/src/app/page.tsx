@@ -20,7 +20,11 @@ import {
   IconFingerprint,
   IconFileCode,
   IconShieldCheck,
-  IconChevronRight
+  IconChevronRight,
+  IconArrowRight,
+  IconMessage,
+  IconQuote,
+  IconStarFilled
 } from "@tabler/icons-react";
 
 export default function RipplLandingPage() {
@@ -31,6 +35,32 @@ export default function RipplLandingPage() {
   const [avgOrderValue, setAvgOrderValue] = useState(15000);
   const [commissionPct, setCommissionPct] = useState(10);
 
+  // Testimonials Carousel states
+  const [testimonialIdx, setTestimonialIdx] = useState(0);
+  const testimonials = [
+    {
+      quote: "Rippl transformed how we run influencer marketing. Payouts that used to take 30 days are now reconciled instantly. Our affiliate GMV grew by 180% in 3 months.",
+      author: "Funmi Alao",
+      role: "E-commerce Manager, Shopify Storefront",
+      rating: 5,
+      avatar: "FA"
+    },
+    {
+      quote: "As an ambassador, trust is everything. Seeing my commissions clear in real-time and being able to cash out instantly to my bank account has changed the game.",
+      author: "Dwayne Tatum",
+      role: "CEO Assistant & Tech Influencer",
+      rating: 5,
+      avatar: "DT"
+    },
+    {
+      quote: "The developer integrations are incredibly simple. We installed the Javascript tracking pixel in under 10 minutes, and the webhook callbacks handle dispute checks automatically.",
+      author: "Chinedu Okafor",
+      role: "Lead Developer, Flutterwave Merchant Partner",
+      rating: 5,
+      avatar: "CO"
+    }
+  ];
+
   const calculateRevenue = () => conversionVolume * avgOrderValue;
   const calculateCommissionCost = () => calculateRevenue() * (commissionPct / 100);
   const calculateNetRoi = () => calculateRevenue() - calculateCommissionCost();
@@ -39,7 +69,7 @@ export default function RipplLandingPage() {
     <div className="min-h-screen bg-[#edf1f5] font-sans antialiased text-slate-800 flex flex-col selection:bg-[#e15b3e]/20 selection:text-[#e15b3e]">
       
       {/* Sticky Header */}
-      <header className="sticky top-0 bg-white/70 backdrop-blur-md border-b border-slate-200/40 px-6 py-4 flex items-center justify-between z-40">
+      <header className="sticky top-0 bg-white/70 backdrop-blur-md border-b border-slate-200/40 px-6 py-4 flex items-center justify-between z-45">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-lg">
@@ -56,7 +86,9 @@ export default function RipplLandingPage() {
           {/* Desktop links */}
           <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-500">
             <a href="#features" className="hover:text-slate-800 transition-colors">Products</a>
+            <a href="#referral-flow" className="hover:text-slate-800 transition-colors">How it works</a>
             <a href="#roi-simulator" className="hover:text-slate-800 transition-colors">ROI Simulator</a>
+            <a href="#testimonials" className="hover:text-slate-800 transition-colors">Reviews</a>
             <Link href="/design-system" className="hover:text-slate-800 transition-colors">Design System</Link>
             <Link href="/archive-dashboard" className="text-[#e15b3e] hover:text-[#d04e32] transition-colors font-bold">Mockup Archive</Link>
           </nav>
@@ -99,7 +131,7 @@ export default function RipplLandingPage() {
         </p>
 
         {/* Hero CTAs */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-4">
+        <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
           <Link
             href="/auth"
             className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-1"
@@ -114,9 +146,102 @@ export default function RipplLandingPage() {
             Discover Campaigns
           </Link>
         </div>
+
+        {/* Platform Trust Badges */}
+        <div className="flex flex-wrap justify-center items-center gap-6 mt-8 pt-6 border-t border-slate-200/50 w-full max-w-lg">
+          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <IconShieldCheck className="w-4 h-4 text-green-600" />
+            <span>NDPR Data Protected</span>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-600">⚡</span>
+            <span>Paystack Secured Payouts</span>
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+            <IconFingerprint className="w-4 h-4 text-[#e15b3e]" />
+            <span>BVN Identity Verified</span>
+          </div>
+        </div>
       </section>
 
-      {/* Dual Segment Product Preview */}
+      {/* Platform Stats Row Section */}
+      <section className="px-6 py-8 max-w-5xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white border border-slate-200/50 shadow-sm rounded-3xl p-6 md:p-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-150">
+          <div className="py-4 md:py-0 md:px-4">
+            <h3 className="text-3xl font-extrabold text-[#e15b3e]">₦500M+</h3>
+            <p className="text-xs text-slate-400 font-medium mt-1">Payout Volume Reconciled</p>
+          </div>
+          <div className="py-4 md:py-0 md:px-4">
+            <h3 className="text-3xl font-extrabold text-slate-900">75,000+</h3>
+            <p className="text-xs text-slate-400 font-medium mt-1">Active Ambassadors</p>
+          </div>
+          <div className="py-4 md:py-0 md:px-4">
+            <h3 className="text-3xl font-extrabold text-slate-900">99.98%</h3>
+            <p className="text-xs text-slate-400 font-medium mt-1">Reconciliation Uptime SLA</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Animated Referral Flow Illustration Section */}
+      <section id="referral-flow" className="px-6 py-12 max-w-5xl mx-auto w-full text-center space-y-8">
+        <div>
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">How the Rippl Loop Works</h2>
+          <p className="text-xs text-slate-400 font-light mt-1">Seamless attributions from copyable links to cashouts.</p>
+        </div>
+
+        <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-sm p-8 flex flex-col md:flex-row justify-between items-center gap-8 relative overflow-hidden">
+          {/* Step 1 */}
+          <div className="flex-1 flex flex-col items-center gap-3 relative z-10">
+            <span className="w-12 h-12 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-lg">
+              1
+            </span>
+            <h4 className="font-semibold text-slate-800 text-xs">Share custom link</h4>
+            <p className="text-[10px] text-slate-400 max-w-[200px] leading-relaxed">
+              Ambassadors generate and copy unique UTM links directly from their dashboard.
+            </p>
+          </div>
+
+          {/* Connected SVG arrow/line */}
+          <div className="hidden md:block absolute left-[28%] top-[40%] w-[15%] h-8 pointer-events-none">
+            <svg className="w-full h-full" fill="none" viewBox="0 0 100 20">
+              <path d="M 0 10 Q 50 20 100 10" stroke="#e15b3e" strokeWidth="2" strokeDasharray="4" className="animate-[dash_10s_linear_infinite]" />
+              <polygon points="98,10 90,6 92,10 90,14" fill="#e15b3e" />
+            </svg>
+          </div>
+
+          {/* Step 2 */}
+          <div className="flex-1 flex flex-col items-center gap-3 relative z-10">
+            <span className="w-12 h-12 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg">
+              2
+            </span>
+            <h4 className="font-semibold text-slate-800 text-xs">Checkout tracking</h4>
+            <p className="text-[10px] text-slate-400 max-w-[200px] leading-relaxed">
+              The merchant storefront pixel triggers, matching referred sales dynamically.
+            </p>
+          </div>
+
+          {/* Connected SVG arrow/line 2 */}
+          <div className="hidden md:block absolute left-[62%] top-[40%] w-[15%] h-8 pointer-events-none">
+            <svg className="w-full h-full" fill="none" viewBox="0 0 100 20">
+              <path d="M 0 10 Q 50 20 100 10" stroke="#e15b3e" strokeWidth="2" strokeDasharray="4" className="animate-[dash_10s_linear_infinite]" />
+              <polygon points="98,10 90,6 92,10 90,14" fill="#e15b3e" />
+            </svg>
+          </div>
+
+          {/* Step 3 */}
+          <div className="flex-1 flex flex-col items-center gap-3 relative z-10">
+            <span className="w-12 h-12 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-lg">
+              3
+            </span>
+            <h4 className="font-semibold text-slate-800 text-xs">Instant Cashout</h4>
+            <p className="text-[10px] text-slate-400 max-w-[200px] leading-relaxed">
+              Reserves clear into the wallet, ready to cash out directly to the bank.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Dual Segment Product Features Preview */}
       <section id="features" className="px-6 py-12 max-w-5xl mx-auto w-full space-y-8">
         
         {/* Segment selection buttons */}
@@ -326,6 +451,60 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
+      {/* Customer Testimonials Carousel Section */}
+      <section id="testimonials" className="px-6 py-12 max-w-5xl mx-auto w-full text-center space-y-8">
+        <div>
+          <h2 className="text-xl font-semibold tracking-tight text-slate-900">What Our Partners Say</h2>
+          <p className="text-xs text-slate-400 font-light mt-1">Reviews from merchants and brand ambassadors building with Rippl.</p>
+        </div>
+
+        <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-sm p-8 max-w-2xl mx-auto flex flex-col gap-6 relative">
+          <span className="absolute -top-6 left-8 text-6xl text-[#e15b3e]/10 font-serif pointer-events-none select-none">“</span>
+          
+          <p className="text-sm text-slate-600 font-light italic leading-relaxed">
+            {testimonials[testimonialIdx].quote}
+          </p>
+
+          <div className="flex justify-center items-center gap-1.5 text-amber-400">
+            {Array.from({ length: testimonials[testimonialIdx].rating }).map((_, i) => (
+              <IconStarFilled key={i} className="w-4 h-4" />
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center border-t border-slate-100 pt-4">
+            <div className="flex items-center gap-3">
+              <span className="w-8 h-8 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-bold text-xs">
+                {testimonials[testimonialIdx].avatar}
+              </span>
+              <div className="text-left">
+                <h4 className="text-xs font-semibold text-slate-800 leading-tight">
+                  {testimonials[testimonialIdx].author}
+                </h4>
+                <p className="text-[9px] text-slate-400 leading-none mt-0.5">
+                  {testimonials[testimonialIdx].role}
+                </p>
+              </div>
+            </div>
+
+            {/* Carousel navigation controls */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setTestimonialIdx((prev) => (prev > 0 ? prev - 1 : testimonials.length - 1))}
+                className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors"
+              >
+                &larr;
+              </button>
+              <button
+                onClick={() => setTestimonialIdx((prev) => (prev < testimonials.length - 1 ? prev + 1 : 0))}
+                className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors"
+              >
+                &rarr;
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="mt-auto bg-white border-t border-slate-200/40 px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
         <span>&copy; 2026 Rippl Inc. NDPR & AML Compliant.</span>
@@ -335,6 +514,15 @@ export default function RipplLandingPage() {
           <a href="#" className="hover:underline">Integrations SDK</a>
         </div>
       </footer>
+
+      {/* Inline styles for keyframe stroke-dash animations */}
+      <style jsx global>{`
+        @keyframes dash {
+          to {
+            stroke-dashoffset: -100;
+          }
+        }
+      `}</style>
 
     </div>
   );
