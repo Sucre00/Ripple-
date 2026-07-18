@@ -235,8 +235,8 @@ export default function RipplLandingPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          {/* Old Way (5 Cols) */}
-          <div className="lg:col-span-5 bg-white rounded-[2.5rem] p-8 border border-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
+          {/* Old Way (6 Cols) */}
+          <div className="lg:col-span-6 bg-white rounded-[2.5rem] p-8 border border-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
             <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100/50 rounded-full blur-2xl"></div>
             
             <div className="space-y-5 relative z-10">
@@ -270,9 +270,9 @@ export default function RipplLandingPage() {
             </div>
           </div>
 
-          {/* Rippl Way (7 Cols) */}
-          <div className="lg:col-span-7 bg-white rounded-[2.5rem] p-8 border border-[#e15b3e]/20 shadow-xl shadow-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left border-l-4 border-l-[#e15b3e]">
-            <div className="absolute top-0 right-0 w-44 h-44 bg-[#fcece9]/20 rounded-full blur-3xl"></div>
+          {/* Rippl Way (6 Cols) */}
+          <div className="lg:col-span-6 bg-white rounded-[2.5rem] p-8 border border-slate-200/50 flex flex-col justify-between gap-6 relative overflow-hidden text-left shadow-sm">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-slate-100/50 rounded-full blur-2xl"></div>
 
             <div className="space-y-5 relative z-10">
               <div className="flex items-center gap-2.5">
@@ -284,39 +284,24 @@ export default function RipplLandingPage() {
               
               <h3 className="text-base font-bold text-slate-900 tracking-tight">Automated, Secure Infrastructure</h3>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div className="space-y-3.5 text-[11px] text-slate-500 font-light leading-relaxed">
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
-                    <p>Lightweight cookie-pixels attribute checkouts instantly.</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
-                    <p>Real-time analytics portal shows conversion states.</p>
-                  </div>
+              <div className="space-y-3.5 pt-1 text-[11px] text-slate-500 font-light leading-relaxed">
+                <div className="flex items-start gap-2">
+                  <span className="text-green-550 mt-0.5">•</span>
+                  <p>Lightweight cookie-pixels attribute checkouts instantly.</p>
                 </div>
-                
-                <div className="space-y-3.5 text-[11px] text-slate-500 font-light leading-relaxed">
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
-                    <p>Fraud engine blocks self-referral IP matching loops.</p>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="w-4 h-4 rounded-full bg-green-50 text-green-600 flex items-center justify-center shrink-0 mt-0.5"><IconCheck className="w-2.5 h-2.5" /></span>
-                    <p>Deposited reserves settle cashouts in &lt;24 hours.</p>
-                  </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-550 mt-0.5">•</span>
+                  <p>Real-time analytics portal shows conversion states.</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-green-550 mt-0.5">•</span>
+                  <p>Fraud engine blocks self-referral IP matching loops.</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 bg-[#fcece9]/40 border border-[#fbdcd4]/40 rounded-2xl flex items-center justify-between relative z-10">
-              <div>
-                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider leading-none">Wallet Cleared Reserves</p>
-                <p className="text-lg font-extrabold text-slate-900 mt-1 leading-none">₦81,450.00</p>
-              </div>
-              <span className="px-3.5 py-1.5 bg-black text-white text-[9px] font-bold rounded-xl shadow-sm uppercase tracking-wider flex items-center gap-1">
-                <IconShieldCheck className="w-3.5 h-3.5 text-green-500" /> Secure
-              </span>
+            <div className="p-3 bg-slate-50 border border-slate-100 rounded-2xl text-[10px] font-mono text-slate-400 text-center relative z-10">
+              [ secure_wallet_ledger_cleared.log ]
             </div>
           </div>
 
