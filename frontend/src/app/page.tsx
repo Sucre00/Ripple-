@@ -40,42 +40,38 @@ export default function RipplLandingPage() {
   const [avgOrderValue, setAvgOrderValue] = useState(15000);
   const [commissionPct, setCommissionPct] = useState(10);
 
-  // Testimonials Split Tabs Carousel (Business vs Affiliate tabs)
-  const [testimonialTab, setTestimonialTab] = useState<"business" | "affiliate">("business");
-  const [bTestimonialIdx, setBTestimonialIdx] = useState(0);
-  const [aTestimonialIdx, setATestimonialIdx] = useState(0);
-
-  const businessTestimonials = [
+  const testimonials = [
     {
       quote: "Rippl cut our affiliate payout cycle from 60 days to 1. Payouts that used to take 30 days are now reconciled instantly. Our affiliate GMV grew by 180% in 3 months.",
       author: "Funmi Alao",
       role: "E-commerce Manager, Shopify Storefront",
       rating: 5,
-      avatar: "FA"
+      category: "Brand Merchant",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"
     },
     {
       quote: "The developer integrations are incredibly simple. We installed the Javascript tracking pixel in under 10 minutes, and the webhook callbacks handle dispute checks automatically.",
       author: "Chinedu Okafor",
       role: "Lead Developer, Flutterwave Merchant Partner",
       rating: 5,
-      avatar: "CO"
-    }
-  ];
-
-  const affiliateTestimonials = [
+      category: "Developer Partner",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
+    },
     {
       quote: "As an ambassador, trust is everything. Seeing my commissions clear in real-time and being able to cash out instantly to my bank account has changed the game.",
       author: "Dwayne Tatum",
-      role: "CEO Assistant & Tech Influencer",
+      role: "Tech Influencer & Creator",
       rating: 5,
-      avatar: "DT"
+      category: "Creator Affiliate",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&h=150&q=80"
     },
     {
       quote: "I've tried different networks, but Rippl's lazy KYC setup and instant 24h bank transfers keep my income steady and highly predictable.",
       author: "Amina Yusuf",
       role: "Lifestyle Blogger & Creator",
       rating: 5,
-      avatar: "AY"
+      category: "Creator Affiliate",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80"
     }
   ];
 
@@ -574,99 +570,60 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Deeper Social Proof split tab testimonials (Section 9) */}
-      <section id="testimonials" className="px-6 py-12 max-w-5xl mx-auto w-full text-center space-y-8">
-        <div>
-          <h2 className="text-xl font-semibold tracking-tight text-slate-900">Testimonials</h2>
-          <p className="text-xs text-slate-400 font-light mt-1">Hear what our users say about scaling with Rippl.</p>
+      {/* Deeper Social Proof split tab testimonials (Section 9) - Redesigned to 2x2 grid with images */}
+      <section id="testimonials" className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+        <div className="flex flex-col items-center gap-1.5">
+          <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
+            ✦ Success Stories
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Testimonials</h2>
+          <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">
+            Hear what our users say about scaling with Rippl.
+          </p>
         </div>
 
-        <div className="space-y-6 max-w-2xl mx-auto">
-          {/* Testimonial tabs selector */}
-          <div className="flex border-b border-slate-200/50 justify-center gap-6">
-            <button
-              onClick={() => setTestimonialTab("business")}
-              className={`pb-2.5 text-xs font-bold transition-all ${
-                testimonialTab === "business" ? "border-b-2 border-b-[#e15b3e] text-[#e15b3e]" : "text-slate-450 hover:text-slate-700"
-              }`}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+          {testimonials.map((t, i) => (
+            <div 
+              key={i} 
+              className="bg-white rounded-[2rem] border border-slate-200/50 shadow-sm hover:shadow-md transition-shadow p-8 flex flex-col justify-between gap-6 relative text-left"
             >
-              For Businesses
-            </button>
-            <button
-              onClick={() => setTestimonialTab("affiliate")}
-              className={`pb-2.5 text-xs font-bold transition-all ${
-                testimonialTab === "affiliate" ? "border-b-2 border-b-[#e15b3e] text-[#e15b3e]" : "text-slate-450 hover:text-slate-700"
-              }`}
-            >
-              For Affiliates
-            </button>
-          </div>
+              {/* Giant quote symbol */}
+              <span className="absolute top-4 right-6 text-5xl text-[#e15b3e]/10 font-serif pointer-events-none select-none">“</span>
+              
+              <div className="space-y-4">
+                {/* Category tag & Stars */}
+                <div className="flex justify-between items-center">
+                  <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-[8px] font-bold text-slate-500 uppercase tracking-wider">
+                    {t.category}
+                  </span>
+                  <div className="flex items-center gap-0.5 text-amber-450">
+                    {Array.from({ length: t.rating }).map((_, starIdx) => (
+                      <IconStarFilled key={starIdx} className="w-3.5 h-3.5" />
+                    ))}
+                  </div>
+                </div>
 
-          <div className="bg-white rounded-[2.5rem] border border-slate-200/50 shadow-sm p-8 flex flex-col gap-6 relative text-left">
-            <span className="absolute -top-6 left-8 text-6xl text-[#e15b3e]/10 font-serif pointer-events-none select-none">“</span>
-            
-            <p className="text-xs text-slate-600 font-light italic leading-relaxed">
-              {testimonialTab === "business" 
-                ? businessTestimonials[bTestimonialIdx].quote
-                : affiliateTestimonials[aTestimonialIdx].quote}
-            </p>
+                {/* Quote body */}
+                <p className="text-xs text-slate-650 font-light italic leading-relaxed">
+                  "{t.quote}"
+                </p>
+              </div>
 
-            <div className="flex items-center gap-1.5 text-amber-450">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <IconStarFilled key={i} className="w-3.5 h-3.5" />
-              ))}
-            </div>
-
-            <div className="flex justify-between items-center border-t border-slate-100 pt-4 mt-2">
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center font-extrabold text-xs">
-                  {testimonialTab === "business" 
-                    ? businessTestimonials[bTestimonialIdx].avatar
-                    : affiliateTestimonials[aTestimonialIdx].avatar}
-                </span>
+              {/* Author footer */}
+              <div className="flex items-center gap-3 border-t border-slate-100/60 pt-4 mt-2">
+                <img 
+                  src={t.avatar} 
+                  alt={t.author} 
+                  className="w-10 h-10 rounded-full object-cover border border-slate-200/40 shadow-sm" 
+                />
                 <div>
-                  <h4 className="text-xs font-bold text-slate-800 leading-tight">
-                    {testimonialTab === "business" 
-                      ? businessTestimonials[bTestimonialIdx].author
-                      : affiliateTestimonials[aTestimonialIdx].author}
-                  </h4>
-                  <p className="text-[9px] text-slate-400 font-medium leading-none mt-0.5">
-                    {testimonialTab === "business" 
-                      ? businessTestimonials[bTestimonialIdx].role
-                      : affiliateTestimonials[aTestimonialIdx].role}
-                  </p>
+                  <h4 className="text-xs font-bold text-slate-800 leading-tight">{t.author}</h4>
+                  <p className="text-[9px] text-slate-400 font-medium leading-none mt-0.5">{t.role}</p>
                 </div>
               </div>
-
-              {/* Navigation controls */}
-              <div className="flex gap-1.5">
-                <button
-                  onClick={() => {
-                    if (testimonialTab === "business") {
-                      setBTestimonialIdx((prev) => (prev > 0 ? prev - 1 : businessTestimonials.length - 1));
-                    } else {
-                      setATestimonialIdx((prev) => (prev > 0 ? prev - 1 : affiliateTestimonials.length - 1));
-                    }
-                  }}
-                  className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors"
-                >
-                  &larr;
-                </button>
-                <button
-                  onClick={() => {
-                    if (testimonialTab === "business") {
-                      setBTestimonialIdx((prev) => (prev < businessTestimonials.length - 1 ? prev + 1 : 0));
-                    } else {
-                      setATestimonialIdx((prev) => (prev < affiliateTestimonials.length - 1 ? prev + 1 : 0));
-                    }
-                  }}
-                  className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors"
-                >
-                  &rarr;
-                </button>
-              </div>
             </div>
-          </div>
+          ))}
         </div>
       </section>
 
