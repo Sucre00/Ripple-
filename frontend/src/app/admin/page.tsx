@@ -216,10 +216,7 @@ export default function MerchantDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f6f9] flex font-sans antialiased text-slate-800 relative overflow-hidden">
-      {/* Background ambient glowing radial blobs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#e15b3e]/3 blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/3 blur-[150px] pointer-events-none -z-10" />
+    <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
       
       {/* Sidebar Navigation */}
       <aside className="w-64 bg-[#0c1015] border-r border-slate-800 flex flex-col justify-between p-6 shrink-0 text-slate-300 z-30">
@@ -365,24 +362,24 @@ export default function MerchantDashboard() {
 
             {/* Summary KPI row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Referral Revenue</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">₦5.18M</p>
                 <p className="text-[9px] text-green-600 font-bold flex items-center gap-0.5">
                   <IconArrowUpRight className="w-3 h-3" /> +18.4% MTD
                 </p>
               </div>
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Campaigns</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">2 Programs</p>
                 <p className="text-[9px] text-slate-400 font-medium">1 template draft</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Affiliates</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">4 Enrolled</p>
                 <p className="text-[9px] text-slate-400 font-medium">{affiliateApplications.length} application pending</p>
               </div>
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 border border-slate-200/50 shadow-sm flex flex-col gap-2 hover:shadow-md hover:shadow-[#e15b3e]/5 hover:-translate-y-0.5 transition-all duration-300 border-l-4 border-l-[#e15b3e]">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 border-l-4 border-l-[#e15b3e]">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Total commission Paid</p>
                 <p className="text-2xl font-semibold text-slate-900 mt-1">₦733,000.00</p>
                 <p className="text-[9px] text-slate-400 font-medium">Net calculated from reserves</p>
