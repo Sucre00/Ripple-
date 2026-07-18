@@ -27,7 +27,9 @@ import {
   IconStarFilled,
   IconAlertCircle,
   IconX,
-  IconChecks
+  IconChecks,
+  IconCreditCard,
+  IconWallet
 } from "@tabler/icons-react";
 
 export default function RipplLandingPage() {
@@ -221,7 +223,7 @@ export default function RipplLandingPage() {
             <span>NDPR Data Protected</span>
           </div>
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-600">⚡</span>
+            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-600"><IconSparkles className="w-3.5 h-3.5 text-[#e15b3e]" /></span>
             <span>Paystack Secured Payouts</span>
           </div>
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -238,12 +240,12 @@ export default function RipplLandingPage() {
       <section className="px-6 py-6 border-y border-slate-200/40 bg-white/40 backdrop-blur-sm w-full">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center">
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trusted by 200+ Nigerian businesses</span>
-          <div className="flex flex-wrap justify-center items-center gap-8 text-xs font-bold text-slate-350 tracking-wider">
-            <span className="hover:text-slate-600 transition-colors cursor-default">⚡ paystack</span>
-            <span className="hover:text-slate-600 transition-colors cursor-default">🌊 flutterwave</span>
-            <span className="hover:text-slate-600 transition-colors cursor-default">🐷 piggyvest</span>
-            <span className="hover:text-slate-600 transition-colors cursor-default">🛍 shopify ng</span>
-            <span className="hover:text-slate-600 transition-colors cursor-default">🌐 dojah nodes</span>
+          <div className="flex flex-wrap justify-center items-center gap-8 text-xs font-bold text-slate-400 tracking-wider">
+            <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconCreditCard className="w-3.5 h-3.5 text-slate-400" /> paystack</span>
+            <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconBuildingBank className="w-3.5 h-3.5 text-slate-400" /> flutterwave</span>
+            <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconWallet className="w-3.5 h-3.5 text-slate-400" /> piggyvest</span>
+            <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconBriefcase className="w-3.5 h-3.5 text-slate-400" /> shopify ng</span>
+            <span className="flex items-center gap-1 hover:text-slate-600 transition-colors cursor-default"><IconShieldCheck className="w-3.5 h-3.5 text-slate-400" /> dojah nodes</span>
           </div>
         </div>
       </section>
@@ -267,9 +269,9 @@ export default function RipplLandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
           {/* Old Way */}
-          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between text-left gap-6 border-t-4 border-t-slate-450">
+          <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between text-left gap-6 border-t-4 border-t-slate-400">
             <div className="space-y-4">
-              <span className="text-2xl">❌</span>
+              <span className="w-10 h-10 rounded-full bg-red-50 text-red-600 flex items-center justify-center"><IconX className="w-5 h-5" /></span>
               <h3 className="font-bold text-slate-800 text-sm">The Manual Way (WhatsApp & Sheets)</h3>
               <p className="text-xs text-slate-400 font-light leading-relaxed">
                 Manually managing referred orders on spreadsheets. Affiliates wait weeks for reconciliation. No transparency on click conversions, leading to disputes, fraud, and dropped participation.
@@ -283,7 +285,7 @@ export default function RipplLandingPage() {
           {/* Rippl Way */}
           <div className="bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm flex flex-col justify-between text-left gap-6 border-t-4 border-t-[#e15b3e]">
             <div className="space-y-4">
-              <span className="text-2xl">🚀</span>
+              <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center"><IconSparkles className="w-5 h-5 animate-pulse" /></span>
               <h3 className="font-bold text-slate-800 text-sm">The Rippl Infrastructure</h3>
               <p className="text-xs text-slate-400 font-light leading-relaxed">
                 Automated cookie-tracking pixels and API attribution logs. Affiliates get real-time dashboards and clear bank payouts instantly from funded reserves under 24 hours. Anti-fraud filters block duplicate clicks.
@@ -781,7 +783,7 @@ export default function RipplLandingPage() {
           <div className="flex flex-col items-end gap-1 shrink-0">
             <span>&copy; 2026 Rippl Inc. All rights reserved.</span>
             <a href="https://wa.me/2348000000000" className="text-[#e15b3e] font-bold hover:underline flex items-center gap-1 text-[9px] uppercase tracking-wider">
-              💬 WhatsApp Support
+              <IconMessage className="w-3.5 h-3.5" /> WhatsApp Support
             </a>
           </div>
         </div>
@@ -799,7 +801,7 @@ export default function RipplLandingPage() {
             </button>
 
             <span className="w-10 h-10 rounded-xl bg-[#fcece9] text-[#e15b3e] flex items-center justify-center text-lg">
-              📚
+              <IconFileCode className="w-5 h-5" />
             </span>
 
             <div className="text-left space-y-1">

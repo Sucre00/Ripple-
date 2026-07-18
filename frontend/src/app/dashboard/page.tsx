@@ -37,11 +37,28 @@ import {
   IconPhoto,
   IconUserCheck,
   IconTrash,
-  IconFingerprint
+  IconFingerprint,
+  IconCreditCard,
+  IconX
 } from "@tabler/icons-react";
 
 export default function AffiliateDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support">("overview");
+
+  const renderLogoIcon = (logoStr: string) => {
+    switch (logoStr) {
+      case "🛍":
+        return <IconBriefcase className="w-5 h-5 text-slate-600" />;
+      case "🌊":
+        return <IconBuildingBank className="w-5 h-5 text-slate-600" />;
+      case "🐷":
+        return <IconWallet className="w-5 h-5 text-slate-600" />;
+      case "💳":
+        return <IconCreditCard className="w-5 h-5 text-slate-600" />;
+      default:
+        return <IconBriefcase className="w-5 h-5 text-slate-600" />;
+    }
+  };
   
   // Guided Onboarding Checklist States
   const [checklist, setChecklist] = useState({
@@ -525,8 +542,8 @@ export default function AffiliateDashboard() {
                     }`}
                   >
                     <div className="flex justify-between items-start">
-                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-lg">
-                        {c.logo}
+                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
+                        {renderLogoIcon(c.logo)}
                       </span>
                       <span className="text-[10px] font-bold text-[#e15b3e]">{c.commission}</span>
                     </div>
@@ -552,8 +569,8 @@ export default function AffiliateDashboard() {
                   <div className="space-y-4">
                     {/* Header detail */}
                     <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
-                      <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center text-lg shrink-0">
-                        {selectedCampaign.logo}
+                      <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center shrink-0">
+                        {renderLogoIcon(selectedCampaign.logo)}
                       </span>
                       <div>
                         <h4 className="font-semibold text-slate-800 text-xs">{selectedCampaign.name}</h4>
@@ -693,7 +710,9 @@ export default function AffiliateDashboard() {
                       </label>
                       <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <span className="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-xs">🏦</span>
+                          <span className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center">
+                            <IconBuildingBank className="w-4 h-4" />
+                          </span>
                           <div>
                             <p className="text-xs font-semibold text-slate-800">{savedBank.name}</p>
                             <p className="text-[10px] text-slate-400">{savedBank.number} • {savedBank.holder}</p>
@@ -758,7 +777,9 @@ export default function AffiliateDashboard() {
 
                 {withdrawStep === "success" && (
                   <div className="flex flex-col items-center justify-center py-8 text-center gap-4">
-                    <span className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-xl font-bold">✓</span>
+                    <span className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                      <IconCheck className="w-6 h-6" />
+                    </span>
                     <div>
                       <h4 className="font-semibold text-slate-800 text-sm">Cashout Triggered Successfully!</h4>
                       <p className="text-xs text-slate-400 font-light mt-1 max-w-xs mx-auto">
@@ -1254,7 +1275,9 @@ export default function AffiliateDashboard() {
             {/* KYC Step 5: Success check */}
             {kycStep === "success" && (
               <div className="flex flex-col items-center justify-center py-6 text-center gap-4">
-                <span className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center text-xl font-bold">✓</span>
+                <span className="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                  <IconCheck className="w-6 h-6" />
+                </span>
                 <div>
                   <h4 className="font-semibold text-slate-800 text-xs">Enhanced Verification Submitted</h4>
                   <p className="text-[9px] text-slate-400 mt-1 max-w-xs leading-normal">

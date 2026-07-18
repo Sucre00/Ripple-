@@ -30,7 +30,8 @@ import {
   IconUsersGroup,
   IconAlertTriangle,
   IconCreditCard,
-  IconDownload
+  IconDownload,
+  IconX
 } from "@tabler/icons-react";
 
 export default function MerchantDashboard() {
@@ -634,8 +635,8 @@ export default function MerchantDashboard() {
                 {merchantCampaigns.map((c) => (
                   <div key={c.id} className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow min-h-[200px]">
                     <div className="flex justify-between items-start">
-                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200/50 flex items-center justify-center text-lg">
-                        🛍
+                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200/50 flex items-center justify-center">
+                        <IconBriefcase className="w-5 h-5 text-slate-600" />
                       </span>
                       <span className="px-2 py-0.5 bg-green-50 text-green-600 rounded-full text-[8px] font-semibold uppercase tracking-wider">
                         {c.status}
@@ -1062,7 +1063,7 @@ export default function MerchantDashboard() {
                 onClick={() => setShowFundModal(false)}
                 className="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600"
               >
-                ✕
+                <IconX className="w-4 h-4" />
               </button>
             </div>
 

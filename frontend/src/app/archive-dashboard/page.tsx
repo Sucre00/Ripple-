@@ -378,20 +378,20 @@ export default function Home() {
                 <div className="flex flex-col gap-1.5 mt-2">
                   <div className="flex items-center justify-between text-[11px] py-0.5 text-slate-800 hover:text-slate-900 cursor-pointer">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-5.5 h-5.5 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center text-[9px] font-bold">🏛</span>
+                      <span className="w-5.5 h-5.5 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center"><IconBuildingBank className="w-3 h-3" /></span>
                       <span className="font-medium">Bank loans</span>
                     </div>
                     <IconChevronDown className="w-3 h-3 text-slate-400" />
                   </div>
                   <div className="flex items-center justify-between text-[11px] py-0.5 text-slate-500 hover:text-slate-800 cursor-pointer border-t border-slate-200/40 pt-1.5">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-5.5 h-5.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px] font-bold">📊</span>
+                      <span className="w-5.5 h-5.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center"><IconReportAnalytics className="w-3 h-3" /></span>
                       <span>Accounting</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-[11px] py-0.5 text-slate-500 hover:text-slate-800 cursor-pointer border-t border-slate-200/40 pt-1.5">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-5.5 h-5.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-[9px] font-bold">👥</span>
+                      <span className="w-5.5 h-5.5 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center"><IconUsers className="w-3 h-3" /></span>
                       <span>HR management</span>
                     </div>
                   </div>
