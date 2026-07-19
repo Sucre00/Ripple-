@@ -43,6 +43,32 @@ export default function RipplLandingPage() {
   // FAQ accordion state
   const [activeFaqIdx, setActiveFaqIdx] = useState<number | null>(null);
 
+  // Active scroll section tracking state
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["features", "roi-simulator", "pricing", "faq"];
+      const scrollPosition = window.scrollY + 200;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const testimonials = [
     {
       quote: "Rippl cut our affiliate payout cycle from 60 days to 1. Payouts that used to take 30 days are now reconciled instantly. Our affiliate GMV grew by 180% in 3 months.",
@@ -132,24 +158,52 @@ export default function RipplLandingPage() {
         </div>
 
         {/* Center: Desktop links */}
-        <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold text-slate-505 flex-1">
-          <a href="#features" className="hover:text-slate-800 transition-colors">Product</a>
-          <a href="#roi-simulator" className="hover:text-slate-800 transition-colors">ROI Simulator</a>
-          <a href="#pricing" className="hover:text-slate-800 transition-colors">Pricing</a>
-          <a href="#faq" className="hover:text-slate-800 transition-colors">FAQs</a>
+        <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold flex-1">
+          <a 
+            href="#features" 
+            className={`transition-colors duration-200 ${
+              activeSection === "features" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
+            }`}
+          >
+            Product
+          </a>
+          <a 
+            href="#roi-simulator" 
+            className={`transition-colors duration-200 ${
+              activeSection === "roi-simulator" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
+            }`}
+          >
+            ROI Simulator
+          </a>
+          <a 
+            href="#pricing" 
+            className={`transition-colors duration-200 ${
+              activeSection === "pricing" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
+            }`}
+          >
+            Pricing
+          </a>
+          <a 
+            href="#faq" 
+            className={`transition-colors duration-200 ${
+              activeSection === "faq" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
+            }`}
+          >
+            FAQs
+          </a>
         </nav>
 
         {/* Right: Auth CTAs */}
         <div className="flex-1 flex items-center justify-end gap-3">
           <Link
             href="/auth"
-            className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
+            className="px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
           >
             Log In
           </Link>
           <Link
             href="/auth"
-            className="px-5 py-2.5 rounded-full bg-black hover:bg-slate-800 text-white text-xs font-semibold transition-all shadow-sm active:scale-95"
+            className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
           >
             Get Started
           </Link>
@@ -327,7 +381,7 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Audience Segmented How It Works (Section 5) - Redesigned for more context and cleaner aesthetics */}
-      <section className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+      <section id="features" className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Workflow
