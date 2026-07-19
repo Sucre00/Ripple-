@@ -123,22 +123,24 @@ export default function RipplLandingPage() {
       
       {/* Sticky Header */}
       <header className="sticky top-0 bg-white/70 backdrop-blur-md border-b border-slate-200/40 px-6 py-4 flex items-center justify-between z-40">
-        <div className="flex items-center gap-8">
+        
+        {/* Left: Logo */}
+        <div className="flex-1 flex justify-start">
           <Link href="/" className="flex items-center">
             <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
           </Link>
-
-          {/* Desktop links */}
-          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-500">
-            <a href="#features" className="hover:text-slate-800 transition-colors">Product</a>
-            <a href="#roi-simulator" className="hover:text-slate-800 transition-colors">ROI Simulator</a>
-            <a href="#pricing" className="hover:text-slate-800 transition-colors">Pricing</a>
-            <a href="#faq" className="hover:text-slate-800 transition-colors">FAQs</a>
-          </nav>
         </div>
 
-        {/* Auth CTAs */}
-        <div className="flex items-center gap-3">
+        {/* Center: Desktop links */}
+        <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold text-slate-505 flex-1">
+          <a href="#features" className="hover:text-slate-800 transition-colors">Product</a>
+          <a href="#roi-simulator" className="hover:text-slate-800 transition-colors">ROI Simulator</a>
+          <a href="#pricing" className="hover:text-slate-800 transition-colors">Pricing</a>
+          <a href="#faq" className="hover:text-slate-800 transition-colors">FAQs</a>
+        </nav>
+
+        {/* Right: Auth CTAs */}
+        <div className="flex-1 flex items-center justify-end gap-3">
           <Link
             href="/auth"
             className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900"
