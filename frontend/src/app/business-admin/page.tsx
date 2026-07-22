@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { API_BASE_URL } from "@/config";
 import {
   IconBuildingBank,
   IconClock,
@@ -83,7 +84,7 @@ export default function MerchantDashboard() {
 
   const fetchWebhookConfig = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/merchant/webhook?merchant_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/merchant/webhook?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setWebhookUrl(data.webhook_url || "");
@@ -97,7 +98,7 @@ export default function MerchantDashboard() {
     e.preventDefault();
     setIsSavingWebhook(true);
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/webhook/configure", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/webhook/configure`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ merchant_id: merchantId, webhook_url: webhookUrl }),
@@ -116,7 +117,7 @@ export default function MerchantDashboard() {
 
   const fetchOnboardingProgress = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/user/onboarding?user_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/user/onboarding?user_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         if (data) {
@@ -130,7 +131,7 @@ export default function MerchantDashboard() {
 
   const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
     try {
-      await fetch("http://localhost:8080/api/user/onboarding", {
+      await fetch(`${API_BASE_URL}/api/user/onboarding`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: id, progress: updated }),
@@ -179,7 +180,7 @@ export default function MerchantDashboard() {
 
   const fetchDashboard = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/merchant/dashboard?merchant_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/merchant/dashboard?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setDashboardData(data);
@@ -191,7 +192,7 @@ export default function MerchantDashboard() {
 
   const fetchCampaigns = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/merchant/campaigns?merchant_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/merchant/campaigns?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setMerchantCampaigns(data);
@@ -203,7 +204,7 @@ export default function MerchantDashboard() {
 
   const fetchAffiliates = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/merchant/affiliates?merchant_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/merchant/affiliates?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setAffiliatesList(data.enrolled);
@@ -216,7 +217,7 @@ export default function MerchantDashboard() {
 
   const fetchPayouts = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/merchant/payouts?merchant_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/merchant/payouts?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setPendingPayouts(data.pending);
@@ -297,7 +298,7 @@ export default function MerchantDashboard() {
   const handleCreateCampaign = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/campaigns", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/campaigns`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -332,7 +333,7 @@ export default function MerchantDashboard() {
     e.preventDefault();
     setIsFunding(true);
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/wallet/fund", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/wallet/fund`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -358,7 +359,7 @@ export default function MerchantDashboard() {
 
   const handleApprovePayout = async (id: string) => {
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/payouts/approve", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/payouts/approve`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ merchant_id: merchantId, conversion_id: id }),
@@ -378,7 +379,7 @@ export default function MerchantDashboard() {
 
   const handleDisputePayout = async (id: string) => {
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/payouts/reject", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/payouts/reject`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ merchant_id: merchantId, conversion_id: id }),
@@ -411,7 +412,7 @@ export default function MerchantDashboard() {
 
   const handleApproveApplication = async (appId: number) => {
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/affiliates/approve", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/affiliates/approve`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ merchant_id: merchantId, application_id: appId }),
@@ -431,7 +432,7 @@ export default function MerchantDashboard() {
 
   const handleRejectApplication = async (appId: number) => {
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/affiliates/reject", {
+      const res = await fetch(`${API_BASE_URL}/api/merchant/affiliates/reject`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ merchant_id: merchantId, application_id: appId }),
@@ -452,7 +453,7 @@ export default function MerchantDashboard() {
     setPixelTestStatus("testing");
     setPixelResultPayload(null);
     try {
-      const res = await fetch("http://localhost:8080/api/pixel/conversion", {
+      const res = await fetch(`${API_BASE_URL}/api/pixel/conversion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

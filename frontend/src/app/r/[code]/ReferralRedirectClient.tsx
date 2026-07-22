@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { IconLoader2, IconAlertCircle } from "@tabler/icons-react";
+import { API_BASE_URL } from "@/config";
 
 export default function ReferralRedirectClient() {
   const params = useParams();
@@ -23,7 +24,7 @@ export default function ReferralRedirectClient() {
         const utmSource = searchParams.get("utm_source") || "direct";
         const utmMedium = searchParams.get("utm_medium") || "none";
 
-        const res = await fetch("http://localhost:8080/api/referral/click", {
+        const res = await fetch(`${API_BASE_URL}/api/referral/click`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

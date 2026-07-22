@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { API_BASE_URL } from "@/config";
 import {
   IconBuildingBank,
   IconClock,
@@ -72,7 +73,7 @@ export default function SuperAdminDashboard() {
 
   const fetchAdminOverview = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/overview");
+      const res = await fetch(`${API_BASE_URL}/api/admin/overview`);
       if (res.ok) {
         const data = await res.json();
         setAdminData(data);
@@ -84,7 +85,7 @@ export default function SuperAdminDashboard() {
 
   const fetchVerifications = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/verifications");
+      const res = await fetch(`${API_BASE_URL}/api/admin/verifications`);
       if (res.ok) {
         const data = await res.json();
         setBusinessQueue(data.businesses);
@@ -97,7 +98,7 @@ export default function SuperAdminDashboard() {
 
   const fetchBusinesses = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/businesses");
+      const res = await fetch(`${API_BASE_URL}/api/admin/businesses`);
       if (res.ok) {
         const data = await res.json();
         setBusinessesList(data);
@@ -109,7 +110,7 @@ export default function SuperAdminDashboard() {
 
   const fetchAffiliates = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/affiliates");
+      const res = await fetch(`${API_BASE_URL}/api/admin/affiliates`);
       if (res.ok) {
         const data = await res.json();
         setAffiliatesList(data);
@@ -121,7 +122,7 @@ export default function SuperAdminDashboard() {
 
   const fetchLedger = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/ledger");
+      const res = await fetch(`${API_BASE_URL}/api/admin/ledger`);
       if (res.ok) {
         const data = await res.json();
         setLedgerData(data);
@@ -133,7 +134,7 @@ export default function SuperAdminDashboard() {
 
   const fetchConfig = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/config");
+      const res = await fetch(`${API_BASE_URL}/api/admin/config`);
       if (res.ok) {
         const data = await res.json();
         setCommissionCut(data.commission_cut);
@@ -187,7 +188,7 @@ export default function SuperAdminDashboard() {
   const verifyBusiness = async (id: number, approve: boolean) => {
     try {
       const endpoint = approve ? "approve" : "reject";
-      const res = await fetch(`http://localhost:8080/api/admin/verifications/business/${endpoint}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/verifications/business/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -206,7 +207,7 @@ export default function SuperAdminDashboard() {
   const verifyKyc = async (id: number, approve: boolean) => {
     try {
       const endpoint = approve ? "approve" : "reject";
-      const res = await fetch(`http://localhost:8080/api/admin/verifications/kyc/${endpoint}`, {
+      const res = await fetch(`${API_BASE_URL}/api/admin/verifications/kyc/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
@@ -224,7 +225,7 @@ export default function SuperAdminDashboard() {
 
   const handleUpdateSubscription = async (id: string, newPlan: string) => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/businesses/plan", {
+      const res = await fetch(`${API_BASE_URL}/api/admin/businesses/plan`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ business_id: id, plan: newPlan }),
@@ -243,7 +244,7 @@ export default function SuperAdminDashboard() {
   const toggleWithdrawalRestriction = async (id: string, currentStatus: string) => {
     try {
       const restrict = currentStatus === "active";
-      const res = await fetch("http://localhost:8080/api/admin/affiliates/restrict", {
+      const res = await fetch(`${API_BASE_URL}/api/admin/affiliates/restrict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ affiliate_id: id, restrict }),
@@ -261,7 +262,7 @@ export default function SuperAdminDashboard() {
 
   const handleSaveConfigs = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/config", {
+      const res = await fetch(`${API_BASE_URL}/api/admin/config`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

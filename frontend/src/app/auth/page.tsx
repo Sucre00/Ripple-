@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/config";
 import {
   IconBuildingBank,
   IconArrowRight,
@@ -174,7 +175,7 @@ export default function AuthPage() {
     setIsLoading(true);
     setErrorMsg("");
     try {
-      const res = await fetch("http://localhost:8080/api/auth/otp/send", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/otp/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone }),
@@ -194,7 +195,7 @@ export default function AuthPage() {
     setIsLoading(true);
     setErrorMsg("");
     try {
-      const res = await fetch("http://localhost:8080/api/auth/otp/verify", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/otp/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ phone, code: otpCode, role }),
@@ -234,7 +235,7 @@ export default function AuthPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),
@@ -262,7 +263,7 @@ export default function AuthPage() {
       setIsLoading(true);
       setErrorMsg("");
       try {
-        const res = await fetch("http://localhost:8080/api/auth/register", {
+        const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -319,7 +320,7 @@ export default function AuthPage() {
     setIsLoading(true);
     setErrorMsg("");
     try {
-      const res = await fetch("http://localhost:8080/api/auth/register", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -375,7 +376,7 @@ export default function AuthPage() {
     setIsLoading(true);
     setErrorMsg("");
     try {
-      const res = await fetch("http://localhost:8080/api/auth/appeal", {
+      const res = await fetch(`${API_BASE_URL}/api/auth/appeal`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: "suspended@rippl.io", reason: appealText }),

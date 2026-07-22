@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { API_BASE_URL } from "@/config";
 import {
   IconBuildingBank,
   IconClock,
@@ -100,7 +101,7 @@ export default function AffiliateDashboard() {
   // Fetch functions
   const fetchDashboard = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/affiliate/dashboard?affiliate_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/affiliate/dashboard?affiliate_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setDashboardData(data);
@@ -112,7 +113,7 @@ export default function AffiliateDashboard() {
 
   const fetchCampaigns = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/affiliate/marketplace?affiliate_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/affiliate/marketplace?affiliate_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setCampaignsList(data);
@@ -124,7 +125,7 @@ export default function AffiliateDashboard() {
 
   const fetchLeaderboard = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/affiliate/leaderboard?affiliate_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/affiliate/leaderboard?affiliate_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setLeaderboardList(data);
@@ -136,7 +137,7 @@ export default function AffiliateDashboard() {
 
   const fetch2fa = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/user/2fa?user_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/user/2fa?user_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setTwoFactorEnabled(data.enabled);
@@ -148,7 +149,7 @@ export default function AffiliateDashboard() {
 
   const fetchTickets = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/support/tickets?user_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/support/tickets?user_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         setTicketsList(data);
@@ -182,7 +183,7 @@ export default function AffiliateDashboard() {
     }
     setIsJoining(true);
     try {
-      const res = await fetch("http://localhost:8080/api/affiliate/link/generate", {
+      const res = await fetch(`${API_BASE_URL}/api/affiliate/link/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -240,7 +241,7 @@ export default function AffiliateDashboard() {
 
   const fetchOnboardingProgress = async (id: string) => {
     try {
-      const res = await fetch(`http://localhost:8080/api/user/onboarding?user_id=${id}`);
+      const res = await fetch(`${API_BASE_URL}/api/user/onboarding?user_id=${id}`);
       if (res.ok) {
         const data = await res.json();
         if (data) {
@@ -254,7 +255,7 @@ export default function AffiliateDashboard() {
 
   const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
     try {
-      await fetch("http://localhost:8080/api/user/onboarding", {
+      await fetch(`${API_BASE_URL}/api/user/onboarding`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: id, progress: updated }),
@@ -398,7 +399,7 @@ export default function AffiliateDashboard() {
       }
       setIsProcessingWithdraw(true);
       try {
-        const res = await fetch("http://localhost:8080/api/affiliate/withdraw", {
+        const res = await fetch(`${API_BASE_URL}/api/affiliate/withdraw`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -432,7 +433,7 @@ export default function AffiliateDashboard() {
   const handleSetup2fa = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:8080/api/user/2fa/toggle", {
+      const res = await fetch(`${API_BASE_URL}/api/user/2fa/toggle`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: affiliateId, enable: true }),
@@ -450,7 +451,7 @@ export default function AffiliateDashboard() {
 
   const handleDisable2fa = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/user/2fa/toggle", {
+      const res = await fetch(`${API_BASE_URL}/api/user/2fa/toggle`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: affiliateId, enable: false }),
@@ -472,7 +473,7 @@ export default function AffiliateDashboard() {
     }
     setIsSubmittingTicket(true);
     try {
-      const res = await fetch("http://localhost:8080/api/support/tickets", {
+      const res = await fetch(`${API_BASE_URL}/api/support/tickets`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
