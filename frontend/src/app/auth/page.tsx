@@ -24,7 +24,9 @@ import {
   IconAlertCircle,
   IconInfoCircle,
   IconRefresh,
-  IconShieldCheck
+  IconShieldCheck,
+  IconEye,
+  IconEyeOff
 } from "@tabler/icons-react";
 
 type AuthMode = "login" | "signup" | "forgot_password" | "suspended" | "session_expired";
@@ -34,6 +36,10 @@ export default function AuthPage() {
   const router = useRouter();
   const [authMode, setAuthMode] = useState<AuthMode>("login");
   const [role, setRole] = useState<Role>("affiliate");
+
+  // Password visibility states
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
 
   const setRoleCookieAndPush = (r: Role, path: string, id?: string) => {
     document.cookie = `user_role=${r}; path=/; max-age=86400; SameSite=Lax`;
@@ -576,13 +582,21 @@ export default function AuthPage() {
                     <div className="relative">
                       <IconLock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         required
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e] focus:ring-1 focus:ring-[#e15b3e]"
+                        className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e] focus:ring-1 focus:ring-[#e15b3e]"
                       />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                        aria-label="Toggle password visibility"
+                      >
+                        {showPassword ? <IconEyeOff className="w-4 h-4" /> : <IconEye className="w-4 h-4" />}
+                      </button>
                     </div>
                   </div>
 
@@ -782,14 +796,24 @@ export default function AuthPage() {
                         <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                           Password
                         </label>
-                        <input
-                          type="password"
-                          required
-                          placeholder="••••••••"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e]"
-                        />
+                        <div className="relative">
+                          <input
+                            type={showPassword ? "text" : "password"}
+                            required
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e]"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                            aria-label="Toggle password visibility"
+                          >
+                            {showPassword ? <IconEyeOff className="w-4 h-4" /> : <IconEye className="w-4 h-4" />}
+                          </button>
+                        </div>
                       </div>
                     </>
                   )}
@@ -983,14 +1007,24 @@ export default function AuthPage() {
                           <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                             Password
                           </label>
-                          <input
-                            type="password"
-                            required
-                            placeholder="••••••••"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e]"
-                          />
+                          <div className="relative">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              required
+                              placeholder="••••••••"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:outline-none focus:border-[#e15b3e]"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                              aria-label="Toggle password visibility"
+                            >
+                              {showPassword ? <IconEyeOff className="w-4 h-4" /> : <IconEye className="w-4 h-4" />}
+                            </button>
+                          </div>
                         </div>
                       </>
                     )}
@@ -1352,14 +1386,24 @@ export default function AuthPage() {
                     <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                       New Password
                     </label>
-                    <input
-                      type="password"
-                      required
-                      placeholder="Enter new password"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-[#e15b3e]"
-                    />
+                    <div className="relative">
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        required
+                        placeholder="Enter new password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-[#e15b3e]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                        aria-label="Toggle password visibility"
+                      >
+                        {showNewPassword ? <IconEyeOff className="w-4 h-4" /> : <IconEye className="w-4 h-4" />}
+                      </button>
+                    </div>
                   </div>
                   <button
                     type="submit"
@@ -1421,12 +1465,22 @@ export default function AuthPage() {
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Password</label>
-                  <input
-                    type="password"
-                    required
-                    placeholder="Enter password"
-                    className="px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-[#e15b3e]"
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      placeholder="Enter password"
+                      className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none focus:border-[#e15b3e]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                      aria-label="Toggle password visibility"
+                    >
+                      {showPassword ? <IconEyeOff className="w-4 h-4" /> : <IconEye className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
 
                 <button
