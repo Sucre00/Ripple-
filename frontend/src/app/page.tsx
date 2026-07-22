@@ -187,45 +187,9 @@ export default function RipplLandingPage() {
           </Link>
         </div>
 
-        {/* Center: Desktop links */}
-        <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
-          <a 
-            href="#features" 
-            className={`transition-colors duration-200 ${
-              activeSection === "features" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
-          >
-            How it works
-          </a>
-          <a 
-            href="#roi-simulator" 
-            className={`transition-colors duration-200 ${
-              activeSection === "roi-simulator" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
-          >
-            ROI Simulator
-          </a>
-          <a 
-            href="#pricing" 
-            className={`transition-colors duration-200 ${
-              activeSection === "pricing" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
-          >
-            Pricing
-          </a>
-          <a 
-            href="#faq" 
-            className={`transition-colors duration-200 ${
-              activeSection === "faq" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
-          >
-            FAQs
-          </a>
-        </nav>
-
-        {/* Right: Auth CTAs & Hamburger Menu Button */}
+        {/* Right: Auth CTAs & Universal Hamburger Menu Button */}
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-3">
             {userRole ? (
               <Link
                 href={
@@ -235,7 +199,7 @@ export default function RipplLandingPage() {
                     ? "/business-admin"
                     : "/super-admin"
                 }
-                className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95 flex items-center gap-1.5"
+                className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95 flex items-center gap-1.5"
               >
                 Go to Dashboard
               </Link>
@@ -243,13 +207,13 @@ export default function RipplLandingPage() {
               <>
                 <Link
                   href="/auth"
-                  className="px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
+                  className="hidden sm:inline-block px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
                 >
                   Log In
                 </Link>
                 <Link
                   href="/auth"
-                  className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
+                  className="px-4 md:px-5 py-2 md:py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
                 >
                   Get Started
                 </Link>
@@ -257,10 +221,10 @@ export default function RipplLandingPage() {
             )}
           </div>
 
-          {/* Mobile Hamburger Toggle */}
+          {/* Universal Hamburger Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-[#e15b3e] transition-colors focus:outline-none"
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-[#e15b3e] transition-colors focus:outline-none"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
@@ -268,9 +232,9 @@ export default function RipplLandingPage() {
         </div>
       </header>
 
-      {/* Mobile Navigation Menu Overlay */}
+      {/* Navigation Menu Overlay (Desktop, Tablet & Mobile) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-2xl z-40 md:hidden p-6 animate-in fade-in slide-in-from-top-4 duration-200">
+        <div className="fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-2xl z-40 max-w-xl mx-auto md:right-6 md:left-auto md:w-80 md:rounded-2xl md:top-[72px] md:border p-6 animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-3 text-sm font-semibold">
             <a 
               href="#features"
