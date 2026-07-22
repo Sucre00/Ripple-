@@ -1247,6 +1247,20 @@ export default function RipplLandingPage() {
         }
       `}</style>
 
+      {/* Mobile Sticky Floating CTA Bar */}
+      <div className="fixed bottom-0 inset-x-0 bg-white/90 backdrop-blur-md border-t border-slate-200/80 p-3.5 z-40 md:hidden flex items-center justify-between gap-3 shadow-lg pb-[max(0.875rem,env(safe-area-inset-bottom))]">
+        <div className="flex flex-col pl-2">
+          <span className="text-[11px] font-extrabold text-slate-900 leading-tight">Instant Affiliate Growth</span>
+          <span className="text-[9px] text-slate-500">Automated sub-24h bank payouts</span>
+        </div>
+        <Link
+          href="/auth"
+          className="px-5 py-2.5 bg-[#e15b3e] hover:bg-[#d04e32] text-white rounded-full text-xs font-bold shadow-md shadow-[#e15b3e]/20 active:scale-95 transition-transform shrink-0"
+        >
+          Get Started
+        </Link>
+      </div>
+
     </div>
   );
 }

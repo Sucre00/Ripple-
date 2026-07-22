@@ -640,6 +640,7 @@ export default function AuthPage() {
                         <IconDeviceMobile className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                         <input
                           type="tel"
+                          inputMode="tel"
                           required
                           placeholder="+234 80 1234 5678"
                           value={phone}
@@ -667,6 +668,7 @@ export default function AuthPage() {
                         </label>
                         <input
                           type="text"
+                          inputMode="numeric"
                           maxLength={4}
                           required
                           placeholder="0 0 0 0"
@@ -884,6 +886,7 @@ export default function AuthPage() {
                         <div className="relative">
                           <input
                             type="text"
+                            inputMode="numeric"
                             maxLength={10}
                             placeholder="Enter 10-digit number"
                             value={accountNumber}
@@ -1362,6 +1365,7 @@ export default function AuthPage() {
                     </label>
                     <input
                       type="text"
+                      inputMode="numeric"
                       maxLength={4}
                       required
                       placeholder="0 0 0 0"

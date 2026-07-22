@@ -1061,6 +1061,7 @@ export default function AffiliateDashboard() {
                       </label>
                       <input
                         type="number"
+                        inputMode="numeric"
                         required
                         min="2000"
                         max={dashboardData ? Math.floor(dashboardData.cleared_balance / 100) : 0}
@@ -1123,6 +1124,7 @@ export default function AffiliateDashboard() {
                       </label>
                       <input
                         type="password"
+                        inputMode="numeric"
                         required
                         maxLength={4}
                         placeholder="••••"

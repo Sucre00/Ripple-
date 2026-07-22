@@ -843,6 +843,7 @@ export default function MerchantDashboard() {
                         <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Commission Value</label>
                         <input
                           type="number"
+                          inputMode="numeric"
                           required
                           placeholder={commType === "percentage" ? "10%" : "₦ 1,000"}
                           value={commRate}
@@ -859,6 +860,7 @@ export default function MerchantDashboard() {
                         <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Cookie Duration (Days)</label>
                         <input
                           type="number"
+                          inputMode="numeric"
                           required
                           value={cookieDays}
                           onChange={(e) => setCookieDays(e.target.value)}
@@ -1189,6 +1191,7 @@ export default function MerchantDashboard() {
                       <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Simulated Order Value (NGN)</label>
                       <input
                         type="number"
+                        inputMode="numeric"
                         required
                         placeholder="15000"
                         value={testOrderValue}
@@ -1429,6 +1432,7 @@ export default function MerchantDashboard() {
                 <label className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Deposit Amount (₦)</label>
                 <input
                   type="number"
+                  inputMode="numeric"
                   required
                   placeholder="₦ 50,000"
                   value={fundAmount}
