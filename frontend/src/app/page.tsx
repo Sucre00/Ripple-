@@ -46,10 +46,26 @@ export default function RipplLandingPage() {
   // Active scroll section tracking state
   const [activeSection, setActiveSection] = useState("");
 
+  // Read login state
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const getCookie = (name: string) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+        return null;
+      };
+      setUserRole(getCookie("user_role"));
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["features", "roi-simulator", "pricing", "faq"];
       const scrollPosition = window.scrollY + 200;
+      let currentSection = "";
 
       for (const section of sections) {
         const el = document.getElementById(section);
@@ -57,17 +73,27 @@ export default function RipplLandingPage() {
           const top = el.offsetTop;
           const height = el.offsetHeight;
           if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
+            currentSection = section;
             break;
           }
         }
       }
+      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "/");
+      setActiveSection("");
+    }
+  };
 
   const testimonials = [
     {
@@ -152,7 +178,7 @@ export default function RipplLandingPage() {
         
         {/* Left: Logo */}
         <div className="flex-1 flex justify-start">
-          <Link href="/" className="flex items-center">
+          <Link href="/" onClick={handleLogoClick} className="flex items-center">
             <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
           </Link>
         </div>
@@ -165,7 +191,7 @@ export default function RipplLandingPage() {
               activeSection === "features" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
             }`}
           >
-            Product
+            How it works
           </a>
           <a 
             href="#roi-simulator" 
@@ -195,18 +221,35 @@ export default function RipplLandingPage() {
 
         {/* Right: Auth CTAs */}
         <div className="flex-1 flex items-center justify-end gap-3">
-          <Link
-            href="/auth"
-            className="px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/auth"
-            className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
-          >
-            Get Started
-          </Link>
+          {userRole ? (
+            <Link
+              href={
+                userRole === "affiliate"
+                  ? "/affiliate"
+                  : userRole === "business_admin"
+                  ? "/business-admin"
+                  : "/super-admin"
+              }
+              className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95 flex items-center gap-1.5"
+            >
+              Go to Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/auth"
+                className="px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
+              >
+                Log In
+              </Link>
+              <Link
+                href="/auth"
+                className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
       </header>
 
@@ -230,19 +273,37 @@ export default function RipplLandingPage() {
 
         {/* Hero CTAs */}
         <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
-          <Link
-            href="/auth"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-1"
-          >
-            Start a Campaign
-            <IconChevronRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/auth"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-all active:scale-[0.98]"
-          >
-            Become an Affiliate
-          </Link>
+          {userRole ? (
+            <Link
+              href={
+                userRole === "affiliate"
+                  ? "/affiliate"
+                  : userRole === "business_admin"
+                  ? "/business-admin"
+                  : "/super-admin"
+              }
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-1"
+            >
+              Go to Dashboard
+              <IconChevronRight className="w-4 h-4" />
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/auth"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold shadow-lg shadow-[#e15b3e]/20 transition-all active:scale-[0.98] flex items-center justify-center gap-1"
+              >
+                Start a Campaign
+                <IconChevronRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/auth"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-all active:scale-[0.98]"
+              >
+                Become an Affiliate
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Trust Anchors Badges with CBN and NDPR Elevated */}
@@ -252,7 +313,7 @@ export default function RipplLandingPage() {
             <span>NDPR Data Protected</span>
           </div>
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-600"><IconSparkles className="w-3.5 h-3.5 text-[#e15b3e]" /></span>
+            <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-600"><IconBuildingBank className="w-3.5 h-3.5 text-[#e15b3e]" /></span>
             <span>Paystack Secured Payouts</span>
           </div>
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -348,8 +409,8 @@ export default function RipplLandingPage() {
 
             <div className="space-y-5 relative z-10">
               <div className="flex items-center gap-2.5">
-                <span className="w-9 h-9 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
-                  <IconSparkles className="w-4 h-4 animate-pulse" />
+                <span className="w-9 h-9 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+                  <IconCheck className="w-4 h-4" />
                 </span>
                 <span className="text-[10px] font-bold text-[#e15b3e] uppercase tracking-wider bg-[#fcece9] px-2.5 py-0.5 rounded-full">Rippl Way</span>
               </div>
@@ -381,7 +442,7 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Audience Segmented How It Works (Section 5) - Redesigned for more context and cleaner aesthetics */}
-      <section id="features" className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+      <section id="features" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Workflow
@@ -579,7 +640,7 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Interactive ROI / Earnings Calculator (Section 6) */}
-      <section id="roi-simulator" className="px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+      <section id="roi-simulator" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Calculator
@@ -765,7 +826,7 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Pricing Teaser Section (Section 10) - Redesigned based on pricing section inspo.png */}
-      <section id="pricing" className="px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-8">
+      <section id="pricing" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-8">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Pricing Plans
@@ -935,7 +996,7 @@ export default function RipplLandingPage() {
 
       {/* FAQ Accordion Section (Section 11) */}
       {/* Support & Faq Section (Section 11) - Redesigned to collapsible modern accordions */}
-      <section id="faq" className="px-6 py-16 max-w-3xl mx-auto w-full space-y-10 text-center">
+      <section id="faq" className="scroll-section px-6 py-16 max-w-3xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Got Questions?
@@ -1014,7 +1075,7 @@ export default function RipplLandingPage() {
           
           {/* Column 1: Brand Info (Double width on desktop) */}
           <div className="col-span-2 space-y-4 text-left">
-            <Link href="/" className="flex items-center">
+            <Link href="/" onClick={handleLogoClick} className="flex items-center">
               <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
             </Link>
             <p className="text-[11px] text-slate-400 font-light max-w-xs leading-relaxed">

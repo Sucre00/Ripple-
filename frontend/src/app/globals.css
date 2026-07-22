@@ -33,6 +33,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-section {
+  scroll-margin-top: 110px;
+}
+
 @keyframes scroll {
   0% {
     transform: translateX(0);

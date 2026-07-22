@@ -1,0 +1,113 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.db"
+}
+
+generator db {
+  provider = "go run github.com/steebchen/prisma-client-go"
+}
+
+model User {
+  id           String         @id @default(uuid())
+  email        String         @unique
+  phone        String?        @unique
+  passwordHash String         @map("password_hash")
+  role         String         // 'affiliate', 'business_admin', 'super_admin'
+  status       String         @default("pending_kyc") // 'active', 'suspended', 'pending_kyc', 'banned'
+  kycTier      String?        @default("basic") @map("kyc_tier") // 'basic', 'standard', 'enhanced'
+  twoFaSecret  String?        @map("two_fa_secret")
+  lastLoginAt  DateTime?      @map("last_login_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  
+  businesses   Business[]
+  referralLinks ReferralLink[]
+
+  @@map("users")
+}
+
+model Business {
+  id               String     @id @default(uuid())
+  userId           String     @map("user_id")
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  companyRegNumber String?    @map("company_reg_number")
+  createdAt        DateTime   @default(now()) @map("created_at")
+  updatedAt        DateTime   @updatedAt @map("updated_at")
+  
+  campaigns        Campaign[]
+
+  @@map("businesses")
+}
+
+model Campaign {
+  id                    String         @id @default(uuid())
+  businessId            String         @map("business_id")
+  business              Business       @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  name                  String
+  status                String         @default("draft") // 'draft', 'active', 'paused', 'ended', 'archived'
+  commissionType        String         @map("commission_type") // 'flat', 'percentage', 'tiered', 'hybrid', 'cpl'
+  commissionValue       Float          @map("commission_value")
+  commissionTiers       String?        @map("commission_tiers") // JSON string: [{min_qty, rate}]
+  attributionWindowDays Int            @default(30) @map("attribution_window_days")
+  cookieDurationDays    Int            @default(30) @map("cookie_duration_days")
+  approvalMode          String         @default("auto") @map("approval_mode") // 'auto', 'manual'
+  targetUrl             String         @map("target_url")
+  budgetCap             Int?           @map("budget_cap")
+  startsAt              DateTime?      @map("starts_at")
+  endsAt                DateTime?      @map("ends_at")
+  deletedAt             DateTime?      @map("deleted_at")
+  
+  referralLinks         ReferralLink[]
+
+  @@map("campaigns")
+}
+
+model ReferralLink {
+  id          String       @id @default(uuid())
+  campaignId  String       @map("campaign_id")
+  campaign    Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  affiliateId String       @map("affiliate_id")
+  affiliate   User         @relation(fields: [affiliateId], references: [id], onDelete: Cascade)
+  code        String       @unique
+  clicks      Int          @default(0)
+  createdAt   DateTime     @default(now()) @map("created_at")
+  
+  conversions Conversion[]
+
+  @@map("referral_links")
+}
+
+model Conversion {
+  id                String       @id @default(uuid())
+  referralLinkId    String       @map("referral_link_id")
+  referralLink      ReferralLink @relation(fields: [referralLinkId], references: [id])
+  orderId           String?      @unique @map("order_id")
+  orderValue        Int          @map("order_value") // in kobo
+  commissionAmount  Int          @map("commission_amount") // in kobo
+  status            String       @default("pending") // 'pending', 'clearing', 'approved', 'paid', 'disputed', 'rejected'
+  fraudScore        Float        @default(0.0) @map("fraud_score")
+  fraudFlags        String?      @map("fraud_flags") // JSON array of triggered rules
+  ipAddress         String?      @map("ip_address")
+  deviceFingerprint String?      @map("device_fingerprint")
+  clearingAt        DateTime?    @map("clearing_at")
+  convertedAt       DateTime     @map("converted_at")
+
+  @@map("conversions")
+}
+
+model Wallet {
+  id              String   @id @default(uuid())
+  ownerId         String   @map("owner_id")
+  ownerType       String   @map("owner_type") // 'affiliate' or 'business'
+  pendingBalance  Int      @default(0) @map("pending_balance") // in kobo
+  clearingBalance Int      @default(0) @map("clearing_balance") // in kobo
+  clearedBalance  Int      @default(0) @map("cleared_balance") // in kobo
+  totalEarned     Int      @default(0) @map("total_earned") // in kobo
+  totalWithdrawn  Int      @default(0) @map("total_withdrawn") // in kobo
+  currency        String   @default("NGN")
+  version         Int      @default(0)
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("wallets")
+}

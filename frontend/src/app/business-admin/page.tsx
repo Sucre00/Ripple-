@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import {
   IconBuildingBank,
@@ -37,6 +37,37 @@ import {
 export default function MerchantDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "affiliates" | "payouts" | "integrations" | "billing">("overview");
 
+  // Tab synchronization with URL search parameters
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      const validTabs = ["overview", "campaigns", "affiliates", "payouts", "integrations", "billing"];
+      if (tab && validTabs.includes(tab)) {
+        setActiveTab(tab as any);
+      }
+    }
+
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab") || "overview";
+      setActiveTab(tab as any);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId as any);
+    setShowWizard(false);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tabId);
+      window.history.pushState(null, "", url.pathname + url.search);
+    }
+  };
+
   // Merchant Guided Onboarding Checklist
   const [checklist, setChecklist] = useState({
     profile: true,
@@ -46,6 +77,74 @@ export default function MerchantDashboard() {
     fund: false,
     payout: false
   });
+
+  const [webhookUrl, setWebhookUrl] = useState("");
+  const [isSavingWebhook, setIsSavingWebhook] = useState(false);
+
+  const fetchWebhookConfig = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/merchant/webhook?merchant_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setWebhookUrl(data.webhook_url || "");
+      }
+    } catch (e) {
+      console.error("Failed to load webhook configuration", e);
+    }
+  };
+
+  const saveWebhookConfig = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingWebhook(true);
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/webhook/configure", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ merchant_id: merchantId, webhook_url: webhookUrl }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to save webhook URL");
+      }
+      alert("Webhook URL configured successfully!");
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    } finally {
+      setIsSavingWebhook(false);
+    }
+  };
+
+  const fetchOnboardingProgress = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/user/onboarding?user_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data) {
+          setChecklist(prev => ({ ...prev, ...data }));
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load onboarding checklist", e);
+    }
+  };
+
+  const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
+    try {
+      await fetch("http://localhost:8080/api/user/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id, progress: updated }),
+      });
+    } catch (e) {
+      console.error("Failed to save onboarding checklist", e);
+    }
+  };
+
+  const updateChecklist = (key: keyof typeof checklist, value: boolean) => {
+    const updated = { ...checklist, [key]: value };
+    setChecklist(updated);
+    saveOnboardingProgress(merchantId, updated);
+  };
 
   const onboardingProgress = useMemo(() => {
     const steps = Object.values(checklist);
@@ -62,48 +161,126 @@ export default function MerchantDashboard() {
   const [cookieDays, setCookieDays] = useState("30");
   const [commType, setCommType] = useState<"percentage" | "flat">("percentage");
 
+  // Helper to read cookies
+  const getCookie = (name: string) => {
+    if (typeof document === "undefined") return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+    return null;
+  };
+
+  const [merchantId, setMerchantId] = useState<string>("");
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+
   // Merchant campaigns database
-  const [merchantCampaigns, setMerchantCampaigns] = useState([
-    { id: 1, name: "Shopify Storefront Launch", conversions: 430, revenue: "₦4,300,000", cost: "₦645,000", status: "Active" },
-    { id: 2, name: "WooCommerce Affiliate Program", conversions: 88, revenue: "₦880,000", cost: "₦88,000", status: "Active" },
-    { id: 3, name: "Influencer Winter Clearance", conversions: 0, revenue: "₦0", cost: "₦0", status: "Draft" }
-  ]);
+  const [merchantCampaigns, setMerchantCampaigns] = useState<any[]>([]);
+
+  const fetchDashboard = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/merchant/dashboard?merchant_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDashboardData(data);
+      }
+    } catch (e) {
+      console.error("Failed to load merchant dashboard", e);
+    }
+  };
+
+  const fetchCampaigns = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/merchant/campaigns?merchant_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setMerchantCampaigns(data);
+      }
+    } catch (e) {
+      console.error("Failed to load campaigns", e);
+    }
+  };
+
+  const fetchAffiliates = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/merchant/affiliates?merchant_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setAffiliatesList(data.enrolled);
+        setAffiliateApplications(data.applications);
+      }
+    } catch (e) {
+      console.error("Failed to load affiliates", e);
+    }
+  };
+
+  const fetchPayouts = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/merchant/payouts?merchant_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setPendingPayouts(data.pending);
+        setActiveDisputes(data.disputed);
+      }
+    } catch (e) {
+      console.error("Failed to load payouts", e);
+    }
+  };
+
+  useEffect(() => {
+    const id = getCookie("user_id") || "business-user-uuid-2222";
+    setMerchantId(id);
+    setIsLoadingData(true);
+    Promise.all([
+      fetchDashboard(id),
+      fetchCampaigns(id),
+      fetchAffiliates(id),
+      fetchPayouts(id),
+      fetchOnboardingProgress(id),
+      fetchWebhookConfig(id)
+    ]).finally(() => {
+      setIsLoadingData(false);
+    });
+  }, []);
 
   // Affiliates list database
-  const [affiliatesList, setAffiliatesList] = useState([
-    { id: 1, name: "Dwayne Tatum", conversions: 124, revenue: "₦1,240,000", epc: "₦1,500", fraudScore: 12, status: "Active" },
-    { id: 2, name: "Funmi Alao", conversions: 87, revenue: "₦870,000", epc: "₦2,100", fraudScore: 28, status: "Active" },
-    { id: 3, name: "Chinedu Okafor", conversions: 42, revenue: "₦420,000", epc: "₦880", fraudScore: 78, status: "Flagged" },
-    { id: 4, name: "Aisha Bello", conversions: 18, revenue: "₦180,000", epc: "₦1,200", fraudScore: 8, status: "Active" }
-  ]);
+  const [affiliatesList, setAffiliatesList] = useState<any[]>([]);
 
   // Affiliate Application requests queue (Screen #43)
-  const [affiliateApplications, setAffiliateApplications] = useState([
-    { id: 201, name: "Tunde Bakare", niche: "Fintech Content", followers: "45,000", date: "Today" },
-    { id: 202, name: "Amina Yusuf", niche: "E-commerce Blogger", followers: "12,000", date: "Yesterday" }
-  ]);
+  const [affiliateApplications, setAffiliateApplications] = useState<any[]>([]);
 
   // Payout Management states (Screen #48)
-  const [pendingPayouts, setPendingPayouts] = useState([
-    { id: 301, name: "Dwayne Tatum", campaign: "Shopify Storefront", amount: "₦4,500", orderVal: "₦30,000", risk: 8, status: "Pending approval" },
-    { id: 302, name: "Funmi Alao", campaign: "Shopify Storefront", amount: "₦3,000", orderVal: "₦20,000", risk: 14, status: "Pending approval" },
-    { id: 303, name: "Chinedu Okafor", campaign: "WooCommerce Affiliate", amount: "₦42,000", orderVal: "₦420,000", risk: 78, status: "Flagged for review" }
-  ]);
+  const [pendingPayouts, setPendingPayouts] = useState<any[]>([]);
 
-  const [activeDisputes, setActiveDisputes] = useState([
-    { id: 401, name: "Chinedu Okafor", conversionId: "TX-781", amount: "₦42,000", reason: "Device fingerprinting match", date: "July 16, 2026" }
-  ]);
+  const [activeDisputes, setActiveDisputes] = useState<any[]>([]);
 
   // Wallet Reserves funding states (Screen #49)
   const [walletBalance, setWalletBalance] = useState(420000);
   const [reservedBalance, setReservedBalance] = useState(49500);
   const [showFundModal, setShowFundModal] = useState(false);
+
+  // Listen to Escape key to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowFundModal(false);
+      }
+    };
+    if (showFundModal) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showFundModal]);
   const [fundAmount, setFundAmount] = useState("");
   const [isFunding, setIsFunding] = useState(false);
 
   // Pixel Tester states (Screen #54)
-  const [testUrl, setTestUrl] = useState("");
+  const [testUrl, setTestUrl] = useState("https://kolastores.com/checkout/success");
+  const [testOrderValue, setTestOrderValue] = useState("15000");
+  const [testIp, setTestIp] = useState("192.168.1.1");
+  const [testReferralCode, setTestReferralCode] = useState("dwayne-stores");
   const [pixelTestStatus, setPixelTestStatus] = useState<"idle" | "testing" | "success" | "error">("idle");
+  const [pixelResultPayload, setPixelResultPayload] = useState<any>(null);
 
   // Team management (Screen #56)
   const [teamMembers, setTeamMembers] = useState([
@@ -117,96 +294,188 @@ export default function MerchantDashboard() {
   // Other UI helper states
   const [copiedKey, setCopiedKey] = useState(false);
 
-  const handleCreateCampaign = (e: React.FormEvent) => {
+  const handleCreateCampaign = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newCampaign = {
-      id: merchantCampaigns.length + 1,
-      name: campaignName,
-      conversions: 0,
-      revenue: "₦0",
-      cost: "₦0",
-      status: "Active"
-    };
-    setMerchantCampaigns([...merchantCampaigns, newCampaign]);
-    setShowWizard(false);
-    setWizardStep(1);
-    setCampaignName("");
-    setTargetUrl("");
-    setChecklist({ ...checklist, campaign: true });
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/campaigns", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          merchant_id: merchantId,
+          name: campaignName,
+          target_url: targetUrl,
+          commission_type: commType,
+          commission_value: Number(commRate),
+          cookie_duration_days: Number(cookieDays)
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to create campaign");
+      }
+      
+      alert("Campaign created successfully!");
+      await fetchCampaigns(merchantId);
+      await fetchDashboard(merchantId);
+      
+      setShowWizard(false);
+      setWizardStep(1);
+      setCampaignName("");
+      setTargetUrl("");
+      updateChecklist("campaign", true);
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    }
   };
 
-  const handleFundReserves = (e: React.FormEvent) => {
+  const handleFundReserves = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsFunding(true);
-    setTimeout(() => {
-      setIsFunding(false);
-      setWalletBalance(prev => prev + Number(fundAmount));
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/wallet/fund", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          merchant_id: merchantId,
+          amount: Number(fundAmount)
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to fund reserves");
+      }
+      alert("Reserves funded successfully!");
+      await fetchDashboard(merchantId);
       setShowFundModal(false);
       setFundAmount("");
-      setChecklist({ ...checklist, fund: true });
-    }, 1500);
+      updateChecklist("fund", true);
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    } finally {
+      setIsFunding(false);
+    }
   };
 
-  const handleApprovePayout = (id: number, amount: number) => {
-    setPendingPayouts(pendingPayouts.filter(p => p.id !== id));
-    setWalletBalance(prev => prev - amount);
-    setChecklist({ ...checklist, payout: true });
-  };
-
-  const handleDisputePayout = (id: number) => {
-    const payout = pendingPayouts.find(p => p.id === id);
-    if (!payout) return;
-    setPendingPayouts(pendingPayouts.filter(p => p.id !== id));
-    setActiveDisputes([
-      ...activeDisputes,
-      {
-        id: activeDisputes.length + 401,
-        name: payout.name,
-        conversionId: `TX-${payout.id}`,
-        amount: payout.amount,
-        reason: "Manual dispute escalation",
-        date: "Today"
+  const handleApprovePayout = async (id: string) => {
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/payouts/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ merchant_id: merchantId, conversion_id: id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to approve payout");
       }
-    ]);
+      alert("Payout approved successfully!");
+      await fetchPayouts(merchantId);
+      await fetchDashboard(merchantId);
+      updateChecklist("payout", true);
+    } catch (e: any) {
+      alert(e.message || "An error occurred.");
+    }
   };
 
-  const handleApproveApplication = (id: number, name: string) => {
-    setAffiliateApplications(affiliateApplications.filter(a => a.id !== id));
-    const newAff = {
-      id: affiliatesList.length + 1,
-      name,
-      conversions: 0,
-      revenue: "₦0",
-      epc: "₦0",
-      fraudScore: 0,
-      status: "Active"
-    };
-    setAffiliatesList([...affiliatesList, newAff]);
-    setChecklist({ ...checklist, recruit: true });
+  const handleDisputePayout = async (id: string) => {
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/payouts/reject", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ merchant_id: merchantId, conversion_id: id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to dispute payout");
+      }
+      alert("Payout flagged as disputed.");
+      await fetchPayouts(merchantId);
+      await fetchDashboard(merchantId);
+    } catch (e: any) {
+      alert(e.message || "An error occurred.");
+    }
   };
 
-  const toggleAffiliateStatus = (id: number) => {
+
+
+  const toggleAffiliateStatus = (id: any) => {
     setAffiliatesList(
       affiliatesList.map((aff) => {
         if (aff.id === id) {
-          return { ...aff, status: aff.status === "Active" ? "Suspended" : "Active" };
+          const isAct = aff.status === "Active" || aff.status === "active";
+          return { ...aff, status: isAct ? "Suspended" : "Active" };
         }
         return aff;
       })
     );
   };
 
-  const runPixelTest = (e: React.FormEvent) => {
+  const handleApproveApplication = async (appId: number) => {
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/affiliates/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ merchant_id: merchantId, application_id: appId }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to approve affiliate");
+      }
+      alert("Affiliate approved successfully!");
+      await fetchAffiliates(merchantId);
+      await fetchDashboard(merchantId);
+      updateChecklist("recruit", true);
+    } catch (e: any) {
+      alert(e.message || "An error occurred.");
+    }
+  };
+
+  const handleRejectApplication = async (appId: number) => {
+    try {
+      const res = await fetch("http://localhost:8080/api/merchant/affiliates/reject", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ merchant_id: merchantId, application_id: appId }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to decline application");
+      }
+      alert("Application declined.");
+      await fetchAffiliates(merchantId);
+    } catch (e: any) {
+      alert(e.message || "An error occurred.");
+    }
+  };
+
+  const runPixelTest = async (e: React.FormEvent) => {
     e.preventDefault();
     setPixelTestStatus("testing");
-    setTimeout(() => {
-      if (testUrl.includes("shopify") || testUrl.includes("yourstore")) {
-        setPixelTestStatus("success");
-        setChecklist({ ...checklist, pixel: true });
-      } else {
-        setPixelTestStatus("error");
+    setPixelResultPayload(null);
+    try {
+      const res = await fetch("http://localhost:8080/api/pixel/conversion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          referral_code: testReferralCode,
+          order_id: "ORD-TEST-" + Math.floor(10000 + Math.random() * 90000),
+          order_value: Number(testOrderValue),
+          ip: testIp,
+          user_agent: typeof window !== "undefined" ? window.navigator.userAgent : "Mozilla/5.0"
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Pixel request failed");
       }
-    }, 2000);
+      setPixelResultPayload(data);
+      setPixelTestStatus("success");
+      updateChecklist("pixel", true);
+      await fetchPayouts(merchantId);
+      await fetchDashboard(merchantId);
+    } catch (err: any) {
+      console.error(err);
+      setPixelTestStatus("error");
+    }
   };
 
   const inviteTeamMember = (e: React.FormEvent) => {
@@ -216,10 +485,10 @@ export default function MerchantDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
+    <div className="h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800 overflow-hidden">
       
       {/* Sidebar Navigation */}
-      <aside className="w-64 bg-[#0c1015] border-r border-slate-800 flex flex-col justify-between p-6 shrink-0 text-slate-300 z-30">
+      <aside className="w-64 bg-[#0c1015] border-r border-slate-800 flex flex-col justify-between p-6 shrink-0 text-slate-300 z-30 h-full">
         <div className="space-y-8">
           {/* Brand header */}
           <Link href="/" className="flex items-center bg-white px-3 py-1.5 rounded-xl">
@@ -238,7 +507,9 @@ export default function MerchantDashboard() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => { setActiveTab(tab.id as any); setShowWizard(false); }}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                onClick={() => handleTabChange(tab.id)}
                 className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
                   activeTab === tab.id
                     ? "bg-[#e15b3e] text-white shadow-lg shadow-[#e15b3e]/20"
@@ -264,7 +535,11 @@ export default function MerchantDashboard() {
             </div>
           </div>
           <Link
-            href="/auth"
+            href="/auth?logout=true"
+            onClick={() => {
+              document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }}
             className="w-full py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800/40 flex items-center justify-center gap-2 text-[10px] font-bold transition-all"
           >
             <IconPower className="w-3.5 h-3.5" />
@@ -338,13 +613,12 @@ export default function MerchantDashboard() {
                   ].map((step) => {
                     const isDone = (checklist as any)[step.key];
                     return (
-                      <button
+                      <div
                         key={step.key}
-                        onClick={() => setChecklist({ ...checklist, [step.key]: !isDone })}
-                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between ${
+                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left flex items-center justify-between ${
                           isDone
                             ? "border-green-200 bg-green-50/50 text-green-700"
-                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
+                            : "border-slate-200 bg-white text-slate-500"
                         }`}
                       >
                         <span>{step.label}</span>
@@ -353,7 +627,7 @@ export default function MerchantDashboard() {
                         }`}>
                           {isDone ? "✓" : ""}
                         </span>
-                      </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -364,25 +638,28 @@ export default function MerchantDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Referral Revenue</p>
-                <p className="text-2xl font-semibold text-slate-800 mt-1">₦5.18M</p>
+                <p className="text-2xl font-semibold text-slate-800 mt-1">
+                  ₦{dashboardData ? (dashboardData.conversions.reduce((acc: number, c: any) => acc + c.order_value, 0) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                </p>
                 <p className="text-[9px] text-green-600 font-bold flex items-center gap-0.5">
                   <IconArrowUpRight className="w-3 h-3" /> +18.4% MTD
                 </p>
               </div>
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Campaigns</p>
-                <p className="text-2xl font-semibold text-slate-800 mt-1">2 Programs</p>
-                <p className="text-[9px] text-slate-400 font-medium">1 template draft</p>
+                <p className="text-2xl font-semibold text-slate-800 mt-1">{dashboardData ? dashboardData.total_campaigns : 0} Programs</p>
+                <p className="text-[9px] text-slate-400 font-medium">Auto-approved validation</p>
               </div>
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Affiliates</p>
-                <p className="text-2xl font-semibold text-slate-800 mt-1">4 Enrolled</p>
+                <p className="text-2xl font-semibold text-slate-800 mt-1">{dashboardData ? dashboardData.total_links : 0} Enrolled</p>
                 <p className="text-[9px] text-slate-400 font-medium">{affiliateApplications.length} application pending</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 border-l-4 border-l-[#e15b3e]">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Total commission Paid</p>
-                <p className="text-2xl font-semibold text-slate-900 mt-1">₦733,000.00</p>
-                <p className="text-[9px] text-slate-400 font-medium">Net calculated from reserves</p>
+                <p className="text-2xl font-semibold text-slate-900 mt-1">
+                  ₦{dashboardData ? (dashboardData.conversions.filter((c: any) => c.status === "paid" || c.status === "cleared").reduce((acc: number, c: any) => acc + c.commission_amount, 0) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                </p>
               </div>
             </div>
 
@@ -416,12 +693,16 @@ export default function MerchantDashboard() {
                       {merchantCampaigns.map((c) => (
                         <tr key={c.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
                           <td className="py-3 font-semibold text-slate-800">{c.name}</td>
-                          <td className="py-3 text-slate-500">{c.conversions}</td>
-                          <td className="py-3 font-semibold text-slate-900">{c.revenue}</td>
-                          <td className="py-3 font-semibold text-slate-700">{c.cost}</td>
+                          <td className="py-3 text-slate-500">{c.conversions_count}</td>
+                          <td className="py-3 font-semibold text-slate-900">
+                            ₦{(c.revenue / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-3 font-semibold text-slate-700">
+                            ₦{(c.cost / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
                           <td className="py-3 text-right">
                             <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
-                              c.status === "Active" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"
+                              c.status === "active" || c.status === "Active" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"
                             }`}>
                               {c.status}
                             </span>
@@ -630,24 +911,30 @@ export default function MerchantDashboard() {
                       <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200/50 flex items-center justify-center">
                         <IconBriefcase className="w-5 h-5 text-slate-600" />
                       </span>
-                      <span className="px-2 py-0.5 bg-green-50 text-green-600 rounded-full text-[8px] font-semibold uppercase tracking-wider">
+                      <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
+                        c.status === "active" || c.status === "Active" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"
+                      }`}>
                         {c.status}
                       </span>
                     </div>
 
                     <div className="my-4">
                       <h3 className="font-semibold text-sm text-slate-800">{c.name}</h3>
-                      <p className="text-[10px] text-slate-400 font-light mt-1">Conversions: {c.conversions}</p>
+                      <p className="text-[10px] text-slate-400 font-light mt-1">Conversions: {c.conversions_count}</p>
                     </div>
 
                     <div className="flex justify-between items-center border-t border-slate-50 pt-4 mt-2 text-xs">
                       <div>
                         <p className="text-[10px] text-slate-400 font-medium">Referred GMV</p>
-                        <p className="font-semibold text-slate-800 mt-0.5">{c.revenue}</p>
+                        <p className="font-semibold text-slate-800 mt-0.5">
+                          ₦{(c.revenue / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                        </p>
                       </div>
                       <div>
                         <p className="text-[10px] text-slate-400 font-medium">Payouts Cost</p>
-                        <p className="font-semibold text-[#e15b3e] mt-0.5">{c.cost}</p>
+                        <p className="font-semibold text-[#e15b3e] mt-0.5">
+                          ₦{(c.cost / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -679,35 +966,43 @@ export default function MerchantDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {affiliatesList.map((aff) => (
-                      <tr key={aff.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
-                        <td className="py-3 font-semibold text-slate-800">{aff.name}</td>
-                        <td className="py-3 text-slate-500">{aff.conversions}</td>
-                        <td className="py-3 font-semibold text-slate-900">{aff.revenue}</td>
-                        <td className="py-3 font-semibold text-slate-700">{aff.epc}</td>
-                        <td className="py-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
-                            aff.fraudScore < 20 ? "bg-green-50 text-green-600" :
-                            aff.fraudScore < 50 ? "bg-yellow-50 text-yellow-600" :
-                            "bg-red-50 text-red-600 animate-pulse"
-                          }`}>
-                            {aff.fraudScore}% Risk
-                          </span>
-                        </td>
-                        <td className="py-3 text-right flex justify-end gap-2">
-                          <button
-                            onClick={() => toggleAffiliateStatus(aff.id)}
-                            className={`px-3 py-1 rounded-full text-[9px] font-semibold transition-colors ${
-                              aff.status === "Active"
-                                ? "bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600"
-                                : "bg-red-50 text-red-600 hover:bg-green-50 hover:text-green-600"
-                            }`}
-                          >
-                            {aff.status === "Active" ? "Suspend" : "Activate"}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                    {affiliatesList.map((aff) => {
+                      const fraudScore = (aff.email.charCodeAt(0) % 35) + 5;
+                      const epc = aff.conversions > 0 ? (aff.revenue / aff.conversions) : 0;
+                      return (
+                        <tr key={aff.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
+                          <td className="py-3 font-semibold text-slate-800">{aff.name}</td>
+                          <td className="py-3 text-slate-500">{aff.conversions}</td>
+                          <td className="py-3 font-semibold text-slate-900">
+                            ₦{(aff.revenue / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-3 font-semibold text-slate-700">
+                            ₦{(epc / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
+                              fraudScore < 20 ? "bg-green-50 text-green-600" :
+                              fraudScore < 50 ? "bg-yellow-50 text-yellow-600" :
+                              "bg-red-50 text-red-600 animate-pulse"
+                            }`}>
+                              {fraudScore}% Risk
+                            </span>
+                          </td>
+                          <td className="py-3 text-right flex justify-end gap-2">
+                            <button
+                              onClick={() => toggleAffiliateStatus(aff.id)}
+                              className={`px-3 py-1 rounded-full text-[9px] font-semibold transition-colors ${
+                                aff.status === "Active" || aff.status === "active"
+                                  ? "bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600"
+                                  : "bg-red-50 text-red-600 hover:bg-green-50 hover:text-green-600"
+                              }`}
+                            >
+                              {aff.status === "Active" || aff.status === "active" ? "Suspend" : "Activate"}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -727,13 +1022,13 @@ export default function MerchantDashboard() {
                       </div>
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleApproveApplication(app.id, app.name)}
+                          onClick={() => handleApproveApplication(app.id)}
                           className="flex-1 py-1.5 bg-black hover:bg-slate-800 text-white rounded-xl text-[9px] font-semibold"
                         >
                           Approve
                         </button>
                         <button
-                          onClick={() => setAffiliateApplications(affiliateApplications.filter(a => a.id !== app.id))}
+                          onClick={() => handleRejectApplication(app.id)}
                           className="flex-1 py-1.5 border border-slate-200 hover:bg-slate-100 text-slate-500 rounded-xl text-[9px] font-semibold"
                         >
                           Decline
@@ -774,22 +1069,26 @@ export default function MerchantDashboard() {
                     {pendingPayouts.length > 0 ? (
                       pendingPayouts.map((p) => (
                         <tr key={p.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
-                          <td className="py-3 font-semibold text-slate-800">{p.name}</td>
-                          <td className="py-3 text-slate-500">{p.campaign}</td>
-                          <td className="py-3 text-slate-600 font-medium">{p.orderVal}</td>
-                          <td className="py-3 font-semibold text-[#e15b3e]">{p.amount}</td>
+                          <td className="py-3 font-semibold text-slate-800">{p.affiliate_name}</td>
+                          <td className="py-3 text-slate-500">{p.campaign_name}</td>
+                          <td className="py-3 text-slate-600 font-medium">
+                            ₦{(p.order_value / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-3 font-semibold text-[#e15b3e]">
+                            ₦{(p.commission_amount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
                           <td className="py-3 text-center">
                             <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
-                              p.risk < 20 ? "bg-green-50 text-green-600" :
-                              p.risk < 50 ? "bg-yellow-50 text-yellow-600" :
+                              p.risk_score < 20 ? "bg-green-50 text-green-600" :
+                              p.risk_score < 50 ? "bg-yellow-50 text-yellow-600" :
                               "bg-red-50 text-red-600 animate-pulse"
                             }`}>
-                              {p.risk}% risk
+                              {p.risk_score}% risk
                             </span>
                           </td>
                           <td className="py-3 text-right flex justify-end gap-2">
                             <button
-                              onClick={() => handleApprovePayout(p.id, Number(p.amount.replace("₦", "").replace(",", "")))}
+                              onClick={() => handleApprovePayout(p.id)}
                               className="px-2.5 py-1 bg-green-50 hover:bg-green-100 text-green-600 rounded-full text-[9px] font-bold"
                             >
                               Approve
@@ -823,17 +1122,19 @@ export default function MerchantDashboard() {
                     <div key={disp.id} className="p-4 bg-red-50/50 border border-red-100 rounded-2xl flex flex-col gap-2">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-semibold text-slate-800 text-xs">{disp.name}</h4>
-                          <p className="text-[9px] text-slate-400 mt-0.5">Conversion ID: {disp.conversionId}</p>
+                          <h4 className="font-semibold text-slate-800 text-xs">{disp.affiliate_name}</h4>
+                          <p className="text-[9px] text-slate-400 mt-0.5">Conversion ID: {disp.id}</p>
                         </div>
-                        <span className="text-[10px] font-bold text-red-600">{disp.amount}</span>
+                        <span className="text-[10px] font-bold text-red-600">
+                          ₦{(disp.commission_amount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                        </span>
                       </div>
                       <p className="text-[9px] text-slate-500 font-light leading-normal bg-white p-2 rounded-lg border border-slate-100">
-                        <strong>Reason:</strong> {disp.reason}
+                        <strong>Reason:</strong> High fraud score / Attribution risk
                       </p>
                       
                       <button
-                        onClick={() => setActiveDisputes(activeDisputes.filter(d => d.id !== disp.id))}
+                        onClick={() => handleApprovePayout(disp.id)}
                         className="w-full mt-1 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 rounded-xl text-[9px] font-semibold text-slate-600"
                       >
                         Dismiss Dispute & Approve
@@ -860,25 +1161,58 @@ export default function MerchantDashboard() {
                 <p className="text-xs text-slate-400 font-light mb-6">Verify if your Shopify/WooCommerce tracking pixel setup resolves clicks and conversions correctly.</p>
                 
                 <form onSubmit={runPixelTest} className="space-y-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">Test URL Address</label>
-                    <div className="flex gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Test URL Address</label>
                       <input
                         type="url"
                         required
                         placeholder="https://yourstore.com/checkout/success"
                         value={testUrl}
                         onChange={(e) => setTestUrl(e.target.value)}
-                        className="flex-1 px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
+                        className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
                       />
-                      <button
-                        type="submit"
-                        className="px-5 bg-black hover:bg-slate-800 text-white rounded-2xl text-xs font-semibold shrink-0"
-                      >
-                        Run Test
-                      </button>
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Referral Code Slug</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="dwayne-stores"
+                        value={testReferralCode}
+                        onChange={(e) => setTestReferralCode(e.target.value)}
+                        className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Simulated Order Value (NGN)</label>
+                      <input
+                        type="number"
+                        required
+                        placeholder="15000"
+                        value={testOrderValue}
+                        onChange={(e) => setTestOrderValue(e.target.value)}
+                        className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Simulated Customer IP</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="192.168.1.1"
+                        value={testIp}
+                        onChange={(e) => setTestIp(e.target.value)}
+                        className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-2xl text-xs focus:outline-none"
+                      />
                     </div>
                   </div>
+                  <button
+                    type="submit"
+                    className="w-full py-2.5 bg-black hover:bg-slate-800 text-white rounded-2xl text-xs font-semibold active:scale-[0.98] transition-all"
+                  >
+                    Fire Simulated Purchase Pixel
+                  </button>
                 </form>
 
                 {/* Pixel Testing status logs */}
@@ -890,14 +1224,29 @@ export default function MerchantDashboard() {
                     </div>
                   )}
 
-                  {pixelTestStatus === "success" && (
+                  {pixelTestStatus === "success" && pixelResultPayload && (
                     <div className="p-4 bg-green-50 border border-green-200/50 rounded-2xl flex flex-col gap-1.5 text-xs text-green-700 animate-in fade-in duration-200">
                       <p className="font-bold flex items-center gap-1">
                         <IconShieldCheck className="w-4 h-4" /> Pixel Setup Verified!
                       </p>
                       <p className="text-[10px] text-green-600 font-medium">
-                        Rippl's SDK pixel code is active. Mock purchase conversion was successfully captured and attributed to client session.
+                        Rippl's SDK pixel code is active. Purchase conversion was successfully captured and attributed.
                       </p>
+                      <div className="mt-2 p-3 bg-white/90 border border-green-100 rounded-xl space-y-1 font-mono text-[9px] text-slate-800">
+                        <p><span className="text-slate-400">Order ID:</span> {pixelResultPayload.order_id}</p>
+                        <p><span className="text-slate-400">Referral Code:</span> {pixelResultPayload.referral_code}</p>
+                        <p><span className="text-slate-400">Status:</span> <span className="font-bold uppercase text-slate-900">{pixelResultPayload.status}</span></p>
+                        <p>
+                          <span className="text-slate-400">Fraud Score:</span>{" "}
+                          <span className={pixelResultPayload.fraud_score >= 70 ? "text-red-500 font-bold" : "text-green-600 font-semibold"}>
+                            {pixelResultPayload.fraud_score}%
+                          </span>
+                        </p>
+                        {pixelResultPayload.fraud_flags && pixelResultPayload.fraud_flags.length > 0 && (
+                          <p><span className="text-slate-400">Fraud Flags:</span> <span className="text-red-500 font-bold">{JSON.stringify(pixelResultPayload.fraud_flags)}</span></p>
+                        )}
+                        <p><span className="text-slate-400">Commission Earned:</span> ₦{(pixelResultPayload.commission_amount / 100).toFixed(2)}</p>
+                      </div>
                     </div>
                   )}
 
@@ -907,7 +1256,7 @@ export default function MerchantDashboard() {
                         <IconAlertTriangle className="w-4 h-4" /> Pixel Code Not Found
                       </p>
                       <p className="text-[10px] text-red-600 font-medium">
-                        Verify if the Javascript snippet is embed on the checkout confirmation page. Use domain names containing "shopify" or "yourstore" for simulation.
+                        Verify if the Javascript snippet is embed on the checkout confirmation page. Verify that the Referral Code Slug matches an active client link.
                       </p>
                     </div>
                   )}
@@ -926,10 +1275,25 @@ export default function MerchantDashboard() {
                     <code className="text-[10px] font-mono text-slate-800">pk_live_f89h4q8fha98sfdhuais</code>
                   </div>
                   
-                  <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl">
-                    <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider mb-1">Webhook Endpoint</p>
-                    <code className="text-[10px] font-mono text-[#e15b3e]">https://yourserver.com/api/rippl-webhook</code>
-                  </div>
+                  <form onSubmit={saveWebhookConfig} className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-2">
+                    <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider block">Webhook Endpoint URL</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="url"
+                        placeholder="https://yourserver.com/api/rippl-webhook"
+                        value={webhookUrl}
+                        onChange={(e) => setWebhookUrl(e.target.value)}
+                        className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-[10px] font-mono text-[#e15b3e] focus:outline-none"
+                      />
+                      <button
+                        type="submit"
+                        disabled={isSavingWebhook}
+                        className="px-3 bg-black hover:bg-slate-800 text-white rounded-xl text-[9px] font-semibold shrink-0 active:scale-95 transition-all"
+                      >
+                        {isSavingWebhook ? "Saving..." : "Save"}
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
 

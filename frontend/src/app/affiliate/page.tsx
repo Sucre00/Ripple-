@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import {
   IconBuildingBank,
@@ -45,6 +45,174 @@ import {
 export default function AffiliateDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support">("overview");
 
+  // Tab synchronization with URL search parameters
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      const validTabs = ["overview", "campaigns", "wallet", "analytics", "leaderboard", "security", "support"];
+      if (tab && validTabs.includes(tab)) {
+        setActiveTab(tab as any);
+      }
+    }
+
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab") || "overview";
+      setActiveTab(tab as any);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId as any);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("tab", tabId);
+      window.history.pushState(null, "", url.pathname + url.search);
+    }
+  };
+
+  // Helper to read cookies
+  const getCookie = (name: string) => {
+    if (typeof document === "undefined") return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+    return null;
+  };
+
+  // State definitions
+  const [affiliateId, setAffiliateId] = useState<string>("");
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [campaignsList, setCampaignsList] = useState<any[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+  const [joinSlug, setJoinSlug] = useState<string>("");
+  const [isJoining, setIsJoining] = useState<boolean>(false);
+  const [leaderboardList, setLeaderboardList] = useState<any[]>([]);
+  const [ticketsList, setTicketsList] = useState<any[]>([]);
+  const [ticketSubject, setTicketSubject] = useState<string>("");
+  const [ticketDetails, setTicketDetails] = useState<string>("");
+  const [isSubmittingTicket, setIsSubmittingTicket] = useState<boolean>(false);
+
+  // Fetch functions
+  const fetchDashboard = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/affiliate/dashboard?affiliate_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setDashboardData(data);
+      }
+    } catch (e) {
+      console.error("Failed to load affiliate dashboard", e);
+    }
+  };
+
+  const fetchCampaigns = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/affiliate/marketplace?affiliate_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setCampaignsList(data);
+      }
+    } catch (e) {
+      console.error("Failed to load marketplace campaigns", e);
+    }
+  };
+
+  const fetchLeaderboard = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/affiliate/leaderboard?affiliate_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setLeaderboardList(data);
+      }
+    } catch (e) {
+      console.error("Failed to load leaderboard data", e);
+    }
+  };
+
+  const fetch2fa = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/user/2fa?user_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setTwoFactorEnabled(data.enabled);
+      }
+    } catch (e) {
+      console.error("Failed to load 2FA status", e);
+    }
+  };
+
+  const fetchTickets = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/support/tickets?user_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setTicketsList(data);
+      }
+    } catch (e) {
+      console.error("Failed to load support tickets", e);
+    }
+  };
+
+  useEffect(() => {
+    const id = getCookie("user_id") || "affiliate-user-uuid-1111";
+    setAffiliateId(id);
+    setIsLoadingData(true);
+    
+    Promise.all([
+      fetchDashboard(id),
+      fetchCampaigns(id),
+      fetchLeaderboard(id),
+      fetch2fa(id),
+      fetchTickets(id),
+      fetchOnboardingProgress(id)
+    ]).finally(() => {
+      setIsLoadingData(false);
+    });
+  }, []);
+
+  const handleJoinCampaign = async (campaignId: string) => {
+    if (!joinSlug) {
+      alert("Please enter a custom referral link slug.");
+      return;
+    }
+    setIsJoining(true);
+    try {
+      const res = await fetch("http://localhost:8080/api/affiliate/link/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          affiliate_id: affiliateId,
+          campaign_id: campaignId,
+          code: joinSlug,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to join campaign");
+      }
+      
+      alert("Referral link generated successfully!");
+      setJoinSlug("");
+      await fetchCampaigns(affiliateId);
+      await fetchDashboard(affiliateId);
+      
+      // Update selected campaign reference
+      const updatedCampaign = campaignsList.find(c => c.id === campaignId);
+      if (updatedCampaign) {
+        setSelectedCampaign({ ...updatedCampaign, referral_code: joinSlug });
+      }
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
   const renderLogoIcon = (logoStr: string) => {
     switch (logoStr) {
       case "🛍":
@@ -70,6 +238,38 @@ export default function AffiliateDashboard() {
     withdraw: false
   });
 
+  const fetchOnboardingProgress = async (id: string) => {
+    try {
+      const res = await fetch(`http://localhost:8080/api/user/onboarding?user_id=${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data) {
+          setChecklist(prev => ({ ...prev, ...data }));
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load onboarding checklist", e);
+    }
+  };
+
+  const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
+    try {
+      await fetch("http://localhost:8080/api/user/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: id, progress: updated }),
+      });
+    } catch (e) {
+      console.error("Failed to save onboarding checklist", e);
+    }
+  };
+
+  const updateChecklist = (key: keyof typeof checklist, value: boolean) => {
+    const updated = { ...checklist, [key]: value };
+    setChecklist(updated);
+    saveOnboardingProgress(affiliateId, updated);
+  };
+
   const onboardingProgress = useMemo(() => {
     const steps = Object.values(checklist);
     const completed = steps.filter(Boolean).length;
@@ -85,13 +285,61 @@ export default function AffiliateDashboard() {
   // Link analytics preview toggle
   const generatedLink = useMemo(() => {
     if (!selectedCampaign) return "";
-    const slug = selectedCampaign.brand.toLowerCase().replace(" ", "-");
-    return `https://rippl.io/r/dwayne-${slug}?utm_source=${utmSource}&utm_medium=${utmMedium}`;
+    if (!selectedCampaign.referral_code) return "Unregistered Campaign";
+    return `http://localhost:3000/r/${selectedCampaign.referral_code}?utm_source=${utmSource}&utm_medium=${utmMedium}`;
   }, [selectedCampaign, utmSource, utmMedium]);
+
+  // Dynamic Traffic source analyzer
+  const trafficSources = useMemo(() => {
+    if (!dashboardData || !dashboardData.conversions || dashboardData.conversions.length === 0) {
+      return [
+        { source: "WhatsApp Channel Referrals", pct: "60%", value: "₦0.00" },
+        { source: "Twitter / X Referrals", pct: "30%", value: "₦0.00" },
+        { source: "Direct Traffic Referrals", pct: "10%", value: "₦0.00" }
+      ];
+    }
+    const sourcesMap: Record<string, number> = {};
+    let totalVal = 0;
+    
+    dashboardData.conversions.forEach((c: any) => {
+      const src = c.utm_source || "direct";
+      sourcesMap[src] = (sourcesMap[src] || 0) + c.commission_amount;
+      totalVal += c.commission_amount;
+    });
+
+    if (totalVal === 0) {
+      return [
+        { source: "Direct Traffic Referrals", pct: "100%", value: "₦0.00" }
+      ];
+    }
+
+    return Object.entries(sourcesMap).map(([source, val]) => {
+      const pct = Math.round((val / totalVal) * 100);
+      const name = source.charAt(0).toUpperCase() + source.slice(1);
+      return {
+        source: `${name} Referrals`,
+        pct: `${pct}%`,
+        value: `₦${(val / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}`
+      };
+    });
+  }, [dashboardData]);
 
   // Progressive KYC Modal states
   const [showKycModal, setShowKycModal] = useState(false);
   const [kycStep, setKycStep] = useState<"bvn" | "verify" | "upload" | "selfie" | "success">("bvn");
+
+  // Listen to Escape key to close modals
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowKycModal(false);
+      }
+    };
+    if (showKycModal) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showKycModal]);
   const [bvnNumber, setBvnNumber] = useState("");
   const [kycLevel, setKycLevel] = useState<"Tier 2" | "Tier 3">("Tier 2");
 
@@ -115,20 +363,6 @@ export default function AffiliateDashboard() {
   // Notification center states
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const campaignsData = [
-    { id: 1, name: "Shopify NG Campaign", brand: "Shopify NG", commission: "15%", cookie: "30 Days", type: "CPS", logo: "🛍", active: true, desc: "Promote e-commerce storefront setups in West Africa. Converts when a merchant subscribes to a paid plan." },
-    { id: 2, name: "Flutterwave Merchant Referral", brand: "Flutterwave", commission: "₦1,500 flat", cookie: "60 Days", type: "CPA", logo: "🌊", active: true, desc: "Invite retail vendors to accept card and bank payments. Commission clears on first active checkout transaction." },
-    { id: 3, name: "PiggyVest Savings Campaign", brand: "PiggyVest", commission: "₦500 flat", cookie: "15 Days", type: "CPL", logo: "🐷", active: false, desc: "Encourage user savings habit. Commission clears when user links a debit card and saves ₦1,000 minimum." },
-    { id: 4, name: "Paystack Store Setup", brand: "Paystack", commission: "10%", cookie: "45 Days", type: "CPS", logo: "💳", active: true, desc: "Help merchants create free online storefronts. Payout runs on aggregate transaction volumes." }
-  ];
-
-  const referralsData = [
-    { id: 101, name: "Funmi Alao", campaign: "Shopify NG", amount: "₦4,500", date: "Today", status: "cleared" },
-    { id: 102, name: "Chinedu Okafor", campaign: "Flutterwave", amount: "₦1,500", date: "Yesterday", status: "clearing" },
-    { id: 103, name: "Tunde Bakare", campaign: "Paystack", amount: "₦2,300", date: "July 16, 2026", status: "pending" },
-    { id: 104, name: "Aisha Bello", campaign: "PiggyVest", amount: "₦500", date: "July 12, 2026", status: "disputed" }
-  ];
-
   // Leaderboard data
   const leaderboardData = [
     { rank: 1, name: "Chinedu Okafor", conversions: 480, earnings: "₦1,840,000", badge: "Platinum", active: false },
@@ -141,7 +375,7 @@ export default function AffiliateDashboard() {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(generatedLink);
     setCopiedLink(true);
-    setChecklist({ ...checklist, share: true });
+    updateChecklist("share", true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
@@ -153,17 +387,41 @@ export default function AffiliateDashboard() {
     }, 2000);
   };
 
-  const handleWithdraw = (e: React.FormEvent) => {
+  const handleWithdraw = async (e: React.FormEvent) => {
     e.preventDefault();
     if (withdrawStep === "form") {
       setWithdrawStep("confirm");
     } else if (withdrawStep === "confirm") {
+      if (withdrawPin !== "1234") {
+        alert("Invalid security PIN. Try entering '1234'.");
+        return;
+      }
       setIsProcessingWithdraw(true);
-      setTimeout(() => {
-        setIsProcessingWithdraw(false);
+      try {
+        const res = await fetch("http://localhost:8080/api/affiliate/withdraw", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            affiliate_id: affiliateId,
+            amount: Number(withdrawAmount) * 100, // convert Naira to kobo
+            pin: withdrawPin,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Withdrawal request failed");
+        }
+
+        // Reload data
+        await fetchDashboard(affiliateId);
+
         setWithdrawStep("success");
-        setChecklist({ ...checklist, withdraw: true });
-      }, 1500);
+        updateChecklist("withdraw", true);
+      } catch (err: any) {
+        alert(err.message || "Unable to complete cashout.");
+      } finally {
+        setIsProcessingWithdraw(false);
+      }
     }
   };
 
@@ -171,18 +429,78 @@ export default function AffiliateDashboard() {
     setActiveSessions(activeSessions.filter(s => s.id !== id));
   };
 
-  const handleSetup2fa = (e: React.FormEvent) => {
+  const handleSetup2fa = async (e: React.FormEvent) => {
     e.preventDefault();
-    setTwoFactorEnabled(true);
-    setShow2faSetup(false);
-    setVerificationCode("");
+    try {
+      const res = await fetch("http://localhost:8080/api/user/2fa/toggle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: affiliateId, enable: true }),
+      });
+      if (res.ok) {
+        setTwoFactorEnabled(true);
+        setShow2faSetup(false);
+        setVerificationCode("");
+        alert("Two-Factor Authentication enabled successfully!");
+      }
+    } catch (err) {
+      console.error("Failed to enable 2FA", err);
+    }
+  };
+
+  const handleDisable2fa = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/api/user/2fa/toggle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: affiliateId, enable: false }),
+      });
+      if (res.ok) {
+        setTwoFactorEnabled(false);
+        alert("Two-Factor Authentication disabled.");
+      }
+    } catch (err) {
+      console.error("Failed to disable 2FA", err);
+    }
+  };
+
+  const handleSubmitTicket = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ticketSubject || !ticketDetails) {
+      alert("Please fill in both subject and details.");
+      return;
+    }
+    setIsSubmittingTicket(true);
+    try {
+      const res = await fetch("http://localhost:8080/api/support/tickets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: affiliateId,
+          subject: ticketSubject,
+          details: ticketDetails,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to raise support ticket");
+      }
+      setTicketsList([data, ...ticketsList]);
+      setTicketSubject("");
+      setTicketDetails("");
+      alert("Support ticket raised successfully!");
+    } catch (err: any) {
+      alert(err.message || "An error occurred.");
+    } finally {
+      setIsSubmittingTicket(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800">
+    <div className="h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800 overflow-hidden">
       
       {/* Sidebar Navigation */}
-      <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30">
+      <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30 h-full">
         <div className="space-y-8">
           {/* Brand header */}
           <Link href="/" className="flex items-center">
@@ -202,7 +520,9 @@ export default function AffiliateDashboard() {
             ].map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                role="tab"
+                aria-selected={activeTab === tab.id}
+                onClick={() => handleTabChange(tab.id)}
                 className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
                   activeTab === tab.id
                     ? "bg-[#e15b3e]/10 text-[#e15b3e] border border-[#e15b3e]/20"
@@ -230,7 +550,11 @@ export default function AffiliateDashboard() {
             </div>
           </div>
           <Link
-            href="/auth"
+            href="/auth?logout=true"
+            onClick={() => {
+              document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+              document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }}
             className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-500 hover:text-red-500 hover:bg-red-50 flex items-center justify-center gap-2 text-[10px] font-bold transition-all"
           >
             <IconPower className="w-3.5 h-3.5" />
@@ -322,7 +646,7 @@ export default function AffiliateDashboard() {
                       <button
                         key={step.key}
                         onClick={() => {
-                          setChecklist({ ...checklist, [step.key]: !isDone });
+                          updateChecklist(step.key as any, !isDone);
                         }}
                         className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between ${
                           isDone
@@ -347,17 +671,23 @@ export default function AffiliateDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Pending Audit</p>
-                <p className="text-2xl font-semibold text-slate-800 mt-1">₦125,000.00</p>
+                <p className="text-2xl font-semibold text-slate-800 mt-1">
+                  ₦{dashboardData ? (dashboardData.pending_balance / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                </p>
                 <p className="text-[9px] text-slate-400 font-medium">Under active review checks</p>
               </div>
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Clearing Ledger</p>
-                <p className="text-2xl font-semibold text-slate-800 mt-1">₦43,200.00</p>
+                <p className="text-2xl font-semibold text-slate-800 mt-1">
+                  ₦{dashboardData ? (dashboardData.clearing_balance / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                </p>
                 <p className="text-[9px] text-slate-400 font-medium">Fraud-cleared; clearing phase</p>
               </div>
-              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow border-l-4 border-l-[#e15b3e]">
+              <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2 hover:shadow-md transition-shadow">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Cleared & Available</p>
-                <p className="text-2xl font-semibold text-slate-900 mt-1">₦81,450.00</p>
+                <p className="text-2xl font-semibold text-slate-900 mt-1">
+                  ₦{dashboardData ? (dashboardData.cleared_balance / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                </p>
                 <button
                   onClick={() => setActiveTab("wallet")}
                   className="mt-2 text-left text-[10px] font-semibold text-[#e15b3e] hover:underline flex items-center gap-0.5"
@@ -411,14 +741,16 @@ export default function AffiliateDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {referralsData.map((ref) => (
+                      {(dashboardData?.conversions || []).map((ref: any) => (
                         <tr key={ref.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
-                          <td className="py-3 font-semibold text-slate-800">{ref.name}</td>
-                          <td className="py-3 text-slate-500">{ref.campaign}</td>
-                          <td className="py-3 font-semibold text-slate-900">{ref.amount}</td>
+                          <td className="py-3 font-semibold text-slate-800">{ref.order_id}</td>
+                          <td className="py-3 text-slate-500">{ref.campaign_name}</td>
+                          <td className="py-3 font-semibold text-slate-900">
+                            ₦{(ref.commission_amount / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </td>
                           <td className="py-3">
                             <span className={`px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider ${
-                              ref.status === "cleared" ? "bg-green-50 text-green-600" :
+                              ref.status === "cleared" || ref.status === "approved" || ref.status === "paid" ? "bg-green-50 text-green-600" :
                               ref.status === "clearing" ? "bg-blue-50 text-blue-600" :
                               ref.status === "pending" ? "bg-yellow-50 text-yellow-600" :
                               "bg-red-50 text-red-600"
@@ -426,7 +758,9 @@ export default function AffiliateDashboard() {
                               {ref.status}
                             </span>
                           </td>
-                          <td className="py-3 text-right text-slate-400 font-medium">{ref.date}</td>
+                          <td className="py-3 text-right text-slate-400 font-medium">
+                            {new Date(ref.converted_at).toLocaleDateString("en-NG", { day: "numeric", month: "short" })}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -449,19 +783,21 @@ export default function AffiliateDashboard() {
                       <span className="w-4 h-12 bg-slate-100 rounded-full relative">
                         <span className="absolute bottom-0 w-4 h-12 bg-[#e15b3e]/30 rounded-full"></span>
                       </span>
-                      <span className="text-[8px] font-medium text-slate-400">Clicks (1.2k)</span>
+                      <span className="text-[8px] font-medium text-slate-400">Clicks ({dashboardData?.total_clicks || 0})</span>
                     </div>
                     <div className="flex flex-col items-center gap-1.5">
                       <span className="w-4 h-12 bg-slate-100 rounded-full relative">
                         <span className="absolute bottom-0 w-4 h-8 bg-[#e15b3e]/60 rounded-full"></span>
                       </span>
-                      <span className="text-[8px] font-medium text-slate-400">Claims (430)</span>
+                      <span className="text-[8px] font-medium text-slate-400">Claims ({dashboardData?.total_conversions || 0})</span>
                     </div>
                     <div className="flex flex-col items-center gap-1.5">
                       <span className="w-4 h-12 bg-slate-100 rounded-full relative">
                         <span className="absolute bottom-0 w-4 h-3 bg-[#e15b3e] rounded-full"></span>
                       </span>
-                      <span className="text-[8px] font-medium text-slate-400">Cleared (48)</span>
+                      <span className="text-[8px] font-medium text-slate-400">
+                        Approved ({(dashboardData?.conversions || []).filter((c: any) => c.status === "approved" || c.status === "paid").length})
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -522,34 +858,41 @@ export default function AffiliateDashboard() {
 
               {/* Campaign list database */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {campaignsData.map((c) => (
-                  <div
-                    key={c.id}
-                    onClick={() => {
-                      setSelectedCampaign(c);
-                      setChecklist({ ...checklist, campaign: true });
-                    }}
-                    className={`bg-white rounded-[2rem] p-5 border shadow-sm flex flex-col justify-between min-h-[170px] cursor-pointer hover:shadow-md transition-all ${
-                      selectedCampaign?.id === c.id ? "border-[#e15b3e] ring-1 ring-[#e15b3e]" : "border-slate-100"
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
-                        {renderLogoIcon(c.logo)}
+                {campaignsList.map((c) => {
+                  const logoStr = c.commission_type === "percentage" ? "🛍" : "🌊";
+                  const commissionLabel = c.commission_type === "percentage" 
+                    ? `${c.commission_value}%` 
+                    : `₦${(c.commission_value / 100).toLocaleString()} flat`;
+                  
+                  return (
+                    <div
+                      key={c.id}
+                      onClick={() => {
+                        setSelectedCampaign(c);
+                        updateChecklist("campaign", true);
+                      }}
+                      className={`bg-white rounded-[2rem] p-5 border shadow-sm flex flex-col justify-between min-h-[170px] cursor-pointer hover:shadow-md transition-all ${
+                        selectedCampaign?.id === c.id ? "border-[#e15b3e] ring-1 ring-[#e15b3e]" : "border-slate-100"
+                      }`}
+                    >
+                      <div className="flex justify-between items-start">
+                        <span className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center">
+                          {renderLogoIcon(logoStr)}
+                        </span>
+                        <span className="text-[10px] font-bold text-[#e15b3e]">{commissionLabel}</span>
+                      </div>
+
+                      <div className="my-2">
+                        <h4 className="font-semibold text-xs text-slate-800 leading-tight">{c.name}</h4>
+                        <p className="text-[9px] text-slate-400 mt-1">Cookie Window: {c.cookie_duration_days} Days • {c.commission_type.toUpperCase()}</p>
+                      </div>
+
+                      <span className="text-[9px] font-semibold text-[#e15b3e] hover:underline flex items-center gap-0.5 self-start">
+                        {c.referral_code ? "Configure & share" : "Join Campaign"} &rarr;
                       </span>
-                      <span className="text-[10px] font-bold text-[#e15b3e]">{c.commission}</span>
                     </div>
-
-                    <div className="my-2">
-                      <h4 className="font-semibold text-xs text-slate-800 leading-tight">{c.name}</h4>
-                      <p className="text-[9px] text-slate-400 mt-1">Cookie Window: {c.cookie} • {c.type}</p>
-                    </div>
-
-                    <span className="text-[9px] font-semibold text-[#e15b3e] hover:underline flex items-center gap-0.5 self-start">
-                      Configure & share &rarr;
-                    </span>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
             </div>
@@ -562,11 +905,15 @@ export default function AffiliateDashboard() {
                     {/* Header detail */}
                     <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
                       <span className="w-10 h-10 rounded-full bg-[#fcece9] text-[#e15b3e] flex items-center justify-center shrink-0">
-                        {renderLogoIcon(selectedCampaign.logo)}
+                        {renderLogoIcon(selectedCampaign.commission_type === "percentage" ? "🛍" : "🌊")}
                       </span>
                       <div>
                         <h4 className="font-semibold text-slate-800 text-xs">{selectedCampaign.name}</h4>
-                        <p className="text-[9px] text-slate-400 font-medium">Payout Rate: {selectedCampaign.commission}</p>
+                        <p className="text-[9px] text-slate-400 font-medium">
+                          Payout Rate: {selectedCampaign.commission_type === "percentage" 
+                            ? `${selectedCampaign.commission_value}%` 
+                            : `₦${(selectedCampaign.commission_value / 100).toLocaleString()} flat`}
+                        </p>
                       </div>
                     </div>
 
@@ -636,24 +983,51 @@ export default function AffiliateDashboard() {
                     </div>
                   </div>
 
-                  {/* Copy Button block */}
+                  {/* Copy Button / Join block */}
                   <div className="border-t border-slate-100 pt-4 mt-4">
-                    <p className="text-[9px] text-slate-400 font-medium leading-none mb-2">Configure & Copy UTM Link</p>
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        readOnly
-                        value={generatedLink}
-                        className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] text-slate-500 focus:outline-none"
-                      />
-                      <button
-                        onClick={handleCopyLink}
-                        className="px-4 py-2 bg-black hover:bg-slate-800 text-white rounded-xl text-[10px] font-semibold flex items-center justify-center gap-1.5 shrink-0"
-                      >
-                        {copiedLink ? <IconCheck className="w-3.5 h-3.5 text-green-500" /> : <IconCopy className="w-3.5 h-3.5" />}
-                        {copiedLink ? "Copied" : "Copy Link"}
-                      </button>
-                    </div>
+                    {selectedCampaign.referral_code ? (
+                      <>
+                        <p className="text-[9px] text-slate-400 font-medium leading-none mb-2">Configure & Copy UTM Link</p>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            readOnly
+                            value={generatedLink}
+                            className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] text-slate-500 focus:outline-none"
+                          />
+                          <button
+                            onClick={handleCopyLink}
+                            className="px-4 py-2 bg-black hover:bg-slate-800 text-white rounded-xl text-[10px] font-semibold flex items-center justify-center gap-1.5 shrink-0"
+                          >
+                            {copiedLink ? <IconCheck className="w-3.5 h-3.5 text-green-500" /> : <IconCopy className="w-3.5 h-3.5" />}
+                            {copiedLink ? "Copied" : "Copy Link"}
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="space-y-3">
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Choose Custom Referral Slug</p>
+                        <div className="flex gap-2">
+                          <span className="px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl text-[10px] text-slate-500 font-bold flex items-center justify-center shrink-0">
+                            rippl.io/r/
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="my-promo-code"
+                            value={joinSlug}
+                            onChange={(e) => setJoinSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, ""))}
+                            className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[10px] text-slate-800 focus:outline-none focus:border-[#e15b3e]"
+                          />
+                          <button
+                            onClick={() => handleJoinCampaign(selectedCampaign.id)}
+                            disabled={isJoining}
+                            className="px-4 py-2 bg-[#e15b3e] hover:bg-[#c9492e] disabled:bg-slate-400 text-white rounded-xl text-[10px] font-semibold flex items-center justify-center shrink-0"
+                          >
+                            {isJoining ? "Generating..." : "Join & Generate"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -688,7 +1062,7 @@ export default function AffiliateDashboard() {
                         type="number"
                         required
                         min="2000"
-                        max="81450"
+                        max={dashboardData ? Math.floor(dashboardData.cleared_balance / 100) : 0}
                         placeholder="₦ 5,000"
                         value={withdrawAmount}
                         onChange={(e) => setWithdrawAmount(e.target.value)}
@@ -887,11 +1261,7 @@ export default function AffiliateDashboard() {
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
                 <h4 className="font-semibold text-xs text-slate-800 mb-4">Traffic Referral sources</h4>
                 <div className="flex flex-col gap-3">
-                  {[
-                    { source: "WhatsApp Channel", pct: "64%", value: "₦54,100" },
-                    { source: "Twitter / X Links", pct: "22%", value: "₦18,600" },
-                    { source: "Instagram Bio Redirect", pct: "14%", value: "₦8,750" }
-                  ].map((src, i) => (
+                  {trafficSources.map((src, i) => (
                     <div key={i} className="flex justify-between items-center text-xs">
                       <span className="text-slate-500">{src.source}</span>
                       <div className="flex items-center gap-3">
@@ -911,11 +1281,19 @@ export default function AffiliateDashboard() {
                 <div className="flex flex-col gap-3">
                   <div className="flex justify-between items-center text-xs">
                     <span className="text-slate-500">Average Click-to-Conversion:</span>
-                    <span className="font-semibold text-green-600">8.2%</span>
+                    <span className="font-semibold text-green-600">
+                      {dashboardData && dashboardData.total_clicks > 0
+                        ? ((dashboardData.total_conversions / dashboardData.total_clicks) * 100).toFixed(1) + "%"
+                        : "3.2%"}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center text-xs border-t border-slate-50 pt-3">
                     <span className="text-slate-500">Disputed/Reversed Payouts:</span>
-                    <span className="font-semibold text-red-500">1.4%</span>
+                    <span className="font-semibold text-red-500">
+                      {dashboardData && dashboardData.total_conversions > 0
+                        ? ((dashboardData.conversions.filter((c: any) => c.status === "rejected").length / dashboardData.total_conversions) * 100).toFixed(1) + "%"
+                        : "0.0%"}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -945,7 +1323,7 @@ export default function AffiliateDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leaderboardData.map((user) => (
+                  {leaderboardList.map((user) => (
                     <tr
                       key={user.rank}
                       className={`border-b border-slate-50 last:border-0 hover:bg-slate-50/50 ${
@@ -1037,7 +1415,7 @@ export default function AffiliateDashboard() {
                       Your credentials are secure. Standard cashouts now verify with MFA prompts.
                     </p>
                     <button
-                      onClick={() => setTwoFactorEnabled(false)}
+                      onClick={handleDisable2fa}
                       className="mt-2 text-left text-[10px] font-bold text-red-500 hover:underline"
                     >
                       Disable Two-Factor Auth
@@ -1092,6 +1470,7 @@ export default function AffiliateDashboard() {
         )}
 
         {/* 7. SUPPORT SUBVIEW */}
+        {/* 7. SUPPORT HELP CENTRE SUBVIEW (New tab) */}
         {activeTab === "support" && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
@@ -1099,56 +1478,63 @@ export default function AffiliateDashboard() {
             <div className="lg:col-span-7 bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
               <h3 className="font-semibold text-sm text-slate-800 mb-4">Your Support Tickets</h3>
               <div className="flex flex-col gap-3">
-                <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-start cursor-pointer hover:bg-slate-100/50 transition-colors">
-                  <div>
-                    <h4 className="text-xs font-semibold text-slate-800">piggyvest Commission clearing delay</h4>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Ticket #RPL-2918 • Opened Yesterday</p>
+                {ticketsList.map((ticket) => (
+                  <div key={ticket.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-start cursor-pointer hover:bg-slate-100/50 transition-colors">
+                    <div>
+                      <h4 className="text-xs font-semibold text-slate-800">{ticket.subject}</h4>
+                      <p className="text-[10px] text-slate-400 mt-0.5">Ticket #{ticket.id} • {ticket.created_at}</p>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full text-[8px] font-semibold uppercase tracking-wider ${
+                      ticket.status === "Resolved" ? "bg-green-50 text-green-600" : "bg-yellow-50 text-yellow-600"
+                    }`}>
+                      {ticket.status}
+                    </span>
                   </div>
-                  <span className="px-2 py-0.5 bg-yellow-50 text-yellow-600 rounded-full text-[8px] font-semibold uppercase tracking-wider">
-                    In Progress
-                  </span>
-                </div>
-                <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-start cursor-pointer hover:bg-slate-100/50 transition-colors">
-                  <div>
-                    <h4 className="text-xs font-semibold text-slate-800">Access Bank account resolve resolve</h4>
-                    <p className="text-[10px] text-slate-400 mt-0.5">Ticket #RPL-2894 • Closed July 14, 2026</p>
-                  </div>
-                  <span className="px-2 py-0.5 bg-green-50 text-green-600 rounded-full text-[8px] font-semibold uppercase tracking-wider">
-                    Resolved
-                  </span>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Raise new ticket details form (5 Cols) */}
             <div className="lg:col-span-5 bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between">
-              <div>
-                <h3 className="font-semibold text-sm text-slate-800 mb-2">Raise Support Ticket</h3>
-                <p className="text-[10px] text-slate-400 font-light mb-4">Describe the issue and our operations team will respond inside 24 hours.</p>
-                
-                <div className="flex flex-col gap-3">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Subject</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Delayed cashout request"
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Details</label>
-                    <textarea
-                      rows={3}
-                      placeholder="Enter specific transaction details or links..."
-                      className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
-                    ></textarea>
+              <form onSubmit={handleSubmitTicket} className="flex flex-col h-full justify-between">
+                <div>
+                  <h3 className="font-semibold text-sm text-slate-800 mb-2">Raise Support Ticket</h3>
+                  <p className="text-[10px] text-slate-400 font-light mb-4">Describe the issue and our operations team will respond inside 24 hours.</p>
+                  
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-1">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Subject</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Delayed cashout request"
+                        value={ticketSubject}
+                        onChange={(e) => setTicketSubject(e.target.value)}
+                        className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-[9px] text-slate-400 font-semibold uppercase tracking-wider">Details</label>
+                      <textarea
+                        rows={3}
+                        required
+                        placeholder="Enter specific transaction details or links..."
+                        value={ticketDetails}
+                        onChange={(e) => setTicketDetails(e.target.value)}
+                        className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <button className="w-full mt-4 py-2.5 rounded-xl bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors">
-                Submit Ticket
-              </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingTicket}
+                  className="w-full mt-4 py-2.5 rounded-xl bg-black text-white text-xs font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50"
+                >
+                  {isSubmittingTicket ? "Submitting..." : "Submit Ticket"}
+                </button>
+              </form>
             </div>
 
           </div>
@@ -1255,7 +1641,7 @@ export default function AffiliateDashboard() {
                   onClick={() => {
                     setKycStep("success");
                     setKycLevel("Tier 3");
-                    setChecklist({ ...checklist, kyc: true });
+                    updateChecklist("kyc", true);
                   }}
                   className="w-full py-3 bg-black text-white rounded-full text-xs font-semibold"
                 >
