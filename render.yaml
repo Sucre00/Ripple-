@@ -1,0 +1,19 @@
+services:
+  # Next.js Frontend Web Service
+  - type: web
+    name: rippl-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+
+  # Go Backend Service
+  - type: web
+    name: rippl-backend
+    runtime: go
+    rootDir: backend
+    buildCommand: go build -o server main.go
+    startCommand: ./server
