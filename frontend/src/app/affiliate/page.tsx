@@ -40,11 +40,13 @@ import {
   IconTrash,
   IconFingerprint,
   IconCreditCard,
-  IconX
+  IconX,
+  IconMenu2
 } from "@tabler/icons-react";
 
 export default function AffiliateDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support">("overview");
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Tab synchronization with URL search parameters
   useEffect(() => {
@@ -498,10 +500,107 @@ export default function AffiliateDashboard() {
   };
 
   return (
-    <div className="h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800 overflow-hidden">
+    <div className="min-h-screen lg:h-screen bg-[#edf1f5] flex flex-col lg:flex-row font-sans antialiased text-slate-800 lg:overflow-hidden">
       
-      {/* Sidebar Navigation */}
-      <aside className="w-64 bg-white border-r border-slate-200/50 flex flex-col justify-between p-6 shrink-0 z-30 h-full">
+      {/* Mobile Top Bar */}
+      <header className="lg:hidden bg-white border-b border-slate-200/60 px-4 py-3 flex items-center justify-between z-30 sticky top-0">
+        <Link href="/" className="flex items-center">
+          <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-7 w-auto" />
+        </Link>
+        <div className="flex items-center gap-2">
+          <div className="bg-slate-50 border border-slate-200/60 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-800 flex items-center gap-1.5">
+            <span className="text-slate-400">Bal:</span>
+            <span className="text-[#e15b3e]">₦81,450</span>
+          </div>
+          <button
+            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
+            aria-label="Toggle Portal Navigation"
+          >
+            {mobileSidebarOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Drawer */}
+      {mobileSidebarOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-xs flex animate-in fade-in duration-200">
+          <div className="w-72 bg-white h-full p-6 flex flex-col justify-between shadow-2xl animate-in slide-in-from-left duration-200">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center pb-4 border-b border-slate-100">
+                <Link href="/" onClick={() => setMobileSidebarOpen(false)} className="flex items-center">
+                  <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-7 w-auto" />
+                </Link>
+                <button
+                  onClick={() => setMobileSidebarOpen(false)}
+                  className="p-1 rounded-lg text-slate-500 hover:bg-slate-100"
+                >
+                  <IconX className="w-5 h-5" />
+                </button>
+              </div>
+
+              <nav className="flex flex-col gap-1.5">
+                {[
+                  { id: "overview", label: "Dashboard", Icon: IconUsers },
+                  { id: "campaigns", label: "Marketplace", Icon: IconBriefcase },
+                  { id: "wallet", label: "Wallet & Cashout", Icon: IconWallet },
+                  { id: "analytics", label: "Analytics", Icon: IconReportAnalytics },
+                  { id: "leaderboard", label: "Leaderboard", Icon: IconCertificate },
+                  { id: "security", label: "Security Settings", Icon: IconLock },
+                  { id: "support", label: "Help & Support", Icon: IconHelp }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    role="tab"
+                    aria-selected={activeTab === tab.id}
+                    onClick={() => {
+                      handleTabChange(tab.id as any);
+                      setMobileSidebarOpen(false);
+                    }}
+                    className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
+                      activeTab === tab.id
+                        ? "bg-[#e15b3e]/10 text-[#e15b3e] border border-[#e15b3e]/20"
+                        : "text-slate-500 hover:text-slate-800 hover:bg-slate-50 border border-transparent"
+                    }`}
+                  >
+                    <tab.Icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="flex flex-col gap-4 border-t border-slate-100 pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-[#e15b3e] text-white flex items-center justify-center font-bold text-xs">
+                  DT
+                </div>
+                <div className="text-left">
+                  <h4 className="text-xs font-semibold text-slate-800 leading-tight">Dwayne Tatum</h4>
+                  <p className="text-[9px] text-slate-400 font-light uppercase tracking-wider leading-tight">
+                    {kycLevel} Verified
+                  </p>
+                </div>
+              </div>
+              <Link
+                href="/auth?logout=true"
+                onClick={() => {
+                  document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                  document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }}
+                className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-500 hover:text-red-500 hover:bg-red-50 flex items-center justify-center gap-2 text-[10px] font-bold transition-all"
+              >
+                <IconPower className="w-3.5 h-3.5" />
+                Sign Out
+              </Link>
+            </div>
+          </div>
+          <div className="flex-1" onClick={() => setMobileSidebarOpen(false)}></div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar Navigation */}
+      <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200/50 flex-col justify-between p-6 shrink-0 z-30 h-full">
         <div className="space-y-8">
           {/* Brand header */}
           <Link href="/" className="flex items-center">
@@ -523,7 +622,7 @@ export default function AffiliateDashboard() {
                 key={tab.id}
                 role="tab"
                 aria-selected={activeTab === tab.id}
-                onClick={() => handleTabChange(tab.id)}
+                onClick={() => handleTabChange(tab.id as any)}
                 className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
                   activeTab === tab.id
                     ? "bg-[#e15b3e]/10 text-[#e15b3e] border border-[#e15b3e]/20"
@@ -565,18 +664,18 @@ export default function AffiliateDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-8 flex flex-col gap-6 overflow-y-auto z-10">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col gap-6 overflow-y-auto z-10">
         
         {/* Top Header Hub */}
-        <header className="flex justify-between items-center pb-2 border-b border-slate-200/50">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/50">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 capitalize">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 capitalize">
               {activeTab === "overview" ? "Performance Dashboard" : `${activeTab} Hub`}
             </h1>
             <p className="text-xs text-slate-400 font-light">Welcome back, Dwayne. Here is your platform overview.</p>
           </div>
 
-          <div className="flex items-center gap-3 relative">
+          <div className="flex items-center justify-between sm:justify-end gap-3 relative">
             {/* Quick Balance */}
             <div className="bg-white border border-slate-200/50 px-4 py-2 rounded-2xl flex items-center gap-2.5 shadow-sm text-xs font-semibold text-slate-800">
               <span className="text-slate-400">Available Balance:</span>

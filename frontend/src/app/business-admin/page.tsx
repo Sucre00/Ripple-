@@ -32,11 +32,13 @@ import {
   IconAlertTriangle,
   IconCreditCard,
   IconDownload,
-  IconX
+  IconX,
+  IconMenu2
 } from "@tabler/icons-react";
 
 export default function MerchantDashboard() {
   const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "affiliates" | "payouts" | "integrations" | "billing">("overview");
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Tab synchronization with URL search parameters
   useEffect(() => {
@@ -486,10 +488,104 @@ export default function MerchantDashboard() {
   };
 
   return (
-    <div className="h-screen bg-[#edf1f5] flex font-sans antialiased text-slate-800 overflow-hidden">
+    <div className="min-h-screen lg:h-screen bg-[#edf1f5] flex flex-col lg:flex-row font-sans antialiased text-slate-800 lg:overflow-hidden">
       
-      {/* Sidebar Navigation */}
-      <aside className="w-64 bg-[#0c1015] border-r border-slate-800 flex flex-col justify-between p-6 shrink-0 text-slate-300 z-30 h-full">
+      {/* Mobile Top Bar */}
+      <header className="lg:hidden bg-[#0c1015] border-b border-slate-800 px-4 py-3 flex items-center justify-between z-30 sticky top-0 text-white">
+        <Link href="/" className="flex items-center bg-white px-2.5 py-1 rounded-lg">
+          <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-5 w-auto" />
+        </Link>
+        <div className="flex items-center gap-2">
+          <div className="bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-xl text-[11px] font-semibold text-slate-200 flex items-center gap-1.5">
+            <span className="text-slate-400">Reserves:</span>
+            <span className="text-[#e15b3e]">₦{(walletBalance / 100).toLocaleString()}</span>
+          </div>
+          <button
+            onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
+            className="p-2 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus:outline-none"
+            aria-label="Toggle Portal Navigation"
+          >
+            {mobileSidebarOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Drawer */}
+      {mobileSidebarOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-xs flex animate-in fade-in duration-200">
+          <div className="w-72 bg-[#0c1015] text-slate-300 h-full p-6 flex flex-col justify-between shadow-2xl animate-in slide-in-from-left duration-200 border-r border-slate-800">
+            <div className="space-y-6">
+              <div className="flex justify-between items-center pb-4 border-b border-slate-800">
+                <Link href="/" onClick={() => setMobileSidebarOpen(false)} className="flex items-center bg-white px-3 py-1.5 rounded-xl">
+                  <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-6 w-auto" />
+                </Link>
+                <button
+                  onClick={() => setMobileSidebarOpen(false)}
+                  className="p-1 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white"
+                >
+                  <IconX className="w-5 h-5" />
+                </button>
+              </div>
+
+              <nav className="flex flex-col gap-1.5">
+                {[
+                  { id: "overview", label: "Dashboard", Icon: IconReportAnalytics },
+                  { id: "campaigns", label: "Campaigns Manager", Icon: IconBriefcase },
+                  { id: "affiliates", label: "Affiliates Hub", Icon: IconUsers },
+                  { id: "payouts", label: "Payouts & Disputes", Icon: IconWallet },
+                  { id: "integrations", label: "Integration Tester", Icon: IconFileCode },
+                  { id: "billing", label: "Billing & Team", Icon: IconCreditCard }
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    role="tab"
+                    aria-selected={activeTab === tab.id}
+                    onClick={() => {
+                      handleTabChange(tab.id as any);
+                      setMobileSidebarOpen(false);
+                    }}
+                    className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
+                      activeTab === tab.id
+                        ? "bg-[#e15b3e] text-white shadow-lg shadow-[#e15b3e]/20"
+                        : "text-slate-400 hover:text-white hover:bg-slate-800/40"
+                    }`}
+                  >
+                    <tab.Icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+
+            <div className="flex flex-col gap-4 border-t border-slate-800 pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold text-xs border border-slate-700">
+                  M1
+                </div>
+                <div className="text-left">
+                  <h4 className="text-xs font-semibold text-white leading-tight">Shopify Merchant</h4>
+                  <p className="text-[9px] text-slate-500 uppercase tracking-wider leading-tight">Pro Plan active</p>
+                </div>
+              </div>
+              <Link
+                href="/auth?logout=true"
+                onClick={() => {
+                  document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                  document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                }}
+                className="w-full py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800/40 flex items-center justify-center gap-2 text-[10px] font-bold transition-all"
+              >
+                <IconPower className="w-3.5 h-3.5" />
+                Sign Out
+              </Link>
+            </div>
+          </div>
+          <div className="flex-1" onClick={() => setMobileSidebarOpen(false)}></div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar Navigation */}
+      <aside className="hidden lg:flex w-64 bg-[#0c1015] border-r border-slate-800 flex-col justify-between p-6 shrink-0 text-slate-300 z-30 h-full">
         <div className="space-y-8">
           {/* Brand header */}
           <Link href="/" className="flex items-center bg-white px-3 py-1.5 rounded-xl">
@@ -510,7 +606,7 @@ export default function MerchantDashboard() {
                 key={tab.id}
                 role="tab"
                 aria-selected={activeTab === tab.id}
-                onClick={() => handleTabChange(tab.id)}
+                onClick={() => handleTabChange(tab.id as any)}
                 className={`w-full px-4 py-3 rounded-2xl flex items-center gap-3 text-xs font-semibold transition-all active:scale-[0.98] ${
                   activeTab === tab.id
                     ? "bg-[#e15b3e] text-white shadow-lg shadow-[#e15b3e]/20"
@@ -550,12 +646,12 @@ export default function MerchantDashboard() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 p-8 flex flex-col gap-6 overflow-y-auto z-10">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col gap-6 overflow-y-auto z-10">
         
         {/* Top Header Hub Bar */}
-        <header className="flex justify-between items-center pb-2 border-b border-slate-200/50">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200/50">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900 capitalize">
+            <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-slate-900 capitalize">
               {activeTab === "overview" ? "Merchant Overview" : `${activeTab} Hub`}
             </h1>
             <p className="text-xs text-slate-400 font-light">Manage campaign attributions, fund reserves, and track payouts.</p>
