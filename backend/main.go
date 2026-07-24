@@ -551,8 +551,24 @@ func affiliateDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	).Exec(ctx)
 
 	if err != nil {
-		writeJSONError(w, http.StatusNotFound, "wallet not found for affiliate")
-		return
+		wallet, _ = client.Wallet.CreateOne(
+			db.Wallet.OwnerID.Set(affiliateID),
+			db.Wallet.OwnerType.Set("affiliate"),
+			db.Wallet.Currency.Set("NGN"),
+		).Exec(ctx)
+	}
+
+	pendingBal := 0
+	clearingBal := 0
+	clearedBal := 0
+	totalEarned := 0
+	totalWithdrawn := 0
+	if wallet != nil {
+		pendingBal = wallet.PendingBalance
+		clearingBal = wallet.ClearingBalance
+		clearedBal = wallet.ClearedBalance
+		totalEarned = wallet.TotalEarned
+		totalWithdrawn = wallet.TotalWithdrawn
 	}
 
 	// 2. Fetch Referral Links
@@ -568,11 +584,13 @@ func affiliateDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	for _, link := range links {
 		totalClicks += link.Clicks
 		linkIDs = append(linkIDs, link.ID)
-		campaignNameMap[link.ID] = link.Campaign().Name
+		if link.Campaign() != nil {
+			campaignNameMap[link.ID] = link.Campaign().Name
+		}
 	}
 
 	// 3. Fetch Conversions
-	var conversions []ConversionItem
+	conversions := []ConversionItem{}
 	totalConversions := 0
 
 	if len(linkIDs) > 0 {
@@ -619,11 +637,11 @@ func affiliateDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSONSuccess(w, http.StatusOK, AffiliateDashboardResponse{
-		PendingBalance:   wallet.PendingBalance,
-		ClearingBalance:  wallet.ClearingBalance,
-		ClearedBalance:   wallet.ClearedBalance,
-		TotalEarned:      wallet.TotalEarned,
-		TotalWithdrawn:   wallet.TotalWithdrawn,
+		PendingBalance:   pendingBal,
+		ClearingBalance:  clearingBal,
+		ClearedBalance:   clearedBal,
+		TotalEarned:      totalEarned,
+		TotalWithdrawn:   totalWithdrawn,
 		TotalClicks:      totalClicks,
 		TotalConversions: totalConversions,
 		Conversions:      conversions,
@@ -644,10 +662,6 @@ type MarketplaceCampaignItem struct {
 
 func affiliateMarketplaceHandler(w http.ResponseWriter, r *http.Request) {
 	affiliateID := r.URL.Query().Get("affiliate_id")
-	if affiliateID == "" {
-		writeJSONError(w, http.StatusBadRequest, "missing affiliate_id parameter")
-		return
-	}
 
 	ctx := context.Background()
 
@@ -675,13 +689,17 @@ func affiliateMarketplaceHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	var items []MarketplaceCampaignItem
+	items := []MarketplaceCampaignItem{}
 	for _, c := range campaigns {
 		code := linkMap[c.ID]
+		merchantName := "Merchant Store"
+		if c.Business() != nil {
+			merchantName = c.Business().Name
+		}
 		items = append(items, MarketplaceCampaignItem{
 			ID:                    c.ID,
 			Name:                  c.Name,
-			MerchantName:          c.Business().Name,
+			MerchantName:          merchantName,
 			CommissionType:        c.CommissionType,
 			CommissionValue:       c.CommissionValue,
 			CookieDurationDays:    c.CookieDurationDays,
@@ -1097,21 +1115,28 @@ func merchantDashboardHandler(w http.ResponseWriter, r *http.Request) {
 	).Exec(ctx)
 
 	if err != nil {
-		writeJSONError(w, http.StatusNotFound, "business not found for merchant")
-		return
+		business, _ = client.Business.CreateOne(
+			db.Business.User.Link(db.User.ID.Equals(merchantID)),
+			db.Business.Name.Set("Merchant Store"),
+		).Exec(ctx)
+	}
+
+	businessID := merchantID
+	if business != nil {
+		businessID = business.ID
 	}
 
 	// 2. Fetch Wallet
 	wallet, err := client.Wallet.FindFirst(
-		db.Wallet.OwnerID.Equals(business.ID),
+		db.Wallet.OwnerID.Equals(businessID),
 		db.Wallet.OwnerType.Equals("business"),
 	).Exec(ctx)
 
 	if err != nil {
-		// Fallback to merchant ID wallet if business ID wallet not found
-		wallet, err = client.Wallet.FindFirst(
-			db.Wallet.OwnerID.Equals(merchantID),
-			db.Wallet.OwnerType.Equals("business"),
+		wallet, _ = client.Wallet.CreateOne(
+			db.Wallet.OwnerID.Set(businessID),
+			db.Wallet.OwnerType.Set("business"),
+			db.Wallet.Currency.Set("NGN"),
 		).Exec(ctx)
 	}
 

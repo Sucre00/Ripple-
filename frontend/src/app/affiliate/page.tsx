@@ -958,7 +958,7 @@ export default function AffiliateDashboard() {
 
               {/* Campaign list database */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {campaignsList.map((c) => {
+                {(campaignsList || []).map((c) => {
                   const logoStr = c.commission_type === "percentage" ? "🛍" : "🌊";
                   const commissionLabel = c.commission_type === "percentage" 
                     ? `${c.commission_value}%` 
@@ -1425,7 +1425,7 @@ export default function AffiliateDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leaderboardList.map((user) => (
+                  {(leaderboardList || []).map((user) => (
                     <tr
                       key={user.rank}
                       className={`border-b border-slate-50 last:border-0 hover:bg-slate-50/50 ${
@@ -1467,7 +1467,7 @@ export default function AffiliateDashboard() {
                 <p className="text-xs text-slate-400 font-light mb-6">Inspect and revoke active credentials currently signed in under your account.</p>
                 
                 <div className="flex flex-col gap-3">
-                  {activeSessions.map((session) => (
+                  {(activeSessions || []).map((session) => (
                     <div key={session.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         {session.device.includes("iPhone") ? (
@@ -1580,7 +1580,7 @@ export default function AffiliateDashboard() {
             <div className="lg:col-span-7 bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
               <h3 className="font-semibold text-sm text-slate-800 mb-4">Your Support Tickets</h3>
               <div className="flex flex-col gap-3">
-                {ticketsList.map((ticket) => (
+                {(ticketsList || []).map((ticket) => (
                   <div key={ticket.id} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-start cursor-pointer hover:bg-slate-100/50 transition-colors">
                     <div>
                       <h4 className="text-xs font-semibold text-slate-800">{ticket.subject}</h4>
