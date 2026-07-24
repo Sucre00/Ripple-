@@ -37,6 +37,24 @@ export default function AuthPage() {
   const [authMode, setAuthMode] = useState<AuthMode>("login");
   const [role, setRole] = useState<Role>("affiliate");
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.has("logout")) {
+        document.cookie = "user_role=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        return;
+      }
+      const match = document.cookie.match(/(?:^|; )user_role=([^;]*)/);
+      const userRole = match ? match[1] : null;
+      if (userRole) {
+        if (userRole === "affiliate") router.push("/affiliate");
+        else if (userRole === "business_admin") router.push("/business-admin");
+        else if (userRole === "super_admin") router.push("/super-admin");
+      }
+    }
+  }, [router]);
+
   // Password visibility states
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
