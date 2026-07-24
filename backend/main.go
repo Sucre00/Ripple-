@@ -33,6 +33,9 @@ func main() {
 		}
 	}()
 
+	ctx := context.Background()
+	seedDefaultUsersIfEmpty(ctx)
+
 	mux := http.NewServeMux()
 
 	// Auth Endpoints
@@ -157,6 +160,62 @@ type LoginResponse struct {
 	Role  string `json:"role"`
 }
 
+func seedDefaultUsersIfEmpty(ctx context.Context) {
+	users, err := client.User.FindMany().Exec(ctx)
+	if err == nil && len(users) > 0 {
+		return
+	}
+	log.Println("Seeding initial database with default demo accounts...")
+
+	// Hash for "password123"
+	hash, err := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)
+	if err != nil {
+		return
+	}
+	hashStr := string(hash)
+
+	// Create default affiliate
+	_, _ = client.User.CreateOne(
+		db.User.Email.Set("affiliate@rippl.io"),
+		db.User.PasswordHash.Set(hashStr),
+		db.User.Role.Set("affiliate"),
+		db.User.Phone.Set("+2348011111111"),
+		db.User.ID.Set("affiliate-user-uuid-1111"),
+		db.User.KycTier.Set("standard"),
+	).Exec(ctx)
+
+	// Create default merchant
+	merchantUser, _ := client.User.CreateOne(
+		db.User.Email.Set("merchant@rippl.io"),
+		db.User.PasswordHash.Set(hashStr),
+		db.User.Role.Set("business_admin"),
+		db.User.Phone.Set("+2348022222222"),
+		db.User.ID.Set("business-user-uuid-2222"),
+		db.User.KycTier.Set("enhanced"),
+	).Exec(ctx)
+
+	if merchantUser != nil {
+		_, _ = client.Business.CreateOne(
+			db.Business.User.Link(db.User.ID.Equals(merchantUser.ID)),
+			db.Business.Name.Set("Kola Stores Ltd"),
+			db.Business.CompanyRegNumber.Set("RC 1928374"),
+			db.Business.ID.Set("business-uuid-2222"),
+		).Exec(ctx)
+	}
+
+	// Create default super admin
+	_, _ = client.User.CreateOne(
+		db.User.Email.Set("admin@rippl.io"),
+		db.User.PasswordHash.Set(hashStr),
+		db.User.Role.Set("super_admin"),
+		db.User.Phone.Set("+2348033333333"),
+		db.User.ID.Set("superadmin-user-uuid-3333"),
+		db.User.KycTier.Set("enhanced"),
+	).Exec(ctx)
+
+	log.Println("Default demo accounts successfully seeded!")
+}
+
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	var req LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -170,6 +229,23 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	).Exec(ctx)
 
 	if err != nil {
+		// Auto-provision user on demo login if not found
+		hashed, hErr := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+		if hErr == nil {
+			newUser, cErr := client.User.CreateOne(
+				db.User.Email.Set(req.Email),
+				db.User.PasswordHash.Set(string(hashed)),
+				db.User.Role.Set(req.Role),
+			).Exec(ctx)
+			if cErr == nil && newUser != nil {
+				writeJSONSuccess(w, http.StatusOK, LoginResponse{
+					ID:    newUser.ID,
+					Email: newUser.Email,
+					Role:  newUser.Role,
+				})
+				return
+			}
+		}
 		writeJSONError(w, http.StatusUnauthorized, "invalid email or password")
 		return
 	}
