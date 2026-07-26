@@ -37,7 +37,9 @@ import {
 } from "@tabler/icons-react";
 
 export default function MerchantDashboard() {
-  const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "affiliates" | "payouts" | "integrations" | "billing">("overview");
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "campaigns" | "products" | "affiliates" | "referrals" | "orders" | "payouts" | "reports" | "notifications" | "integrations" | "billing"
+  >("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Tab synchronization with URL search parameters
@@ -45,7 +47,7 @@ export default function MerchantDashboard() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get("tab");
-      const validTabs = ["overview", "campaigns", "affiliates", "payouts", "integrations", "billing"];
+      const validTabs = ["overview", "campaigns", "products", "affiliates", "referrals", "orders", "payouts", "reports", "notifications", "integrations", "billing"];
       if (tab && validTabs.includes(tab)) {
         setActiveTab(tab as any);
       }
@@ -527,14 +529,19 @@ export default function MerchantDashboard() {
                 </button>
               </div>
 
-              <nav className="flex flex-col gap-1.5">
+              <nav className="flex flex-col gap-1.5 overflow-y-auto max-h-[calc(100vh-200px)]">
                 {[
                   { id: "overview", label: "Dashboard", Icon: IconReportAnalytics },
                   { id: "campaigns", label: "Campaigns Manager", Icon: IconBriefcase },
+                  { id: "products", label: "Products & QR Codes", Icon: IconSparkles },
                   { id: "affiliates", label: "Affiliates Hub", Icon: IconUsers },
-                  { id: "payouts", label: "Payouts & Disputes", Icon: IconWallet },
+                  { id: "referrals", label: "Referral Clicks", Icon: IconShare },
+                  { id: "orders", label: "Orders & Sales", Icon: IconCreditCard },
+                  { id: "payouts", label: "Payouts & Wallet", Icon: IconWallet },
+                  { id: "reports", label: "Reports & Analytics", Icon: IconDownload },
+                  { id: "notifications", label: "Notifications", Icon: IconBell },
                   { id: "integrations", label: "Integration Tester", Icon: IconFileCode },
-                  { id: "billing", label: "Billing & Team", Icon: IconCreditCard }
+                  { id: "billing", label: "Billing & Team", Icon: IconShieldCheck }
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -586,7 +593,7 @@ export default function MerchantDashboard() {
 
       {/* Desktop Sidebar Navigation */}
       <aside className="hidden lg:flex w-64 bg-[#0c1015] border-r border-slate-800 flex-col justify-between p-6 shrink-0 text-slate-300 z-30 h-full">
-        <div className="space-y-8">
+        <div className="space-y-6 overflow-y-auto">
           {/* Brand header */}
           <Link href="/" className="flex items-center bg-white px-3 py-1.5 rounded-xl">
             <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-6 w-auto" />
@@ -597,10 +604,15 @@ export default function MerchantDashboard() {
             {[
               { id: "overview", label: "Dashboard", Icon: IconReportAnalytics },
               { id: "campaigns", label: "Campaigns Manager", Icon: IconBriefcase },
+              { id: "products", label: "Products & QR Codes", Icon: IconSparkles },
               { id: "affiliates", label: "Affiliates Hub", Icon: IconUsers },
-              { id: "payouts", label: "Payouts & Disputes", Icon: IconWallet },
+              { id: "referrals", label: "Referral Clicks", Icon: IconShare },
+              { id: "orders", label: "Orders & Sales", Icon: IconCreditCard },
+              { id: "payouts", label: "Payouts & Wallet", Icon: IconWallet },
+              { id: "reports", label: "Reports & Analytics", Icon: IconDownload },
+              { id: "notifications", label: "Notifications", Icon: IconBell },
               { id: "integrations", label: "Integration Tester", Icon: IconFileCode },
-              { id: "billing", label: "Billing & Team", Icon: IconCreditCard }
+              { id: "billing", label: "Billing & Team", Icon: IconShieldCheck }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -1501,6 +1513,181 @@ export default function MerchantDashboard() {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {/* PRODUCTS & OFFLINE QR SUBVIEW (Module 6 — Screens 6.01 to 6.10) */}
+        {activeTab === "products" && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+                <div>
+                  <h3 className="font-semibold text-sm text-slate-800">Products & Offline QR Catalogue</h3>
+                  <p className="text-xs text-slate-400 font-light mt-0.5">Manage digital products & printable QR codes for offline supermarket/physical store sales.</p>
+                </div>
+                <div className="flex gap-2">
+                  <button className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold flex items-center gap-1.5">
+                    <IconDownload className="w-3.5 h-3.5" /> Export QR Cards PDF
+                  </button>
+                  <button className="px-3.5 py-2 bg-[#e15b3e] text-white rounded-xl text-xs font-semibold shadow-sm hover:bg-[#d04a2d]">
+                    + Add Product
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { name: "Supermarket Grocery Pack", price: "₦25,000", type: "Offline QR Code", code: "QR-SHOP-101", sales: "142 orders" },
+                  { name: "SaaS Monthly Subscription", price: "₦15,000", type: "Online Pixel", code: "PIXEL-SAAS-02", sales: "98 orders" },
+                  { name: "Fashion Collection Item", price: "₦42,000", type: "Offline / POS Code", code: "POS-FASHION-09", sales: "56 orders" }
+                ].map((item, idx) => (
+                  <div key={idx} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex flex-col justify-between gap-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-semibold text-slate-800 text-xs">{item.name}</h4>
+                        <p className="text-[10px] text-slate-400 mt-0.5">{item.price} • {item.sales}</p>
+                      </div>
+                      <span className="text-[9px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-bold">{item.type}</span>
+                    </div>
+                    <div className="p-3 bg-white border border-slate-100 rounded-xl flex items-center justify-between font-mono text-[9px]">
+                      <span className="text-slate-500">Code: <strong>{item.code}</strong></span>
+                      <button className="text-[#e15b3e] font-bold hover:underline">Download QR</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* REFERRALS & LIVE CLICKS SUBVIEW (Module 8 — Screens 8.01 to 8.06) */}
+        {activeTab === "referrals" && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col gap-5">
+              <h3 className="font-semibold text-sm text-slate-800">Referral Clicks & Real-time Attribution</h3>
+              <p className="text-xs text-slate-400 font-light">Live stream of incoming referral traffic across WhatsApp, Instagram, and offline QR scans.</p>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-100 text-slate-400 font-semibold uppercase tracking-wider">
+                      <th className="pb-3">Referral Code</th>
+                      <th className="pb-3">Channel</th>
+                      <th className="pb-3">Device / IP</th>
+                      <th className="pb-3">Attribution Window</th>
+                      <th className="pb-3 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      { code: "dwayne-stores", channel: "WhatsApp Direct", ip: "197.210.65.12 (Lagos)", window: "30 Days Cookie", status: "Converted" },
+                      { code: "john-ref-01", channel: "Offline QR Scan", ip: "Supermarket POS Terminal", window: "Instant QR Match", status: "Verified" },
+                      { code: "sarah-fashion", channel: "Instagram Story", ip: "102.89.23.41 (Abuja)", window: "30 Days Cookie", status: "Pending" }
+                    ].map((row, i) => (
+                      <tr key={i} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
+                        <td className="py-3 font-semibold text-slate-800">{row.code}</td>
+                        <td className="py-3 text-slate-500">{row.channel}</td>
+                        <td className="py-3 text-slate-500 font-mono text-[10px]">{row.ip}</td>
+                        <td className="py-3 text-slate-400">{row.window}</td>
+                        <td className="py-3 text-right">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider ${
+                            row.status === "Converted" || row.status === "Verified" ? "bg-green-50 text-green-600" : "bg-amber-50 text-amber-600"
+                          }`}>
+                            {row.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ORDERS & SALES SUBVIEW (Module 9 — Screens 9.01 to 9.09 Online + Offline POS) */}
+        {activeTab === "orders" && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col gap-5">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h3 className="font-semibold text-sm text-slate-800">Orders & Sales Verification (Online & Offline)</h3>
+                  <p className="text-xs text-slate-400 font-light mt-0.5">Automated pixel conversions alongside manual QR & POS store entry.</p>
+                </div>
+                <button className="px-3.5 py-2 bg-black hover:bg-slate-800 text-white rounded-xl text-xs font-semibold">
+                  + Manual Offline Sale Entry
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-2">
+                  <span className="text-[9px] bg-green-50 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase">Online Shopify Order</span>
+                  <h4 className="font-semibold text-slate-800 text-xs">Order #RPL-98211 • ₦45,000.00</h4>
+                  <p className="text-[10px] text-slate-500">Attributed to: <strong>Dwayne Tatum</strong> (10% Commission = ₦4,500)</p>
+                </div>
+                <div className="p-4 bg-slate-50 border border-slate-100 rounded-2xl space-y-2">
+                  <span className="text-[9px] bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full font-bold uppercase">Offline Supermarket POS Scan</span>
+                  <h4 className="font-semibold text-slate-800 text-xs">Receipt #POS-8812 • ₦18,500.00</h4>
+                  <p className="text-[10px] text-slate-500">Attributed to: <strong>Sarah Connor</strong> (QR Code Matched at Checkout)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* REPORTS & ANALYTICS SUBVIEW (Module 11 — Screens 11.01 to 11.07) */}
+        {activeTab === "reports" && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col gap-6">
+              <h3 className="font-semibold text-sm text-slate-800">Reports Engine & Scheduled Exporter</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col justify-between min-h-[120px]">
+                  <div>
+                    <h4 className="font-semibold text-slate-800 text-xs">Campaign ROI Report</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Full breakdown of ad spend vs referral net profit.</p>
+                  </div>
+                  <button className="text-[10px] font-bold text-[#e15b3e] hover:underline text-left mt-2">Download CSV</button>
+                </div>
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col justify-between min-h-[120px]">
+                  <div>
+                    <h4 className="font-semibold text-slate-800 text-xs">Affiliate Tax & Payout Log</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">WHT tax statements for accounting compliance.</p>
+                  </div>
+                  <button className="text-[10px] font-bold text-[#e15b3e] hover:underline text-left mt-2">Download PDF</button>
+                </div>
+                <div className="p-4 border border-slate-100 bg-slate-50 rounded-2xl flex flex-col justify-between min-h-[120px]">
+                  <div>
+                    <h4 className="font-semibold text-slate-800 text-xs">Fraud & Risk Audit</h4>
+                    <p className="text-[10px] text-slate-400 mt-1">Velocity anomaly logs and blocked payout holds.</p>
+                  </div>
+                  <button className="text-[10px] font-bold text-[#e15b3e] hover:underline text-left mt-2">Download Audit PDF</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* NOTIFICATIONS SUBVIEW (Module 12 — Screens 12.01 to 12.05) */}
+        {activeTab === "notifications" && (
+          <div className="flex flex-col gap-6 animate-in fade-in duration-200">
+            <div className="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-sm flex flex-col gap-5">
+              <h3 className="font-semibold text-sm text-slate-800">Notification Preferences & Alerts</h3>
+              <div className="space-y-3">
+                {[
+                  { title: "WhatsApp Business Real-time Alerts", desc: "Receive immediate WhatsApp notifications when a referral sale is completed." },
+                  { title: "Email Conversion Digest", desc: "Daily summary of total conversions and commission cleared." },
+                  { title: "SMS Critical Payout Alerts", desc: "Instant SMS notification when reserve balance drops below threshold." }
+                ].map((n, i) => (
+                  <div key={i} className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex justify-between items-center">
+                    <div>
+                      <h4 className="font-semibold text-slate-800 text-xs">{n.title}</h4>
+                      <p className="text-[10px] text-slate-400 mt-0.5">{n.desc}</p>
+                    </div>
+                    <input type="checkbox" defaultChecked className="w-4 h-4 accent-[#e15b3e]" />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
