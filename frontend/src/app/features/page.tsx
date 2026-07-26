@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { IconQrCode, IconShieldCheck, IconWallet, IconReportAnalytics, IconShare } from "@tabler/icons-react";
+import { IconQrcode, IconShieldCheck, IconWallet, IconReportAnalytics, IconShare } from "@tabler/icons-react";
 
 export default function FeaturesPage() {
   return (
@@ -26,7 +26,7 @@ export default function FeaturesPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconQrCode className="w-6 h-6 text-[#e15b3e]" />
+            <IconQrcode className="w-6 h-6 text-[#e15b3e]" />
             <h3 className="font-semibold text-sm text-slate-900">Offline QR Code Generator</h3>
             <p className="text-xs text-slate-500 font-light">Generate printable QR codes for supermarket, fashion store, and restaurant referral campaigns.</p>
           </div>

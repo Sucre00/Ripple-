@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { IconSearch, IconHelp, IconBriefcase, IconWallet, IconShieldCheck, IconQrCode } from "@tabler/icons-react";
+import { IconSearch, IconHelp, IconBriefcase, IconWallet, IconShieldCheck, IconQrcode } from "@tabler/icons-react";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -44,7 +44,7 @@ export default function HelpPage() {
             <p className="text-[11px] text-slate-500 font-light">How to set commission rates, upload banner creative assets, and pause live programs.</p>
           </div>
           <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconQrCode className="w-5 h-5 text-purple-600" />
+            <IconQrcode className="w-5 h-5 text-purple-600" />
             <h3 className="font-semibold text-xs text-slate-900">Offline Store QR Codes</h3>
             <p className="text-[11px] text-slate-500 font-light">Generating printable QR codes for supermarket POS terminals and physical fashion boutiques.</p>
           </div>
