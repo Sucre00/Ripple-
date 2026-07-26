@@ -1,0 +1,566 @@
+# RIPPL: Full Platform Specification
+## Referral & Affiliate Growth Platform
+**Online & Offline Businesses · Nigeria & Emerging Markets**
+
+### Detail
+| Detail | Information |
+| :--- | :--- |
+| Document Type | Full Platform Specification — Screens, Flows & Module Inventory |
+| Version | 3.0 — Complete Edition |
+| Date | May 2026 |
+| Classification | Confidential — Internal / Founding Team Use Only |
+| Total Modules | 17 Modules |
+| Total Screens | 100+ Screens across all portals |
+| Platform Scope | Online Businesses + Offline Businesses (QR / POS / Manual) |
+
+Rippl is officially defined as a referral and affiliate growth platform that works for both online and offline businesses. A business selling through Shopify, WooCommerce, or a custom website uses automatic tracking, while a neighbourhood supermarket, pharmacy, fashion boutique, electronics shop, or restaurant with only a physical location can still launch affiliate campaigns using QR codes, referral codes, manual sale verification, or POS confirmation. This dramatically expands the addressable market across Africa.
+
+---
+
+## SECTION 1 | Platform Vision & Redefinition
+
+### 1.1 What Rippl Is
+Rippl is a referral and affiliate growth platform built specifically for the African market — and uniquely designed to serve both online and offline businesses. Unlike global affiliate platforms that assume every business has a website and automated checkout, Rippl meets African businesses where they are: some with Shopify stores, others with just a WhatsApp number and a physical shop.
+
+### 1.2 Two Business Models Rippl Serves
+
+| Dimension | Online Business | Offline / Physical Business |
+| :--- | :--- | :--- |
+| **Examples** | Shopify store, WooCommerce site, SaaS app, fintech, food delivery | Supermarket, pharmacy, fashion boutique, restaurant, hardware store, POS agent |
+| **Tracking Method** | Pixel / API / Webhook — fully automated conversion tracking | QR code scan, referral code entry, manual sale verification, POS confirmation |
+| **Affiliate Link Type** | URL-based referral link with cookie attribution | QR code or short referral code (e.g. JOHN-REF-01) |
+| **Sale Confirmation** | Automatic via pixel or API on checkout completion | Manual confirmation by business staff or QR scan at point of sale |
+| **Commission Trigger** | Automatic on confirmed conversion via tracking API | Manual approval by business after verifying the referred sale |
+| **Affiliate Tools** | Link generator, UTM params, pixel-tracked campaigns | QR generator, referral code card, printable marketing assets |
+| **Dashboard** | Real-time conversion dashboard, revenue attribution | Manual sale log, referral confirmation inbox, QR scan history |
+
+### 1.3 Why Offline Support Changes Everything
+* Nigeria has approximately 40 million SMBs — the vast majority have no website or e-commerce presence.
+* A referral platform that only works for websites addresses less than 5% of this market.
+* QR codes and referral codes are already familiar tools in Nigerian markets (POS machines, mobile money, USSD).
+* Supporting offline businesses makes Rippl the only affiliate platform that can serve a Lagos market trader, a Kano pharmacy, and a Port Harcourt restaurant chain equally.
+* This is Rippl's deepest competitive moat — global platforms cannot replicate offline-first infrastructure quickly.
+
+---
+
+## SECTION 2 | Business Admin Dashboard — User Flow
+
+### 2.1 End-to-End Business Admin Flow
+This section documents every screen and action a business owner takes from discovering Rippl to managing a live affiliate programme.
+
+**Step 1 — Visit Platform**
+* **Action:** Business owner lands on the Rippl homepage.
+* **Content:** Overview of platform benefits, value proposition for businesses, social proof (testimonials, payout stats), call-to-action buttons — 'Get Started' and 'Log In'.
+
+**Step 2 — Sign Up / Log In**
+* **Action:** Business owner selects 'Sign Up' or 'Log In'.
+* **Sign Up Content:** Registration form with fields for email, password, business name, and phone number. Google OAuth option available. Progress indicator shown.
+* **Log In Content:** Form with email/phone and password fields. 'Remember me' toggle. Google OAuth shortcut.
+* **Forgot Password Action:** User enters email and a time-limited reset link is dispatched to their inbox.
+
+**Step 3 — Onboarding**
+* **Action:** After first login, business owner completes a guided onboarding sequence.
+* **Step 3a — Business Information:** Fill in business name, category, description, and website (or select 'No website — offline business').
+* **Step 3b — Business Address:** Enter physical address, state, LGA, and country.
+* **Step 3c — Business Verification (KYC):** Upload CAC certificate, government-issued ID (director), and business logo.
+* **Step 3d — Payment Setup:** Enter bank account details for receiving payouts from affiliates.
+* **Step 3e — Subscription Plans:** Choose between Starter (₦15K/mo), Growth (₦45K/mo), Pro (₦120K/mo), or Enterprise (custom).
+* **Step 3f — Checkout:** Complete plan payment via Paystack (card or bank transfer).
+* **Step 3g — Onboarding Complete:** Confirmation screen with 'Go to Dashboard' CTA.
+
+**Step 4 — Dashboard Overview**
+* **Action:** Business owner lands on the main dashboard after onboarding or login.
+* **Content:** Snapshot of key performance metrics — total referral revenue (MTD), active campaigns count, total active affiliates, pending payout value, and fraud alert count.
+* **Quick Action Buttons:** Create Campaign, View Earnings, Invite Affiliates, Approve Payouts.
+
+**Step 5 — Create Campaign**
+* **Action:** Business owner clicks 'Create Campaign' from the dashboard or campaign list.
+* Name the campaign and write a description.
+* Set the reward structure: commission per sale (%) or flat fee per lead/referral.
+* Select campaign duration (start date, end date, or ongoing).
+* Define terms and conditions for affiliates.
+* Upload promotional materials: images, banners, videos, and copy templates.
+* For offline businesses: generate QR codes and printable referral code cards.
+* Save as draft or publish immediately.
+
+**Step 6 — Invite Affiliates**
+* **Action:** Business owner navigates to 'Invite Affiliates'.
+* Share a unique affiliate recruitment link.
+* Send personalised invites via email directly from the platform.
+* Generate QR codes for offline recruitment (e.g. at trade fairs, stores, events).
+* Browse the Affiliate Marketplace and invite specific affiliates.
+
+**Step 7 — Track Campaign Performance**
+* **Action:** Business owner navigates to the analytics dashboard.
+* **Content:** Charts and KPIs — clicks, conversions, revenue, top-performing affiliates, conversion rate trend, campaign ROI.
+* **Action:** Filter reports by date range, specific campaign, or individual affiliate.
+
+**Step 8 — Manage Payouts**
+* **Action:** Business owner navigates to the Payouts section.
+* **Content:** List of all affiliates with their earnings, pending payouts, and payout status.
+* **Action:** Approve or initiate payments to affiliates individually or in bulk. Dispute a payout if fraud is suspected.
+
+**Step 9 — Review Reports**
+* **Action:** Business owner navigates to the Reports section.
+* **Content:** Comprehensive report overview with filters for date range, campaign, affiliate, and revenue streams. Detailed breakdowns of clicks, conversions, revenue per affiliate, and total campaign ROI.
+* **Action:** Export reports as PDF or CSV. Schedule recurring reports for automatic email delivery.
+
+**Step 10 — Account Settings**
+* **Action:** Business owner navigates to 'Account Settings'.
+* **Content:** Edit business profile (name, contact info, logo), update payment methods, adjust subscription plan, manage team members and roles, configure API keys and integrations.
+
+**Step 11 — Log Out**
+* **Action:** Business owner selects 'Log Out'. User is securely signed out and returned to the homepage.
+
+---
+
+## SECTION 3 | Affiliate Dashboard — User Flow
+
+### 3.1 End-to-End Affiliate Flow
+This section documents every screen and action an affiliate takes from discovering Rippl to earning and withdrawing commissions.
+
+**Step 1 — Visit Platform**
+* **Action:** Affiliate clicks a referral link from a business or discovers Rippl directly.
+* **Content:** Landing page with value proposition for affiliates — 'Earn by sharing. Get paid within 24 hours.' Clear call-to-action to sign up or log in.
+
+**Step 2 — Sign Up / Log In**
+* **Action:** Affiliate selects 'Sign Up' or 'Log In'.
+* **Sign Up Content:** Registration form for email, password, and phone number. OTP verification step.
+* **Log In Content:** Email/phone and password. OTP fallback for phone-registered users.
+* **Forgot Password:** Affiliate enters email or phone to receive a password reset link.
+
+**Step 3 — Profile Setup**
+* **Action:** Affiliate sets up their profile after first login.
+* Fill in personal details: full name, display name, niche/category.
+* Upload a profile photo.
+* Add social media links: Instagram, Twitter/X, TikTok, WhatsApp, Facebook.
+* Add bank account or mobile money details (can be skipped; required before first withdrawal).
+
+**Step 4 — Affiliate Dashboard Overview**
+* **Action:** Affiliate lands on their personal dashboard.
+* **Content:** Snapshot of total earnings (all-time), earnings this month, active campaigns count, top-performing referral link, pending balance vs. cleared balance, and recent conversion activity.
+
+**Step 5 — Browse Campaigns**
+* **Action:** Affiliate navigates to the Campaign Marketplace.
+* **Content:** Grid of all available campaigns with brand logos, commission rates, conversion types, and cookie durations. Filterable by category, commission type, payout rate, and approval mode.
+* **Action:** Affiliate selects a campaign to view details and joins or applies.
+
+**Step 6 — Generate Referral Link**
+* **Action:** After joining a campaign, affiliate generates their unique referral link.
+* **Content:** Link preview, one-click copy button, WhatsApp share, social media share options. QR code generator for offline sharing. UTM parameter customisation for advanced affiliates.
+
+**Step 7 — Track Performance**
+* **Action:** Affiliate navigates to their Performance Analytics screen.
+* **Content:** Graphs showing clicks over time, conversions, earnings trend, and top traffic sources. Campaign-level breakdown table. Earnings Per Click (EPC) metric. Leaderboard position.
+
+**Step 8 — Withdraw Earnings**
+* **Action:** Affiliate navigates to the Wallet section.
+* **Content:** Wallet balance cards (pending, clearing, cleared), transaction history, and withdrawal request form.
+* **Action:** Submit a withdrawal request. Funds transferred to registered bank account or mobile money within 24 hours. Minimum withdrawal: ₦2,000.
+
+**Step 9 — Notifications**
+* **Action:** Affiliate checks the Notifications Centre.
+* **Content:** Real-time alerts for new campaign opportunities, new conversions, earnings updates, payout confirmations, and messages from businesses.
+
+**Step 10 — Account Settings**
+* **Action:** Affiliate navigates to Account Settings.
+* **Content:** Edit profile information, change password, manage payment methods (bank accounts), adjust notification preferences, view KYC status and upgrade tier.
+
+---
+
+## SECTION 4 | Super Admin Dashboard — User Flow
+
+### 4.1 End-to-End Super Admin Flow
+The Super Admin is the Rippl operations team. This dashboard gives them full visibility and control over every business, affiliate, campaign, payout, and compliance event on the platform.
+
+**Step 1 — Visit Platform**
+* **Action:** Super admin navigates to the dedicated admin login page (admin.rippl.ng or /admin path).
+* **Content:** Secure login form with email and password. Two-factor authentication required.
+
+**Step 2 — Authentication**
+* **Action:** Super admin completes two-factor authentication (TOTP via authenticator app).
+* **Content:** 6-digit OTP entry screen. Backup code option available.
+
+**Step 3 — Super Admin Dashboard Overview**
+* **Action:** Super admin lands on the platform command centre.
+* **Content:** Live platform health metrics — total registered businesses, total active affiliates, total earnings processed today, total platform GMV, KYC pending count, fraud alerts count, system uptime status.
+
+**Step 4 — User Management**
+* **Action:** Super admin navigates to manage all platform users.
+* **Content:** Separate tables for businesses, affiliates, and admins. Each row shows user details, account status, KYC tier, and key metrics.
+* **Actions available:** View user profile, approve or reject account, deactivate/reactivate, impersonate (for support purposes — logged in audit trail), reset password.
+
+**Step 5 — KYC and Compliance**
+* **Action:** Super admin navigates to the KYC Review Queue.
+* **Content:** List of all pending KYC applications from both businesses and affiliates. Each entry shows submitted documents, BVN lookup result, ID verification status, and submission timestamp.
+* **Actions:** Approve KYC, request additional information, reject with reason code. SLA: 48-hour review target for Enhanced KYC.
+
+**Step 6 — Fraud Detection**
+* **Action:** Super admin navigates to the Fraud Monitoring section.
+* **Content:** List of flagged transactions, suspicious affiliates, and high-risk conversions. Each entry shows fraud score, triggered rules, IP history, device fingerprint, and related accounts.
+* **Actions:** Investigate details, freeze account, block withdrawal, escalate for manual review, clear the flag.
+
+**Step 7 — Platform Analytics**
+* **Action:** Super admin navigates to Platform-Wide Analytics.
+* **Content:** Visual dashboards showing overall platform growth, campaign creation trends, affiliate performance distribution, revenue by month, payout volume, churn rate, and geographic distribution of users.
+
+**Step 8 — System Settings**
+* **Action:** Super admin navigates to System Settings.
+* **Content:** Configure platform-level settings — payment gateway credentials, notification templates, branding, feature flags, fraud score thresholds, KYC tier requirements, payout clearing periods, and minimum withdrawal limits.
+
+**Step 9 — Financial Oversight**
+* **Action:** Super admin navigates to the Finance section.
+* **Content:** Track platform revenue (subscription fees, transaction fees, setup fees), reconcile against Paystack/Flutterwave statements, review payout batch statuses, monitor commission engine outputs.
+
+**Step 10 — Log Out**
+* **Action:** Super admin selects 'Log Out'. Session is securely terminated and admin is returned to the admin login page.
+
+---
+
+## SECTION 5 | Complete Module & Screen Inventory
+The following 17 modules define the complete structural scope of the Rippl platform. Every screen is listed under its module with a brief functional description.
+
+### MODULE 1 — Public Website
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 1.01 | Landing Page | Hero section, value props for businesses and affiliates, stats, testimonials, dual CTA. SEO-optimised. |
+| 1.02 | About Rippl | Brand story, mission, founding team, vision for African affiliate infrastructure. |
+| 1.03 | Features | Detailed feature breakdown — campaign tools, fraud protection, wallet, analytics, offline support. |
+| 1.04 | Pricing | Interactive NGN plan comparison (Starter/Growth/Pro/Enterprise). Annual vs monthly toggle. FAQ. |
+| 1.05 | How It Works | Step-by-step visual explainer of the Rippl referral flow for both businesses and affiliates. |
+| 1.06 | Business Solutions | Landing page specifically for businesses — ROI case studies, integration options, testimonials. |
+| 1.07 | Affiliate Solutions | Landing page specifically for affiliates — earnings potential, payout speed, campaign variety. |
+| 1.08 | Enterprise Solutions | White-label and API solutions for large organisations — banks, telcos, major retailers. |
+| 1.09 | FAQs | Searchable frequently asked questions organised by topic (Payments, KYC, Campaigns, Fraud). |
+| 1.10 | Contact Us | Contact form (name, email, message, role), WhatsApp button, office location map. |
+| 1.11 | Blog | SEO content hub — articles, case studies, affiliate tips, business growth guides. |
+| 1.12 | Blog Details | Individual blog post page with full article, author, date, share buttons, related posts. |
+| 1.13 | Help Center | Public-facing help centre with searchable articles, categories, and contact support CTA. |
+| 1.14 | Privacy Policy | Full NDPR-compliant privacy policy. Structured sections on data collection, usage, rights. |
+| 1.15 | Terms & Conditions | Platform terms of service for both businesses and affiliates. Governing Nigerian law. |
+
+### MODULE 2 — Authentication
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 2.01 | Welcome | Splash/welcome screen for first-time app users. Role selection: 'I'm a Business' or 'I'm an Affiliate'. |
+| 2.02 | Login | Email/phone + password. Google OAuth. OTP fallback. Remember device. Forgot password link. |
+| 2.03 | Business Registration | Multi-step business sign-up: email → business name → phone → password → OTP verification. |
+| 2.04 | Affiliate Registration | Simplified affiliate sign-up: email/phone → display name → niche → password → OTP. |
+| 2.05 | Email Verification | Verify email via link sent to inbox. Resend option. Countdown timer. |
+| 2.06 | Phone Verification | Verify phone number via SMS OTP. Resend option. 60-second countdown. |
+| 2.07 | OTP Verification | 6-digit OTP entry screen. Countdown timer. Resend code button. Clear error states. |
+| 2.08 | Forgot Password | Enter email or phone to receive reset link. Confirmation message shown. |
+| 2.09 | Email Sent | Confirmation screen after reset email is dispatched. 'Check your inbox' with resend option. |
+| 2.10 | Reset Password | Enter new password and confirm. Strength indicator. Submit. |
+| 2.11 | Password Reset Success | Confirmation that password has been changed. Auto-redirect to login after 3 seconds. |
+| 2.12 | Two Factor Authentication | 6-digit TOTP entry from authenticator app. Backup code option. 'Trust this device' toggle. |
+| 2.13 | Account Pending Approval | Screen shown to businesses awaiting KYC verification. Status tracker. Contact support link. |
+| 2.14 | Account Suspended | Suspension reason (if shareable), reference number, appeal instructions, support contact. |
+| 2.15 | Session Expired | Friendly timeout notice. Re-login form pre-filled with email. Redirect to original page post-auth. |
+
+### MODULE 3 — Business Onboarding
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 3.01 | Business Information | Business name, trading name, category, brief description, website URL (optional for offline businesses). |
+| 3.02 | Business Category | Select business type: Retail, Food & Beverage, Fashion, Electronics, Fintech, Services, Healthcare, and more. |
+| 3.03 | Business Address | Street address, city, state, LGA, country. Map pin option. For offline businesses: primary branch address. |
+| 3.04 | Business Verification | KYC overview screen. Explains what documents are required and why. Progress indicator. |
+| 3.05 | Upload CAC Documents | Upload CAC registration certificate (PDF or image). Drag-and-drop or camera capture. File size limit: 5MB. |
+| 3.06 | Upload Government ID | Upload director's government-issued ID: NIN, passport, or driver's licence. Liveness check option. |
+| 3.07 | Upload Business Logo | Upload business logo (PNG/SVG preferred). Crop and preview tool. Used on branded referral portal. |
+| 3.08 | Payment Setup | Add bank account for receiving payouts. Bank name, account number (validated via NIP). Account name auto-filled. |
+| 3.09 | Subscription Plans | Plan selector: Starter / Growth / Pro / Enterprise. Feature comparison matrix. Annual discount toggle. |
+| 3.10 | Checkout | Order summary, chosen plan, billing cycle, total amount. Paystack payment: card or bank transfer. |
+| 3.11 | Payment Success | Confirmation of successful subscription. Plan details shown. 'Go to Dashboard' CTA. |
+| 3.12 | Payment Failed | Error message with reason (declined, insufficient funds). Retry payment or try a different card. |
+| 3.13 | Onboarding Complete | Congratulations screen. Summary of what's been set up. Checklist of next steps. 'Launch Dashboard' CTA. |
+
+### MODULE 4 — Business Dashboard
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 4.01 | Dashboard Home | Main landing screen post-login. KPI cards, revenue trend chart, top affiliates, recent conversions, quick action buttons. |
+| 4.02 | Analytics Dashboard | Deep platform analytics — clicks, conversions, CVR trend, geographic distribution, device breakdown. |
+| 4.03 | Revenue Dashboard | Referral revenue attribution, commission cost, net ROI, comparison to paid channels. Exportable. |
+| 4.04 | Campaign Dashboard | Campaign-level overview — all campaigns with status, conversion count, revenue, and ROI. Filter and sort. |
+| 4.05 | Affiliate Dashboard | All affiliated users overview — performance table, top earners, fraud scores, application queue. |
+| 4.06 | Wallet Dashboard | Business wallet overview — available balance, reserved for payouts, transaction history, fund wallet CTA. |
+| 4.07 | Notification Center | All platform notifications — new conversions, payout requests, fraud alerts, system announcements. |
+
+### MODULE 5 — Campaign Management
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 5.01 | Campaign List | Table of all campaigns: name, status, affiliates, conversions (MTD), revenue (MTD), ROI. Quick actions. |
+| 5.02 | Campaign Details | Full campaign page: overview, live stats, affiliate list, conversion log, creative assets, settings tabs. |
+| 5.03 | Create Campaign | 6-step wizard: basic info → target/tracking → commission structure → payout rules → creatives → publish. |
+| 5.04 | Campaign Preview | Preview how the campaign appears to affiliates in the Marketplace before publishing. |
+| 5.05 | Edit Campaign | Edit non-live campaign settings. Live campaigns: only budget, payout threshold, and creatives are editable. |
+| 5.06 | Pause Campaign | Confirmation modal to pause a live campaign. Affiliates notified. Links deactivated. |
+| 5.07 | Resume Campaign | Confirmation modal to resume a paused campaign. Links reactivated. Affiliates notified. |
+| 5.08 | Archive Campaign | Archive completed campaigns for historical reference. No new conversions accepted. |
+| 5.09 | Delete Campaign | Delete draft campaigns only. Confirmation modal. Cascading delete warning if affiliates are attached. |
+| 5.10 | Campaign Performance | Per-campaign analytics: conversion funnel, daily revenue, top affiliates (bar), traffic sources, cohort retention. |
+
+### MODULE 6 — Products (Online & Offline)
+This module supports both online businesses (Shopify/WooCommerce/API-connected) and offline businesses (manual product catalogue, QR-based sale confirmation). It dramatically expands Rippl's addressable market.
+
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 6.01 | Product List | All products in the business's Rippl catalogue. Table with name, category, price, inventory status, and referral tracking toggle. |
+| 6.02 | Add Product | Add a product manually: name, description, price, category, image, SKU. Toggle: trackable via referral (yes/no). |
+| 6.03 | Edit Product | Edit any product field. View referral performance for this product. Enable or disable referral tracking. |
+| 6.04 | Product Details | Full product page: description, price, stock status, referral stats (clicks, conversions, revenue), and linked campaigns. |
+| 6.05 | Import Products | Import products from: Shopify (OAuth), WooCommerce (API key), or custom API. Bulk import via CSV also supported. |
+| 6.06 | Manual Product Entry | For offline businesses: add products one by one without a website. Simple form. Generates QR code per product. |
+| 6.07 | Offline Product Catalog | Visual catalogue of offline products with their unique QR codes. Printable catalogue PDF generation. |
+| 6.08 | Product Categories | Manage product categories. Create, rename, merge. Assign products to categories for campaign targeting. |
+| 6.09 | Inventory Status | Stock level tracking per product. Low stock alerts. Out-of-stock auto-pause for referral campaigns. |
+| 6.10 | QR Product Generator | Generate unique QR code per product for offline referral confirmation. Download, print, or share via WhatsApp. |
+
+### MODULE 7 — Affiliate Management
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 7.01 | Affiliate List | Full table of all affiliates across all campaigns. Columns: name, status, clicks, conversions, revenue, fraud score. Sortable and filterable. |
+| 7.02 | Affiliate Details | Business's view of a single affiliate: profile, performance metrics, link activity log, payout history, fraud flags, notes field. |
+| 7.03 | Invite Affiliate | Send personalised email invitations to specific affiliates. Custom message. Invitation tracking (sent / opened / accepted). |
+| 7.04 | Pending Invitations | List of all invitations sent. Status: Pending / Accepted / Expired. Resend or cancel options. |
+| 7.05 | Approved Affiliates | Filtered view of all active, approved affiliates. Quick actions: message, view profile, flag, remove. |
+| 7.06 | Suspended Affiliates | List of affiliates the business has suspended. Reason log. Reinstate or permanently remove. |
+| 7.07 | Affiliate Performance | Per-affiliate analytics: clicks, conversions, EPC, revenue generated, best campaign, activity trend. |
+| 7.08 | Affiliate Commission | Commission history per affiliate: approved, pending, disputed, paid. Adjust commission rate for specific affiliates. |
+| 7.09 | Affiliate Communication | In-platform messaging to individual affiliates or broadcast to all. Message history log. |
+
+### MODULE 8 — Referral Management
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 8.01 | Referral Overview | Summary of all referral activity: total referrals, conversion rate, total commission owed, fraud-held amount. |
+| 8.02 | Referral Details | Individual referral record: affiliate, click timestamp, conversion event, order value, commission amount, fraud score. |
+| 8.03 | Referral Tracking | Live tracking dashboard for all active referral links — clicks, unique visitors, conversion funnel. |
+| 8.04 | Referral Status | Filter referrals by status: Pending, Clearing, Approved, Paid, Disputed, Rejected. Bulk status update. |
+| 8.05 | Referral Approval | Manual approval queue for conversions requiring business confirmation (offline sales, high-value orders). |
+| 8.06 | Referral History | Complete historical log of all referrals from all campaigns. Searchable and exportable as CSV. |
+
+### MODULE 9 — Orders & Sales (Online + Offline)
+This is one of Rippl's most differentiated modules. It handles both automated online order tracking and manual offline sale verification — enabling any business type to confirm that an affiliate referred a customer.
+
+**Online Orders (E-commerce / API-connected businesses)**
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 9.01 | Online Orders | List of all orders attributed to affiliate referrals. Order ID, affiliate, product, order value, commission. Synced via pixel or API. |
+| 9.02 | Order Details | Full order record: customer (anonymised), products, total value, referral attribution, commission calculated, current status. |
+| 9.03 | Order Tracking | Real-time status tracker for attributed orders: Created → Processing → Completed → Commission Released. |
+| 9.04 | Completed Orders | Historical log of all completed and paid orders. Filter by campaign, affiliate, date range. Export to CSV. |
+
+**Offline Order Verification (Physical / Brick-and-Mortar businesses)**
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 9.05 | Manual Sale Entry | Business staff manually enter a referred sale: affiliate code, product sold, sale amount, customer name (optional), date. Submits for commission calculation. |
+| 9.06 | QR Sale Verification | Staff scan the affiliate's QR code at the point of sale. QR decode confirms affiliate identity, campaign, and product. Sale logged and commission triggered. |
+| 9.07 | POS Sale Verification | Integration screen for POS terminals — a referral code is entered at checkout on the POS machine. Rippl API validates the code and attributes the commission. |
+| 9.08 | Referral Validation | Business reviews a list of pending referred sales waiting for manual confirmation. Approve, modify value, or reject each entry. |
+| 9.09 | Offline Purchase Confirm | Confirmation screen shown after a successful offline sale is verified and commission is triggered. Receipt summary for internal records. |
+
+### MODULE 10 — Wallet & Payments
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 10.01 | Wallet Overview | Business wallet: available balance, reserved for pending payouts, lifetime payouts made. Fund wallet CTA. |
+| 10.02 | Transactions | Full ledger of all wallet transactions: funding events, commission debits, fee charges. Filterable. |
+| 10.03 | Pending Payments | Queue of approved commissions awaiting payment processing. Bulk approve and release. |
+| 10.04 | Completed Payments | History of all commissions successfully paid to affiliates. Date, affiliate, amount, transaction reference. |
+| 10.05 | Withdraw Funds | For business wallet withdrawals (excess funds). Enter amount, select bank, confirm. |
+| 10.06 | Bank Accounts | Manage registered bank accounts. Add, verify (NIP), set primary, remove. |
+| 10.07 | Payment History | Full chronological payment history. Filter by status, affiliate, campaign, date. CSV export. |
+| 10.08 | Invoice History | Rippl subscription invoices. Download PDF per invoice. View payment status. |
+| 10.09 | Subscription Billing | Current plan, next billing date, payment method, usage vs. plan limits. Upgrade/downgrade CTA. |
+
+### MODULE 11 — Reports
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 11.01 | Reports Dashboard | Reports home: quick-access tiles for each report type. Recent exports. Scheduled reports status. |
+| 11.02 | Campaign Reports | Per-campaign breakdown: impressions, clicks, CVR, revenue, commission cost, ROI, top affiliates. |
+| 11.03 | Revenue Reports | Total referral revenue over time. By campaign, by affiliate, by product. Channel comparison. |
+| 11.04 | Affiliate Reports | Affiliate performance summary: earnings, conversions, EPC, fraud rate, payout efficiency. |
+| 11.05 | Conversion Reports | Conversion funnel analysis, source breakdown, time-to-convert distribution, fraud-held %age. |
+| 11.06 | Export Reports | Export any report to CSV or PDF. Select date range, filters, and file format. Instant download. |
+| 11.07 | Scheduled Reports | Create recurring report deliveries by email — daily, weekly, monthly. Manage active schedules. |
+
+### MODULE 12 — Notifications
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 12.01 | Notifications | Full notification history. Filter by type: conversion, payout, fraud, campaign, system. Mark all read. |
+| 12.02 | Email Preferences | Toggle email notifications per event type: new conversion, payout approved, fraud alert, campaign update. |
+| 12.03 | Push Notifications | Enable/disable browser and mobile push notifications per event type. |
+| 12.04 | SMS Preferences | Toggle SMS alerts for critical events: large conversions, payout processed, account alert. |
+| 12.05 | WhatsApp Notifications | Opt in to WhatsApp Business alerts for key events. Confirm WhatsApp number. Preview message templates. |
+
+### MODULE 13 — Business Settings
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 13.01 | Business Profile | Edit business name, description, logo, website, contact email, phone, and address. |
+| 13.02 | Team Members | Invite team members by email. Active members list with last login date. Remove members. |
+| 13.03 | Roles & Permissions | Define custom roles: Admin, Analyst, Finance. Set granular permissions per role. Assign roles to team members. |
+| 13.04 | Branding | Customise the affiliate-facing referral portal: logo, brand colours, welcome message, custom domain (Pro/Enterprise). |
+| 13.05 | Security | Change password, manage active sessions, enable/disable 2FA, view login history, revoke device access. |
+| 13.06 | API Keys | Generate, view, rotate, and revoke API keys for Rippl integrations. Key permissions scoping. |
+| 13.07 | Integrations | Connect integrations: Shopify, WooCommerce, Zapier, Google Analytics 4, Meta Pixel, custom webhook. |
+| 13.08 | Billing Settings | Update payment method, view next billing date, manage subscription, download invoices. |
+| 13.09 | Connected Platforms | View all connected third-party platforms. Manage OAuth connections. Revoke access per platform. |
+
+### MODULE 14 — Affiliate Dashboard
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 14.01 | Affiliate Dashboard | Affiliate's home screen. KPI cards: total earnings, cleared balance, pending balance, active campaigns, best link. |
+| 14.02 | Earnings Overview | Lifetime and MTD earnings breakdown. Chart of earnings by month. Campaign-level contribution table. |
+| 14.03 | Campaign Marketplace | Browse all available campaigns. Filter by category, commission type, brand, approval mode. Join or apply. |
+| 14.04 | Campaign Details | Full campaign page for an affiliate: commission structure, T&Cs, creatives, leaderboard, apply CTA. |
+| 14.05 | My Campaigns | All campaigns the affiliate has joined. Status badges. Quick-access to link generator and analytics per campaign. |
+| 14.06 | Referral Links | All generated referral links. Per link: clicks, conversions, earnings, creation date. Generate new link per campaign. |
+| 14.07 | QR Codes | QR codes generated for offline campaigns. Download, print, or share. Scan history per QR code. |
+| 14.08 | Marketing Assets | Creative assets uploaded by businesses. Banners, copy, video, email templates. Download or share directly. |
+| 14.09 | Performance Analytics | Full analytics: earnings over time, clicks vs conversions, EPC, source breakdown, campaign comparison table. |
+| 14.10 | Wallet | Wallet balance (pending / clearing / cleared). Transaction history. Withdrawal history. Fund breakdown by campaign. |
+| 14.11 | Withdraw Earnings | Withdrawal flow: amount → bank account → PIN confirm → success. Minimum ₦2,000. 24-hour processing SLA. |
+| 14.12 | Withdrawal History | Full log of all past withdrawals: date, amount, bank, status (processing / completed / failed). |
+| 14.13 | Tax Information | Monthly earnings statements with WHT summary. PDF download per month. For FIRS tax filing support. |
+| 14.14 | Notifications | Affiliate notification history: new conversions, payouts, campaign updates, leaderboard changes. |
+| 14.15 | Profile | Edit display name, niche, bio, profile photo, social links. |
+| 14.16 | Bank Details | Add, verify, and manage bank accounts. Set primary account for withdrawals. Mobile money option. |
+| 14.17 | Identity Verification | KYC flow: Basic (email/phone) → Standard (BVN) → Enhanced (Government ID + liveness). Lazy — triggered on first withdrawal. |
+| 14.18 | Settings | Password change, 2FA setup, notification preferences, privacy controls, account deletion request. |
+
+### MODULE 15 — Super Admin Dashboard
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 15.01 | Platform Dashboard | Real-time command centre. Live KPIs: GMV, MRR, active businesses, active affiliates, payout volume, fraud rate, uptime. |
+| 15.02 | Business Management | All businesses table. Status, plan, payout volume, campaigns, affiliates, fraud flags. Approve/suspend/impersonate. |
+| 15.03 | Affiliate Management | All affiliates table. KYC tier, total earned, withdrawn, fraud score, status. Suspend/restrict/escalate. |
+| 15.04 | Admin Management | List of all Super Admin accounts. Create new admin, assign permissions, deactivate, audit log per admin. |
+| 15.05 | Campaign Moderation | All active campaigns across all businesses. Flag, force-pause, or remove inappropriate campaigns. |
+| 15.06 | Product Moderation | Review and moderate products listed by businesses. Remove prohibited or fraudulent product listings. |
+| 15.07 | KYC Review | Pending KYC queue for businesses and affiliates. Document viewer, BVN lookup result, approve/reject workflow. |
+| 15.08 | Fraud Detection | Flagged transactions and affiliates. Fraud score distributions, blocked payouts, velocity anomalies. |
+| 15.09 | Fraud Investigation | Full investigation workflow: IP/device logs, conversion history, related accounts, action panel (warn/block/escalate). |
+| 15.10 | Platform Analytics | Platform-wide growth analytics: new signups trend, GMV growth, churn, geographic distribution, campaign density. |
+| 15.11 | Revenue Dashboard | Platform revenue by stream (subscription, transaction fees, setup fees). Reconciliation. P&L summary. |
+| 15.12 | Commission Engine | View and configure global commission calculation rules. Override per business if needed. Audit log. |
+| 15.13 | Payout Monitoring | Real-time payout batch monitor. Batch ID, total value, completed/failed/processing counts. Retry failed payouts. |
+| 15.14 | Subscription Management | All business subscriptions: plan, status, next billing date, MRR value. Adjust, waive, or cancel subscriptions. |
+| 15.15 | Platform Settings | Global config: fee structures, fraud thresholds, KYC tier requirements, clearing periods, min withdrawal amounts. |
+| 15.16 | Audit Logs | Immutable log of all admin actions: who did what, when, with before/after state. Filterable and exportable. |
+| 15.17 | Roles & Permissions | Super Admin role matrix. Define permission scopes per admin role. Principle of least privilege enforced. |
+| 15.18 | Notification Management | Create and schedule platform-wide announcements. Target: all users / businesses only / affiliates only. |
+| 15.19 | CMS Management | Manage public website content: blog posts, help articles, FAQ entries, feature flag descriptions. |
+| 15.20 | Feature Flags | Enable/disable platform features per user segment or globally. Controlled rollouts. A/B test configuration. |
+| 15.21 | API Monitoring | Monitor all API endpoints: uptime, response time, error rate, request volume. Alert configuration. |
+| 15.22 | System Health | Infrastructure health dashboard: ECS task status, RDS performance, Redis queue depth, payment provider status. |
+| 15.23 | Support Tickets | All support tickets raised by businesses and affiliates. Assign to team, set priority, track resolution. |
+| 15.24 | Disputes | Escalated disputes between businesses and affiliates. Evidence viewer, resolution tools, audit trail. |
+| 15.25 | Reports | Platform-level compliance and operational reports: FIRS WHT, CBN e-payment, NDPR data log, AML screening. |
+| 15.26 | Security Center | Security overview: failed login attempts, suspicious IPs, API key abuse, 2FA adoption rate, data breach alerts. |
+
+### MODULE 16 — Support
+| # | Screen | Description |
+| :--- | :--- | :--- |
+| 16.01 | Help Center | Searchable in-app help centre. Categories: Getting Started, Payments, Campaigns, KYC, Fraud. Article viewer. |
+| 16.02 | Support Tickets | Raise a new support ticket. Select category, describe issue, attach screenshot. Track existing tickets. |
+| 16.03 | Ticket Details | View individual ticket: full conversation thread, status, assigned agent, resolution notes. Reply in-thread. |
+| 16.04 | Live Chat | Intercom-powered live chat widget. Available during business hours. WhatsApp fallback outside hours. |
+| 16.05 | Knowledge Base | Structured library of how-to guides, troubleshooting articles, video tutorials, and integration docs. |
+
+### MODULE 17 — Shared Components
+| # | Screen / Component | Description |
+| :--- | :--- | :--- |
+| 17.01 | Search | Global search accessible from any screen. Searches campaigns, affiliates, orders, transactions. Instant results. |
+| 17.02 | Global Notifications | Notification bell in top nav. Badge count. Dropdown preview of last 5 notifications. Link to full centre. |
+| 17.03 | User Profile Menu | Top-right profile menu: account name, avatar, quick links to Settings, Billing, Help, Log Out. |
+| 17.04 | Empty States | Illustrated empty state screens for: no campaigns, no affiliates, no transactions, no notifications. |
+| 17.05 | Error Pages | Branded 404 (not found), 403 (forbidden), 500 (server error) pages. Navigation options. Support link. |
+| 17.06 | Loading States | Skeleton loaders for tables, charts, and cards. Spinner for form submissions. Progress bar for uploads. |
+| 17.07 | Success Pages | Full-screen success confirmations for key actions: campaign published, payout sent, KYC approved. |
+| 17.08 | Delete Confirmation | Modal dialog for destructive actions. Explains consequences. Requires typing 'DELETE' for critical actions. |
+| 17.09 | Approval Modal | Confirm approval for: KYC, conversions, affiliates, payouts. Shows key details before confirming. |
+| 17.10 | Rejection Modal | Confirm rejection with required reason code and optional note. Triggers notification to affected user. |
+| 17.11 | Image Upload Modal | Drag-and-drop or browse upload modal. Preview before saving. Crop tool. File type and size validation. |
+| 17.12 | QR Scanner | Camera-based QR code scanner for mobile. Used by business staff to verify offline referral sales. |
+| 17.13 | QR Generator | Generate QR codes for: referral links, products, campaigns. Download as PNG or SVG. Share via WhatsApp. |
+| 17.14 | Camera Permission | Permission request screen for camera access (QR scanner, liveness check). Graceful denial handling. |
+| 17.15 | File Upload | Generic file upload component used for KYC docs, campaign creatives, product images. Progress indicator. |
+| 17.16 | PDF Viewer | In-app PDF viewer for: KYC documents, invoices, reports, terms. Zoom, scroll, download options. |
+| 17.17 | CSV Import | CSV upload flow for: bulk product import, affiliate import, order upload. Column mapping step. Validation errors. |
+
+---
+
+## SECTION 6 | Offline Business Support — Deep Dive
+
+### 6.1 Why This Makes Rippl Different
+Every existing affiliate platform — PartnerStack, Impact.com, ShareASale, even local alternatives — assumes the business has a website with a checkout. Rippl breaks this assumption entirely. By building native offline support into the core platform, Rippl becomes the only referral infrastructure that works for the full breadth of African commerce.
+
+### 6.2 Offline Referral Flow — Step by Step
+| Step | Who Acts | Action | How Rippl Handles It |
+| :--- | :--- | :--- | :--- |
+| 1 | Business | Creates a campaign on Rippl. Selects 'Offline Business' mode. | Campaign is created with QR code and referral code generation enabled instead of pixel tracking. |
+| 2 | Business | Generates QR codes and referral code cards for their affiliates. | Rippl generates unique QR per affiliate per campaign. Printable PDF card with affiliate's code. |
+| 3 | Affiliate | Shares their QR code or referral code with potential customers. | Customer receives the QR code via WhatsApp, physical card, or sees it in the affiliate's social post. |
+| 4 | Customer | Visits the physical store and mentions the referral or shows their QR code. | Business staff scans the QR code using the Rippl mobile app or enters the referral code manually. |
+| 5 | Business | Staff confirms the sale: product sold, sale amount, referral code verified. | Rippl logs the offline sale, attributes it to the affiliate, and calculates commission. |
+| 6 | Rippl | Commission is placed in 'pending' state for fraud review (7-day clearing period). | Fraud checks run: duplicate referral, excessive velocity, BVN match for high-value sales. |
+| 7 | Affiliate | After clearing, commission appears in 'cleared' wallet balance. | Affiliate can withdraw funds normally via the standard wallet withdrawal flow. |
+
+### 6.3 Offline Verification Methods
+| Method | How It Works | Best For |
+| :--- | :--- | :--- |
+| QR Code Scan | Affiliate's unique QR is scanned by business staff at point of sale. Instant attribution. | Supermarkets, pharmacies, restaurants, fashion boutiques with staff at till |
+| Referral Code | Customer verbally states a short referral code (e.g. JOHN-01). Staff enters it into Rippl app. | Small shops, market traders, phone-based sales, outdoor events |
+| POS Integration | Referral code is entered into the POS terminal. Rippl API validates and attributes in real-time. | Businesses with modern POS (Moniepoint, Palmpay, Opay POS, Interswitch) |
+| Manual Entry | Business owner logs into Rippl and manually enters: affiliate ID, product, amount, date. | Sole proprietors, service businesses, appointment-based businesses |
+| WhatsApp Order | Customer places order via WhatsApp and mentions referral code. Business enters into Rippl app. | WhatsApp-based commerce, food vendors, tailors, freelancers |
+
+### 6.4 Offline Business — Target Segments
+| Sector | Business Examples | Rippl Use Case |
+| :--- | :--- | :--- |
+| Retail | Supermarkets, fashion shops, electronics stores, cosmetics shops | Affiliates drive foot traffic; confirmed at QR scan or referral code at till |
+| Food & Beverage | Restaurants, fast food, food vendors, caterers, bakeries | Affiliates share QR on social; customers show QR on arrival to confirm referral |
+| Healthcare | Pharmacies, clinics, opticians, wellness centres, fitness studios | Affiliates refer patients; referral code confirmed at reception desk |
+| Professional Svc | Law firms, accounting practices, real estate agents, insurance brokers | Affiliates refer clients; referral logged manually when client is onboarded |
+| Beauty | Salons, barbershops, spas, nail studios, makeup artists | Affiliates refer clients for appointments; referral code confirmed at booking |
+| Education | Tutoring centres, vocational schools, driving schools, exam prep centres | Affiliates refer students; referral confirmed at registration by staff |
+
+---
+
+## SECTION 7 | Module Summary & Screen Count
+
+### 7.1 Complete Module Overview
+| Module | Name | Total Screens | Key Functionality |
+| :--- | :--- | :--- | :--- |
+| 1 | Public Website | 15 | Landing, features, pricing, blog, legal pages |
+| 2 | Authentication | 15 | Login, registration, OTP, 2FA, password reset |
+| 3 | Business Onboarding | 13 | KYC, document upload, plan selection, payment |
+| 4 | Business Dashboard | 7 | Analytics, revenue, campaign, affiliate, wallet dashboards |
+| 5 | Campaign Management | 10 | Create, edit, pause, archive, performance analytics |
+| 6 | Products (Online+Offline) | 10 | Product catalogue, QR generator, import, inventory |
+| 7 | Affiliate Management | 9 | Invite, manage, communicate, review performance |
+| 8 | Referral Management | 6 | Track, approve, filter, and export referrals |
+| 9 | Orders & Sales | 9 | Online orders + offline QR/POS/manual verification |
+| 10 | Wallet & Payments | 9 | Business wallet, transactions, payouts, billing |
+| 11 | Reports | 7 | Campaign, revenue, affiliate, conversion reports + export |
+| 12 | Notifications | 5 | Email, push, SMS, WhatsApp notification preferences |
+| 13 | Business Settings | 9 | Profile, team, roles, branding, API, integrations |
+| 14 | Affiliate Dashboard | 18 | Full affiliate portal: campaigns, wallet, KYC, analytics |
+| 15 | Super Admin Dashboard | 26 | Full ops portal: fraud, KYC, finance, compliance, config |
+| 16 | Support | 5 | Help centre, tickets, live chat, knowledge base |
+| 17 | Shared Components | 17 | Search, modals, empty states, QR, file upload, loaders |
+| **TOTAL** | **17 Modules** | **190 Screens** | **Complete Platform Coverage** |
+
+**Note:** The 190 screen count includes all unique screens across all portals (Public, Business Admin, Affiliate, Super Admin) and all shared components. Phase 1 covers approximately 120 screens (excluding Phase 2 and 3 features). The offline business modules (6.06–6.10, 9.05–9.09) are core Phase 1 features, not deferred.
+
+---
+
+### CLOSING NOTE
+Rippl is not just another affiliate platform. It is the first referral and affiliate growth infrastructure built natively for Africa's mixed economy — where a Shopify entrepreneur in Lagos and a neighbourhood pharmacy in Ibadan can both run professional affiliate programmes, track commissions accurately, and pay their affiliates on time.
+
+The 17 modules and 190 screens documented in this specification represent the full product surface of Rippl. Each module is designed to serve a specific workflow — from the moment a business discovers the platform to the moment an affiliate receives a payout notification on their phone.
+
+The offline business capability, in particular, is Rippl's deepest competitive moat. No global platform has built QR-based referral verification, POS-integrated commission attribution, or manual sale confirmation workflows for emerging market businesses. Rippl builds all three natively.
+
+*RIPPL — Full Platform Specification v3.0 | May 2026 | Confidential — Internal Use Only | 17 Modules | 190 Screens | Redistribution requires written approval from the Rippl CEO.*
+
+*RIPPL — Full Platform Specification v3.0 | Confidential | May 2026*
