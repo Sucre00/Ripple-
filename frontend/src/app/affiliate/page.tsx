@@ -714,11 +714,11 @@ export default function AffiliateDashboard() {
           <div className="flex flex-col gap-6">
             
             {/* Guided Onboarding Checklist Widget */}
-            <div className="bg-white border border-slate-200/50 shadow-sm rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6 animate-in fade-in duration-200">
+            <div className="bg-white border border-slate-200/50 shadow-sm rounded-3xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="flex-1 space-y-3">
                 <div className="flex justify-between items-center">
                   <h3 className="font-semibold text-sm text-slate-800 flex items-center gap-1.5">
-                    Ambassador Integration Checklist
+                    Onboarding Progress
                     <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-2 py-0.5 rounded-full font-bold">
                       {onboardingProgress}% Completed
                     </span>
@@ -735,10 +735,10 @@ export default function AffiliateDashboard() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
                   {[
                     { key: "profile", label: "Complete Profile" },
-                    { key: "phone", label: "Verify Phone Number" },
+                    { key: "phone", label: "Verify Phone" },
                     { key: "campaign", label: "Browse Marketplace" },
                     { key: "share", label: "Share First Link" },
-                    { key: "kyc", label: "Verify Identity (KYC)" },
+                    { key: "kyc", label: "Verify Identity" },
                     { key: "withdraw", label: "Request Cashout" }
                   ].map((step) => {
                     const isDone = (checklist as any)[step.key];
@@ -748,14 +748,14 @@ export default function AffiliateDashboard() {
                         onClick={() => {
                           updateChecklist(step.key as any, !isDone);
                         }}
-                        className={`px-3 py-2.5 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between gap-2 ${
+                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between ${
                           isDone
-                            ? "border-green-200 bg-green-50/50 text-green-700 shadow-2xs"
-                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50/50"
+                            ? "border-green-200 bg-green-50/50 text-green-700"
+                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
                         }`}
                       >
-                        <span className="truncate">{step.label}</span>
-                        <span className={`w-3.5 h-3.5 shrink-0 rounded-full flex items-center justify-center text-[8px] font-bold ${
+                        <span>{step.label}</span>
+                        <span className={`w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-bold ${
                           isDone ? "bg-green-600 text-white" : "bg-slate-100 text-slate-400"
                         }`}>
                           {isDone ? "✓" : ""}
