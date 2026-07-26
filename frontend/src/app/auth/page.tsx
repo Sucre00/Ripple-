@@ -515,21 +515,30 @@ export default function AuthPage() {
 
               {/* Portal selection */}
               <div className="space-y-2">
-                <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                  Select Portal
-                </label>
+                <div className="flex justify-between items-center">
+                  <label className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                    Select Portal & Quick Demo Role
+                  </label>
+                  <span className="text-[9px] text-[#e15b3e] font-semibold">1-Click Auto-Fill Demo</span>
+                </div>
                 <div className="grid grid-cols-3 gap-2">
                   {[
-                    { id: "affiliate", label: "Affiliate", Icon: IconUsers },
-                    { id: "business_admin", label: "Business Admin", Icon: IconBriefcase },
-                    { id: "super_admin", label: "Super Admin", Icon: IconFingerprint }
+                    { id: "affiliate", label: "Affiliate", Icon: IconUsers, demoEmail: "affiliate@rippl.io" },
+                    { id: "business_admin", label: "Business Admin", Icon: IconBriefcase, demoEmail: "merchant@rippl.io" },
+                    { id: "super_admin", label: "Super Admin", Icon: IconFingerprint, demoEmail: "admin@rippl.io" }
                   ].map((p) => (
                     <button
                       key={p.id}
-                      onClick={() => setRole(p.id as Role)}
-                      className={`py-2 px-1 rounded-xl border flex flex-col items-center gap-1.5 transition-all active:scale-95 ${
+                      type="button"
+                      onClick={() => {
+                        setRole(p.id as Role);
+                        setEmail(p.demoEmail);
+                        setPassword("password123");
+                        setErrorMsg("");
+                      }}
+                      className={`py-2.5 px-1 rounded-xl border flex flex-col items-center gap-1.5 transition-all active:scale-95 ${
                         role === p.id
-                          ? "border-[#e15b3e] bg-[#fcece9] text-[#e15b3e]"
+                          ? "border-[#e15b3e] bg-[#fcece9] text-[#e15b3e] shadow-xs"
                           : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
                       }`}
                     >
