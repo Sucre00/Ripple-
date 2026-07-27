@@ -213,7 +213,7 @@ export default function RipplLandingPage() {
         {/* Left: Logo */}
         <div className="flex items-center">
           <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileMenuOpen(false); }} className="flex items-center">
-            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
+            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" loading="eager" fetchPriority="high" />
           </Link>
         </div>
 
@@ -710,17 +710,17 @@ export default function RipplLandingPage() {
           >
             <div className="animate-scroll flex gap-12 items-center">
               {/* Set 1 */}
-              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" />
-              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" loading="lazy" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
               {/* Set 2 */}
-              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" />
-              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" />
-              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" />
+              <img src="/Paystack_idSL4BuSLF_0.svg" alt="Paystack" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Flutterwave_idMJJ4PV-S_0.svg" alt="Flutterwave" className="h-4 md:h-5 object-contain shrink-0" loading="lazy" />
+              <img src="/Piggyvest_id1qhh6RKc_1.svg" alt="PiggyVest" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Shopify-com_Logo_0.svg" alt="Shopify" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
+              <img src="/Coca-Cola_Logo_0.svg" alt="Coca-Cola" className="h-5 md:h-6 object-contain shrink-0" loading="lazy" />
             </div>
           </div>
         </div>
@@ -1181,6 +1181,7 @@ export default function RipplLandingPage() {
                 <img 
                   src={t.avatar} 
                   alt={t.author} 
+                  loading="lazy"
                   className="w-10 h-10 rounded-full object-cover border border-slate-200/40 shadow-sm" 
                 />
                 <div>
