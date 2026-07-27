@@ -45,9 +45,36 @@ export default function AuthPage() {
         document.cookie = "user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         return;
       }
+      
+      const modeParam = searchParams.get("mode");
+      const roleParam = searchParams.get("role");
+      const stepParam = searchParams.get("step");
+
+      if (roleParam === "business_admin" || roleParam === "affiliate" || roleParam === "super_admin") {
+        setRole(roleParam as Role);
+      }
+
+      if (modeParam) {
+        if (modeParam === "welcome" || modeParam === "login" || modeParam === "signup" || modeParam === "forgot_password" || modeParam === "suspended" || modeParam === "session_expired") {
+          setAuthMode(modeParam as AuthMode);
+        }
+      }
+
+      if (stepParam) {
+        setAuthMode("signup");
+        setRole("business_admin");
+        if (stepParam === "biz_info" || stepParam === "biz_cat" || stepParam === "biz_addr") setBizStep(1);
+        else if (stepParam === "biz_kyc_intro" || stepParam === "biz_cac" || stepParam === "biz_id" || stepParam === "biz_logo") setBizStep(2);
+        else if (stepParam === "biz_plan") setBizStep(3);
+        else if (stepParam === "biz_bank" || stepParam === "biz_checkout" || stepParam === "biz_pay_success" || stepParam === "biz_pay_failed") {
+          setBizStep(4);
+          if (stepParam === "biz_pay_success") setPaymentDone(true);
+        } else if (stepParam === "biz_done") setBizStep(5);
+      }
+
       const match = document.cookie.match(/(?:^|; )user_role=([^;]*)/);
       const userRole = match ? match[1] : null;
-      if (userRole) {
+      if (userRole && !searchParams.has("mode") && !searchParams.has("step")) {
         if (userRole === "affiliate") router.push("/affiliate");
         else if (userRole === "business_admin") router.push("/business-admin");
         else if (userRole === "super_admin") router.push("/super-admin");

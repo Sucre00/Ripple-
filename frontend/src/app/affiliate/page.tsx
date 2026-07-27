@@ -45,24 +45,26 @@ import {
 } from "@tabler/icons-react";
 
 export default function AffiliateDashboard() {
-  const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "campaigns" | "wallet" | "analytics" | "leaderboard" | "security" | "support" | "profile" | "notifications">("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Tab synchronization with URL search parameters
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab");
-      const validTabs = ["overview", "campaigns", "wallet", "analytics", "leaderboard", "security", "support"];
-      if (tab && validTabs.includes(tab)) {
-        setActiveTab(tab as any);
+    const parseParams = () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        const tab = params.get("tab");
+        const validTabs = ["overview", "campaigns", "wallet", "analytics", "leaderboard", "security", "support", "profile", "notifications"];
+        if (tab && validTabs.includes(tab)) {
+          setActiveTab(tab as any);
+        }
       }
-    }
+    };
+
+    parseParams();
 
     const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab") || "overview";
-      setActiveTab(tab as any);
+      parseParams();
     };
 
     window.addEventListener("popstate", handlePopState);

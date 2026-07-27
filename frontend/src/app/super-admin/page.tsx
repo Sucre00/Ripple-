@@ -43,19 +43,21 @@ export default function SuperAdminDashboard() {
 
   // Tab synchronization with URL search parameters
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab");
-      const validTabs = ["overview", "verifications", "businesses", "affiliates", "finance", "config"];
-      if (tab && validTabs.includes(tab)) {
-        setActiveTab(tab as any);
+    const parseParams = () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        const tab = params.get("tab");
+        const validTabs = ["overview", "verifications", "businesses", "affiliates", "admins", "campaigns", "products", "fraud", "finance", "config"];
+        if (tab && validTabs.includes(tab)) {
+          setActiveTab(tab as any);
+        }
       }
-    }
+    };
+
+    parseParams();
 
     const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab") || "overview";
-      setActiveTab(tab as any);
+      parseParams();
     };
 
     window.addEventListener("popstate", handlePopState);
