@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { IconBriefcase, IconCheck, IconArrowRight, IconSparkles, IconQrCode } from "@tabler/icons-react";
+import { IconBriefcase, IconCheck, IconArrowRight, IconSparkles, IconQrcode } from "@tabler/icons-react";
 
 export default function BusinessSolutionsPage() {
   return (
@@ -42,7 +42,7 @@ export default function BusinessSolutionsPage() {
 
           <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
             <h3 className="font-semibold text-sm text-slate-900 flex items-center gap-2">
-              <IconQrCode className="w-4 h-4 text-purple-600" />
+              <IconQrcode className="w-4 h-4 text-purple-600" />
               Offline Physical Stores & SMBs
             </h3>
             <div className="space-y-2 text-xs text-slate-600 font-light">
