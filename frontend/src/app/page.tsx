@@ -401,8 +401,228 @@ export default function RipplLandingPage() {
         </div>
       )}
 
-      {/* Hero Section */}
-      <section className="px-6 py-16 md:py-24 max-w-5xl mx-auto text-center flex flex-col items-center gap-6 relative">
+      {/* Dynamic View Content Switcher for Module 1 Public Screens (1.02 – 1.15) */}
+      {currentView === "about" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.02 — About Rippl Infrastructure
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
+              Building Africa's Referral & Affiliate Growth Engine
+            </h1>
+            <p className="text-sm text-slate-500 font-light leading-relaxed max-w-xl mx-auto">
+              Rippl is built specifically for emerging markets — empowering both online e-commerce stores and offline neighbourhood supermarkets with automated referral tracking and instant bank cashouts.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <IconSparkles className="w-6 h-6 text-[#e15b3e]" />
+              <h3 className="font-semibold text-sm text-slate-900">Online + Offline Reach</h3>
+              <p className="text-xs text-slate-500 font-light">Shopify links or physical store QR code cards — unified in one system.</p>
+            </div>
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <IconShieldCheck className="w-6 h-6 text-green-600" />
+              <h3 className="font-semibold text-sm text-slate-900">Anti-Fraud Engine</h3>
+              <p className="text-xs text-slate-500 font-light">Device fingerprinting and velocity anomaly checks prevent fraud.</p>
+            </div>
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <IconUsers className="w-6 h-6 text-purple-600" />
+              <h3 className="font-semibold text-sm text-slate-900">Instant NIP Cashouts</h3>
+              <p className="text-xs text-slate-500 font-light">Ambassadors cash out directly to any Nigerian bank in 24 hours.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentView === "features" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.03 — Platform Features
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Full Platform Capabilities</h1>
+            <p className="text-xs text-slate-500">Automated tracking, offline QR cards, velocity fraud protection, and instant payouts.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
+              <h3 className="font-bold text-sm text-slate-900">Online Tracking Pixel & REST API</h3>
+              <p className="text-xs text-slate-500 font-light">Drop-in Javascript tracking pixel for Shopify, WooCommerce, or custom React apps.</p>
+            </div>
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
+              <h3 className="font-bold text-sm text-slate-900">Offline Point-Of-Sale QR Verification</h3>
+              <p className="text-xs text-slate-500 font-light">Printable QR code cards & store till camera scanning for physical supermarket sales.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentView === "pricing" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-slate-900 text-white px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.04 — NGN Pricing Matrix
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Flexible Plans For Growth</h1>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+              <h3 className="font-bold text-base text-slate-900">Starter</h3>
+              <div className="text-2xl font-extrabold text-[#e15b3e]">₦15,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
+              <p className="text-xs text-slate-500 font-light">For emerging online shops & single-branch stores.</p>
+            </div>
+            <div className="p-6 bg-white rounded-3xl border-2 border-[#e15b3e] shadow-md space-y-4 relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#e15b3e] text-white text-[9px] font-bold px-3 py-0.5 rounded-full uppercase">Most Popular</span>
+              <h3 className="font-bold text-base text-slate-900">Growth</h3>
+              <div className="text-2xl font-extrabold text-[#e15b3e]">₦45,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
+              <p className="text-xs text-slate-500 font-light">For growing retail chains & active ambassador networks.</p>
+            </div>
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+              <h3 className="font-bold text-base text-slate-900">Pro</h3>
+              <div className="text-2xl font-extrabold text-[#e15b3e]">₦120,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
+              <p className="text-xs text-slate-500 font-light">For high-volume merchants with custom domain white-labeling.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentView === "how-it-works" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.05 — How It Works
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">3 Steps To Launch Referral Growth</h1>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">1</div>
+              <h3 className="font-bold text-sm text-slate-900">Create Campaign</h3>
+              <p className="text-xs text-slate-500 font-light">Set your commission rate (% or flat NGN fee) and generate links or QR code cards.</p>
+            </div>
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">2</div>
+              <h3 className="font-bold text-sm text-slate-900">Ambassadors Share</h3>
+              <p className="text-xs text-slate-500 font-light">Ambassadors share referral links on WhatsApp/Instagram or hand out physical QR cards.</p>
+            </div>
+            <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
+              <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">3</div>
+              <h3 className="font-bold text-sm text-slate-900">Instant 24h Payouts</h3>
+              <p className="text-xs text-slate-500 font-light">Conversions clear automatically. Ambassadors cash out directly to any bank in 24h.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentView === "solutions-business" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-purple-100 text-purple-800 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.06 — Business Solutions
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">E-Commerce & Offline Physical Store Solutions</h1>
+            <p className="text-xs text-slate-500 font-light">Tailored for online Shopify/WooCommerce stores and physical supermarkets in Nigeria.</p>
+          </div>
+        </div>
+      )}
+
+      {currentView === "solutions-affiliate" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.07 — Creator & Ambassador Solutions
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Earn Daily By Sharing What You Love</h1>
+            <p className="text-xs text-slate-500 font-light">No minimum thresholds. Sub-24h NIP bank transfers straight to your bank account.</p>
+          </div>
+        </div>
+      )}
+
+      {currentView === "solutions-enterprise" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-slate-900 text-white px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.08 — Enterprise Solutions
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Infrastructure For Banks, Telcos, & Major Retailers</h1>
+            <p className="text-xs text-slate-500 font-light">Custom domain white-labeling, REST Webhooks, and dedicated SLA support.</p>
+          </div>
+        </div>
+      )}
+
+      {currentView === "faq" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.09 — Frequently Asked Questions
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Everything You Need To Know</h1>
+          </div>
+        </div>
+      )}
+
+      {currentView === "contact" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.10 — Contact Us
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Get In Touch With The Rippl Team</h1>
+            <p className="text-xs text-slate-500 font-light">Victoria Island, Lagos, Nigeria • support@rippl.io</p>
+          </div>
+        </div>
+      )}
+
+      {currentView === "blog" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.11 — Rippl Blog & Growth Articles
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Merchant Guides & Ambassador Tips</h1>
+          </div>
+        </div>
+      )}
+
+      {currentView === "help" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-10 animate-in fade-in duration-200">
+          <div className="text-center space-y-3">
+            <span className="text-[10px] bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+              Screen 1.13 & 16.01 — Help Center & Documentation
+            </span>
+            <h1 className="text-3xl font-bold text-slate-900">Search Support Knowledge Base</h1>
+          </div>
+        </div>
+      )}
+
+      {currentView === "privacy" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-6 animate-in fade-in duration-200">
+          <span className="text-[10px] bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-bold uppercase">
+            Screen 1.14 — NDPR Privacy Policy
+          </span>
+          <h1 className="text-3xl font-bold text-slate-900">Rippl Data Privacy & Cookie Policy</h1>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Rippl is fully compliant with the Nigeria Data Protection Regulation (NDPR). Conversion cookies are encrypted and strictly used for referral attribution.
+          </p>
+        </div>
+      )}
+
+      {currentView === "terms" && (
+        <div className="max-w-4xl mx-auto px-6 py-12 space-y-6 animate-in fade-in duration-200">
+          <span className="text-[10px] bg-slate-100 text-slate-700 px-3 py-1 rounded-full font-bold uppercase">
+            Screen 1.15 — Terms & Conditions
+          </span>
+          <h1 className="text-3xl font-bold text-slate-900">Platform Terms of Service</h1>
+          <p className="text-xs text-slate-600 leading-relaxed">
+            Governed by the laws of the Federal Republic of Nigeria. Anti-fraud velocity limits and BVN verification rules apply to all payouts.
+          </p>
+        </div>
+      )}
+
+      {/* Hero Section — Rendered on Landing View */}
+      {(currentView === "landing" || !currentView || currentView === "1.01") && (
+        <>
+          <section className="px-6 py-16 md:py-24 max-w-5xl mx-auto text-center flex flex-col items-center gap-6 relative">
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[#e15b3e]/5 blur-3xl -z-10 pointer-events-none"></div>
 
         {/* Pill highlight */}
@@ -1276,6 +1496,8 @@ export default function RipplLandingPage() {
           </div>
         </div>
       </footer>
+      </>
+      )}
 
       {/* Exit Intent Capturer modal popup (Section 12) */}
       {showExitIntent && (
