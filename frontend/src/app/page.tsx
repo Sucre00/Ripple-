@@ -219,38 +219,62 @@ export default function RipplLandingPage() {
 
         {/* Center: Desktop links */}
         <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
-          <a 
-            href="#features" 
-            className={`transition-colors duration-200 ${
-              activeSection === "features" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
+          <Link 
+            href="/how-it-works" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
             How it works
-          </a>
-          <a 
-            href="#roi-simulator" 
-            className={`transition-colors duration-200 ${
-              activeSection === "roi-simulator" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
+          </Link>
+
+          {/* Solutions Dropdown Menu */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 text-slate-500 hover:text-[#e15b3e] transition-colors py-2">
+              <span>Solutions</span>
+              <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
+            </button>
+            <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
+              <Link href="/solutions/business" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Business Merchants
+              </Link>
+              <Link href="/solutions/affiliate" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Creator Ambassadors
+              </Link>
+              <Link href="/solutions/enterprise" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Enterprise & Banks
+              </Link>
+            </div>
+          </div>
+
+          <Link 
+            href="/features" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
-            ROI Simulator
-          </a>
-          <a 
-            href="#pricing" 
-            className={`transition-colors duration-200 ${
-              activeSection === "pricing" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
+            Features
+          </Link>
+          <Link 
+            href="/pricing" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
             Pricing
-          </a>
-          <a 
-            href="#faq" 
-            className={`transition-colors duration-200 ${
-              activeSection === "faq" ? "text-[#e15b3e]" : "text-slate-500 hover:text-[#e15b3e]"
-            }`}
+          </Link>
+          <Link 
+            href="/blog" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+          >
+            Blog
+          </Link>
+          <Link 
+            href="/faq" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
             FAQs
-          </a>
+          </Link>
+          <Link 
+            href="/help" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+          >
+            Help Center
+          </Link>
         </nav>
 
         {/* Right: Auth CTAs & Mobile Hamburger Menu Button */}
