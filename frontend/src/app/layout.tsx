@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono } from "next/font/google";
-import { Suspense } from "react";
-import ProgressTrackerController from "@/components/ProgressTracker";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -30,9 +28,6 @@ export default function RootLayout({
     <html lang="en" className={geistMono.variable}>
       <body className="bg-slate-950 text-slate-100 min-h-screen">
         {children}
-        <Suspense fallback={null}>
-          <ProgressTrackerController />
-        </Suspense>
       </body>
     </html>
   );
