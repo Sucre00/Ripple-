@@ -53,6 +53,36 @@ export default function RipplLandingPage() {
   // Mobile menu toggle state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Dynamic View & Modal parameter routing states
+  const [currentView, setCurrentView] = useState<string>("landing");
+  const [currentModal, setCurrentModal] = useState<string | null>(null);
+
+  useEffect(() => {
+    const parseQueryParams = () => {
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        const viewParam = params.get("view");
+        const modalParam = params.get("modal");
+
+        if (viewParam) {
+          setCurrentView(viewParam);
+        } else {
+          setCurrentView("landing");
+        }
+
+        if (modalParam) {
+          setCurrentModal(modalParam);
+        } else {
+          setCurrentModal(null);
+        }
+      }
+    };
+
+    parseQueryParams();
+    window.addEventListener("popstate", parseQueryParams);
+    return () => window.removeEventListener("popstate", parseQueryParams);
+  }, []);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       const getCookie = (name: string) => {
@@ -1274,6 +1304,224 @@ export default function RipplLandingPage() {
                 </button>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Shared Modals Overlay Renderer (Module 17 — Screens 17.01 to 17.17) */}
+      {currentModal && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 text-white rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <button
+              onClick={() => {
+                setCurrentModal(null);
+                if (typeof window !== "undefined") {
+                  const url = new URL(window.location.href);
+                  url.searchParams.delete("modal");
+                  window.history.pushState(null, "", url.pathname + (url.search ? url.search : ""));
+                }
+              }}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-xl bg-slate-800/80"
+            >
+              <IconX className="w-4 h-4" />
+            </button>
+
+            {currentModal === "search" && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                  <IconSearch className="w-4 h-4" /> Screen 17.01 — Global Search Modal
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search campaigns, merchants, affiliates, transactions..."
+                  className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-2xl text-xs focus:outline-none focus:border-emerald-500"
+                  autoFocus
+                />
+                <div className="text-xs text-slate-400 space-y-2">
+                  <span className="text-[10px] uppercase font-bold text-slate-500">Quick Results:</span>
+                  <div className="p-2.5 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                    <span>Campaign: Lagos Supermarket Growth</span>
+                    <span className="text-emerald-400 font-mono">15% Comm</span>
+                  </div>
+                  <div className="p-2.5 bg-slate-950/60 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                    <span>Affiliate: Dwayne Tatum (#KOL-902)</span>
+                    <span className="text-emerald-400 font-mono">Tier 3 BVN</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "notifications" && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                  <IconCheck className="w-4 h-4" /> Screen 17.02 — Global Notifications Bell
+                </div>
+                <div className="space-y-2 text-xs">
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                    <p className="font-bold text-slate-200">Commission Released</p>
+                    <p className="text-slate-400 text-[11px]">₦45,000 cleared for Campaign #KOL-01.</p>
+                  </div>
+                  <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
+                    <p className="font-bold text-slate-200">KYC Verification Approved</p>
+                    <p className="text-slate-400 text-[11px]">CAC Certificate verified by Super Admin.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "profile" && (
+              <div className="space-y-4 text-center">
+                <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xl mx-auto">
+                  DT
+                </div>
+                <h3 className="text-lg font-bold text-white">Dwayne Tatum</h3>
+                <p className="text-xs text-slate-400">Screen 17.03 — User Profile Menu</p>
+                <div className="pt-2 flex flex-col gap-2 text-xs">
+                  <Link href="/business-admin" className="py-2.5 bg-slate-800 rounded-xl font-semibold">Business Dashboard</Link>
+                  <Link href="/affiliate" className="py-2.5 bg-slate-800 rounded-xl font-semibold">Affiliate Portal</Link>
+                  <Link href="/super-admin" className="py-2.5 bg-slate-800 rounded-xl font-semibold">Super Admin Command</Link>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "empty_states" && (
+              <div className="text-center py-6 space-y-3">
+                <IconAlertCircle className="w-12 h-12 text-slate-500 mx-auto" />
+                <h4 className="text-base font-bold text-white">Screen 17.04 — Empty States Graphic</h4>
+                <p className="text-xs text-slate-400 max-w-xs mx-auto">
+                  No active transactions found matching your criteria. Try adjusting your date filters.
+                </p>
+              </div>
+            )}
+
+            {currentModal === "skeletons" && (
+              <div className="space-y-3">
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Screen 17.06 — Loading Skeleton States</span>
+                <div className="animate-pulse space-y-2">
+                  <div className="h-4 bg-slate-800 rounded-lg w-3/4"></div>
+                  <div className="h-10 bg-slate-800 rounded-xl w-full"></div>
+                  <div className="h-10 bg-slate-800 rounded-xl w-full"></div>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "success" && (
+              <div className="text-center py-6 space-y-3">
+                <div className="w-12 h-12 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto">
+                  <IconCheck className="w-6 h-6" />
+                </div>
+                <h4 className="text-lg font-extrabold text-white">Screen 17.07 — Transaction Success</h4>
+                <p className="text-xs text-slate-400">Operation processed successfully with reference #NIP-9201.</p>
+              </div>
+            )}
+
+            {currentModal === "delete" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-red-400">Screen 17.08 — Delete Confirmation</h4>
+                <p className="text-xs text-slate-300">Are you sure you want to delete this draft campaign? Type <strong>DELETE</strong> to confirm.</p>
+                <input type="text" placeholder="Type DELETE" className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs" />
+                <button className="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl">Confirm Delete</button>
+              </div>
+            )}
+
+            {currentModal === "approval" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-emerald-400">Screen 17.09 — Approval Modal</h4>
+                <p className="text-xs text-slate-300">Confirm approval for NIP Payout #PAY-8802 (Value: ₦120,000).</p>
+                <button className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl">Approve Payout</button>
+              </div>
+            )}
+
+            {currentModal === "rejection" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-amber-400">Screen 17.10 — Rejection Modal</h4>
+                <p className="text-xs text-slate-300">Select reason code for rejecting referral conversion entry:</p>
+                <select className="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs rounded-xl">
+                  <option>Duplicate IP Fingerprint</option>
+                  <option>Unconfirmed Receipt</option>
+                  <option>Out of Campaign Window</option>
+                </select>
+                <button className="w-full py-2.5 bg-amber-600 text-white font-bold text-xs rounded-xl">Submit Rejection</button>
+              </div>
+            )}
+
+            {currentModal === "image_upload" && (
+              <div className="space-y-4 text-center">
+                <h4 className="text-base font-bold text-white">Screen 17.11 — Image Upload & Crop Modal</h4>
+                <div className="border-2 border-dashed border-slate-700 p-8 rounded-2xl text-slate-400 text-xs">
+                  Drag and drop brand logo or banner here (Max 5MB)
+                </div>
+              </div>
+            )}
+
+            {currentModal === "qr_scanner" && (
+              <div className="space-y-4 text-center">
+                <h4 className="text-base font-bold text-emerald-400">Screen 17.12 — Point of Sale Camera QR Scanner</h4>
+                <div className="bg-slate-950 aspect-video rounded-2xl border border-slate-800 flex items-center justify-center text-xs text-emerald-400 font-mono">
+                  [ CAMERA FEED ACTIVE — POINT AT QR CODE ]
+                </div>
+              </div>
+            )}
+
+            {currentModal === "generator" && (
+              <div className="space-y-4 text-center">
+                <h4 className="text-base font-bold text-white">Screen 17.13 — QR Code Generator</h4>
+                <div className="bg-white p-4 rounded-2xl inline-block mx-auto">
+                  <img src="/logo-primary-horizontal.svg" alt="QR Code" className="w-32 h-32 object-contain" />
+                </div>
+                <div className="flex gap-2">
+                  <button className="flex-1 py-2 bg-slate-800 rounded-xl text-xs font-bold">Download PNG</button>
+                  <button className="flex-1 py-2 bg-emerald-600 rounded-xl text-xs font-bold">Share WhatsApp</button>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "camera_permission" && (
+              <div className="space-y-4 text-center">
+                <h4 className="text-base font-bold text-white">Screen 17.14 — Camera Permission Prompt</h4>
+                <p className="text-xs text-slate-400">Rippl requires camera access to scan physical QR codes at checkout.</p>
+                <button className="w-full py-2.5 bg-emerald-600 text-white font-bold text-xs rounded-xl">Allow Camera Access</button>
+              </div>
+            )}
+
+            {currentModal === "file_uploader" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-white">Screen 17.15 — File Uploader</h4>
+                <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl text-xs space-y-2">
+                  <p className="font-bold text-slate-200">cac_certificate_2026.pdf</p>
+                  <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-emerald-500 h-full w-3/4"></div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {currentModal === "pdf_viewer" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-white">Screen 17.16 — In-App PDF Viewer</h4>
+                <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-xs font-mono text-slate-300">
+                  [ CAC REGISTRATION DOCUMENT PREVIEW — INC NO: #CAC-890123 ]
+                </div>
+              </div>
+            )}
+
+            {currentModal === "csv_wizard" && (
+              <div className="space-y-4">
+                <h4 className="text-base font-bold text-white">Screen 17.17 — CSV Bulk Import Wizard</h4>
+                <div className="space-y-2 text-xs">
+                  <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                    <span>Product Name Column</span>
+                    <span className="text-emerald-400 font-mono">→ Matched (Col A)</span>
+                  </div>
+                  <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                    <span>Price Column (NGN)</span>
+                    <span className="text-emerald-400 font-mono">→ Matched (Col B)</span>
+                  </div>
+                </div>
+                <button className="w-full py-2.5 bg-emerald-600 font-bold text-xs rounded-xl">Execute CSV Import</button>
+              </div>
+            )}
+
           </div>
         </div>
       )}
