@@ -258,6 +258,12 @@ export default function RipplLandingPage() {
             Pricing
           </Link>
           <Link 
+            href="/about" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+          >
+            About
+          </Link>
+          <Link 
             href="/blog" 
             className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
@@ -274,6 +280,12 @@ export default function RipplLandingPage() {
             className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
           >
             Help Center
+          </Link>
+          <Link 
+            href="/contact" 
+            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+          >
+            Contact
           </Link>
         </nav>
 
@@ -325,43 +337,77 @@ export default function RipplLandingPage() {
       {/* Mobile Navigation Drawer Overlay */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-2xl z-40 max-w-xl mx-auto p-6 animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col gap-3 text-sm font-semibold">
-            <a 
-              href="#features"
+          <nav className="flex flex-col gap-2 text-sm font-semibold">
+            <Link 
+              href="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${
-                activeSection === "features" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"
-              }`}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
             >
               How it works
-            </a>
-            <a 
-              href="#roi-simulator"
+            </Link>
+            <Link 
+              href="/solutions/business"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${
-                activeSection === "roi-simulator" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"
-              }`}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
             >
-              ROI Simulator
-            </a>
-            <a 
-              href="#pricing"
+              Business Merchant Solutions
+            </Link>
+            <Link 
+              href="/solutions/affiliate"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${
-                activeSection === "pricing" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"
-              }`}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              Affiliate Ambassador Solutions
+            </Link>
+            <Link 
+              href="/features"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              Features
+            </Link>
+            <Link 
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
             >
               Pricing
-            </a>
-            <a 
-              href="#faq"
+            </Link>
+            <Link 
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${
-                activeSection === "faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"
-              }`}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              About
+            </Link>
+            <Link 
+              href="/blog"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              Blog
+            </Link>
+            <Link 
+              href="/faq"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
             >
               FAQs
-            </a>
+            </Link>
+            <Link 
+              href="/help"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              Help Center
+            </Link>
+            <Link 
+              href="/contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+            >
+              Contact
+            </Link>
 
             <div className="pt-4 mt-1 border-t border-slate-200/60 flex flex-col gap-2.5">
               {userRole ? (
