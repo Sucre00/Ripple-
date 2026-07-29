@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { IconChevronDown, IconMenu2, IconX } from "@tabler/icons-react";
 
 interface NavbarProps {
@@ -11,6 +12,19 @@ interface NavbarProps {
 
 export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isLinkActive = (path: string, section?: string) => {
+    if (pathname === path) return true;
+    if (pathname === "/" && section && activeSection === section) return true;
+    return false;
+  };
+
+  const isGroupActive = (paths: string[], sections: string[]) => {
+    if (paths.includes(pathname)) return true;
+    if (pathname === "/" && sections.includes(activeSection)) return true;
+    return false;
+  };
 
   return (
     <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-4 md:px-6 py-4 flex items-center justify-between z-50">
@@ -25,25 +39,25 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
       <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
         <Link 
           href="/how-it-works" 
-          className={`transition-colors duration-200 ${activeSection === "how-it-works" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
+          className={`transition-colors duration-200 ${isLinkActive("/how-it-works", "how-it-works") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           How it works
         </Link>
 
         {/* Solutions Dropdown Menu */}
         <div className="relative group">
-          <button className={`flex items-center gap-1 transition-colors py-2 ${activeSection.startsWith("solutions") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
+          <button className={`flex items-center gap-1 transition-colors py-2 ${isGroupActive(["/solutions/business", "/solutions/affiliate", "/solutions/enterprise"], ["solutions-business", "solutions-affiliate", "solutions-enterprise"]) ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
             <span>Solutions</span>
             <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
           </button>
           <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
-            <Link href="/solutions/business" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/solutions/business" className={`px-3.5 py-2.5 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/solutions/business" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Business Merchants
             </Link>
-            <Link href="/solutions/affiliate" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/solutions/affiliate" className={`px-3.5 py-2.5 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/solutions/affiliate" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Creator Ambassadors
             </Link>
-            <Link href="/solutions/enterprise" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/solutions/enterprise" className={`px-3.5 py-2.5 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/solutions/enterprise" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Enterprise & Banks
             </Link>
           </div>
@@ -51,37 +65,37 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
 
         <Link 
           href="/features" 
-          className={`transition-colors duration-200 ${activeSection === "features" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
+          className={`transition-colors duration-200 ${isLinkActive("/features", "features") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           Features
         </Link>
         <Link 
           href="/pricing" 
-          className={`transition-colors duration-200 ${activeSection === "pricing" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
+          className={`transition-colors duration-200 ${isLinkActive("/pricing", "pricing") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           Pricing
         </Link>
 
         {/* Resources Dropdown Menu */}
         <div className="relative group">
-          <button className={`flex items-center gap-1 transition-colors py-2 ${["blog", "faq", "help", "about", "contact"].includes(activeSection) ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
+          <button className={`flex items-center gap-1 transition-colors py-2 ${isGroupActive(["/blog", "/faq", "/help", "/about", "/contact"], ["blog", "faq", "help", "about", "contact"]) ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
             <span>Resources</span>
             <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
           </button>
           <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
-            <Link href="/blog" className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/blog" className={`px-3.5 py-2 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/blog" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Blog & Guides
             </Link>
-            <Link href="/faq" className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/faq" className={`px-3.5 py-2 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/faq" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               FAQs
             </Link>
-            <Link href="/help" className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/help" className={`px-3.5 py-2 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/help" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Help Center
             </Link>
-            <Link href="/about" className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/about" className={`px-3.5 py-2 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/about" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               About Rippl
             </Link>
-            <Link href="/contact" className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+            <Link href="/contact" className={`px-3.5 py-2 rounded-xl hover:bg-slate-50 font-semibold text-xs transition-colors ${pathname === "/contact" ? "bg-[#fcece9] text-[#e15b3e]" : "text-slate-700 hover:text-[#e15b3e]"}`}>
               Contact Us
             </Link>
           </div>
@@ -139,7 +153,7 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
             <Link 
               href="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${pathname === "/how-it-works" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               How it works
             </Link>
@@ -150,21 +164,21 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
                 <Link 
                   href="/solutions/business"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/solutions/business" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Business Merchants
                 </Link>
                 <Link 
                   href="/solutions/affiliate"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/solutions/affiliate" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Creator Ambassadors
                 </Link>
                 <Link 
                   href="/solutions/enterprise"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/solutions/enterprise" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Enterprise & Banks
                 </Link>
@@ -174,14 +188,14 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
             <Link 
               href="/features"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${pathname === "/features" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Features
             </Link>
             <Link 
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${pathname === "/pricing" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Pricing
             </Link>
@@ -192,35 +206,35 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
                 <Link 
                   href="/blog"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/blog" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Blog & Guides
                 </Link>
                 <Link 
                   href="/faq"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   FAQs
                 </Link>
                 <Link 
                   href="/help"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/help" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Help Center
                 </Link>
                 <Link 
                   href="/about"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/about" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   About Rippl
                 </Link>
                 <Link 
                   href="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="py-2 px-3.5 rounded-xl text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${pathname === "/contact" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
                 >
                   Contact Us
                 </Link>

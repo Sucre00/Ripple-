@@ -742,6 +742,13 @@ export default function RipplLandingPage() {
             </div>
           </div>
         </div>
+
+        {/* View All Features CTA */}
+        <div className="pt-4 text-center">
+          <Link href="/features" className="text-[#e15b3e] font-bold text-xs hover:underline inline-flex items-center gap-1.5 bg-white px-5 py-2.5 rounded-full border border-slate-200/60 shadow-sm">
+            View All Platform Capabilities & REST API Specs &rarr;
+          </Link>
+        </div>
       </section>
 
       {/* Interactive ROI / Earnings Calculator (Section 6) */}
