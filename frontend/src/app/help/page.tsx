@@ -14,7 +14,7 @@ export default function HelpPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.13 & 16.01 — Help Center & Documentation
+            Help Center & Documentation
           </span>
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Support Knowledge Base</h1>
           <p className="text-xs text-slate-500 font-light max-w-md mx-auto">

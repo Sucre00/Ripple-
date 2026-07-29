@@ -14,7 +14,7 @@ export default function FeaturesPage() {
       <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-emerald-100 text-emerald-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.03 — Platform Features
+            Platform Features
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Full Platform Capabilities</h1>
           <p className="text-xs sm:text-sm text-slate-500 font-light max-w-xl mx-auto leading-relaxed">

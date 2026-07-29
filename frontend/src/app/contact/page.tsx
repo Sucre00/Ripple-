@@ -21,7 +21,7 @@ export default function ContactPage() {
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.10 — Contact Us
+            Contact Us
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
             Get In Touch With The Rippl Team

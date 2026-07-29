@@ -308,41 +308,41 @@ export default function RipplLandingPage() {
 
 
 
-      {/* Screen 1.06, 1.07, 1.08 — Solutions Section */}
+      {/* Solutions Section */}
       <section id="solutions" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-12 border-t border-slate-200/60">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-purple-100 text-purple-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screens 1.06 - 1.08 — Tailored Solutions
+            Tailored Solutions
           </span>
           <h2 className="text-3xl font-bold text-slate-900">Engineered For Every Business Model</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div id="solutions-business" className="scroll-mt-24 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <span className="text-[9px] bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-md font-bold uppercase">Screen 1.06</span>
+            <span className="text-[9px] bg-purple-50 text-purple-700 px-2.5 py-0.5 rounded-md font-bold uppercase">Business Merchants</span>
             <h3 className="font-bold text-base text-slate-900">Business Merchants</h3>
             <p className="text-xs text-slate-500 font-light">For online Shopify/WooCommerce stores and physical supermarkets in Nigeria with POS/QR sale tracking.</p>
           </div>
 
           <div id="solutions-affiliate" className="scroll-mt-24 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <span className="text-[9px] bg-[#fcece9] text-[#e15b3e] px-2.5 py-0.5 rounded-md font-bold uppercase">Screen 1.07</span>
+            <span className="text-[9px] bg-[#fcece9] text-[#e15b3e] px-2.5 py-0.5 rounded-md font-bold uppercase">Creator Ambassadors</span>
             <h3 className="font-bold text-base text-slate-900">Creator Ambassadors</h3>
             <p className="text-xs text-slate-500 font-light">Earn daily commissions by sharing brand links and physical QR cards. Sub-24h NIP bank transfers straight to your bank account.</p>
           </div>
 
           <div id="solutions-enterprise" className="scroll-mt-24 p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <span className="text-[9px] bg-slate-100 text-slate-800 px-2.5 py-0.5 rounded-md font-bold uppercase">Screen 1.08</span>
+            <span className="text-[9px] bg-slate-100 text-slate-800 px-2.5 py-0.5 rounded-md font-bold uppercase">Enterprise & Banks</span>
             <h3 className="font-bold text-base text-slate-900">Enterprise & Banks</h3>
             <p className="text-xs text-slate-500 font-light">Custom domain white-labeling, REST Webhook APIs, and dedicated SLA account managers for high-volume networks.</p>
           </div>
         </div>
       </section>
 
-      {/* Screen 1.02 — About Rippl Section */}
+      {/* About Rippl Section */}
       <section id="about" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.02 — About Rippl Infrastructure
+            About Rippl Infrastructure
           </span>
           <h2 className="text-3xl font-bold text-slate-900">Building Africa's Referral Growth Infrastructure</h2>
           <p className="text-xs text-slate-500 font-light max-w-xl mx-auto leading-relaxed">
@@ -368,11 +368,11 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Screen 1.11 — Blog Section */}
+      {/* Blog Section */}
       <section id="blog" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.11 — Rippl Blog & Growth Articles
+            Rippl Blog & Growth Articles
           </span>
           <h2 className="text-3xl font-bold text-slate-900">Merchant Guides & Ambassador Tips</h2>
         </div>
@@ -390,22 +390,22 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Screen 1.13 — Help Center Section */}
+      {/* Help Center Section */}
       <section id="help" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.13 & 16.01 — Help Center & Documentation
+            Help Center & Documentation
           </span>
           <h2 className="text-3xl font-bold text-slate-900">Search Support Knowledge Base</h2>
           <p className="text-xs text-slate-500 font-light max-w-md mx-auto">Instant setup guides, API documentation, and support ticket tracking.</p>
         </div>
       </section>
 
-      {/* Screen 1.10 — Contact Us Section */}
+      {/* Contact Us Section */}
       <section id="contact" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.10 — Contact Us
+            Contact Us
           </span>
           <h2 className="text-3xl font-bold text-slate-900">Get In Touch With The Rippl Team</h2>
           <p className="text-xs text-slate-500 font-light">Victoria Island, Lagos, Nigeria • support@rippl.io</p>
@@ -942,7 +942,7 @@ export default function RipplLandingPage() {
       <section id="pricing" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-8">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
-            ✦ Screen 1.04 — NGN Pricing Matrix
+            ✦ NGN Pricing Matrix
           </span>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Flexible SaaS Pricing Packages</h2>
           <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">Choose the right plan for your online shop or physical retail chain.</p>
@@ -1112,7 +1112,7 @@ export default function RipplLandingPage() {
       <section id="faq" className="scroll-section px-6 py-16 max-w-3xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
-            ✦ Screen 1.09 — Frequently Asked Questions
+            ✦ Frequently Asked Questions
           </span>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Support & Faq</h2>
           <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">
@@ -1261,7 +1261,7 @@ export default function RipplLandingPage() {
             {currentModal === "search" && (
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                  <IconSearch className="w-4 h-4" /> Screen 17.01 — Global Search Modal
+                  <IconSearch className="w-4 h-4" /> Global Search
                 </div>
                 <input
                   type="text"
@@ -1286,7 +1286,7 @@ export default function RipplLandingPage() {
             {currentModal === "notifications" && (
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
-                  <IconCheck className="w-4 h-4" /> Screen 17.02 — Global Notifications Bell
+                  <IconCheck className="w-4 h-4" /> Global Notifications
                 </div>
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl space-y-1">
@@ -1307,7 +1307,7 @@ export default function RipplLandingPage() {
                   DT
                 </div>
                 <h3 className="text-lg font-bold text-white">Dwayne Tatum</h3>
-                <p className="text-xs text-slate-400">Screen 17.03 — User Profile Menu</p>
+                <p className="text-xs text-slate-400">User Account Settings</p>
                 <div className="pt-2 flex flex-col gap-2 text-xs">
                   <Link href="/business-admin" className="py-2.5 bg-slate-800 rounded-xl font-semibold">Business Dashboard</Link>
                   <Link href="/affiliate" className="py-2.5 bg-slate-800 rounded-xl font-semibold">Affiliate Portal</Link>
@@ -1319,7 +1319,7 @@ export default function RipplLandingPage() {
             {currentModal === "empty_states" && (
               <div className="text-center py-6 space-y-3">
                 <IconAlertCircle className="w-12 h-12 text-slate-500 mx-auto" />
-                <h4 className="text-base font-bold text-white">Screen 17.04 — Empty States Graphic</h4>
+                <h4 className="text-base font-bold text-white">No Results Found</h4>
                 <p className="text-xs text-slate-400 max-w-xs mx-auto">
                   No active transactions found matching your criteria. Try adjusting your date filters.
                 </p>
@@ -1328,7 +1328,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "skeletons" && (
               <div className="space-y-3">
-                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Screen 17.06 — Loading Skeleton States</span>
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Loading Data</span>
                 <div className="animate-pulse space-y-2">
                   <div className="h-4 bg-slate-800 rounded-lg w-3/4"></div>
                   <div className="h-10 bg-slate-800 rounded-xl w-full"></div>
@@ -1342,14 +1342,14 @@ export default function RipplLandingPage() {
                 <div className="w-12 h-12 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-full flex items-center justify-center mx-auto">
                   <IconCheck className="w-6 h-6" />
                 </div>
-                <h4 className="text-lg font-extrabold text-white">Screen 17.07 — Transaction Success</h4>
+                <h4 className="text-lg font-extrabold text-white">Transaction Success</h4>
                 <p className="text-xs text-slate-400">Operation processed successfully with reference #NIP-9201.</p>
               </div>
             )}
 
             {currentModal === "delete" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-red-400">Screen 17.08 — Delete Confirmation</h4>
+                <h4 className="text-base font-bold text-red-400">Delete Confirmation</h4>
                 <p className="text-xs text-slate-300">Are you sure you want to delete this draft campaign? Type <strong>DELETE</strong> to confirm.</p>
                 <input type="text" placeholder="Type DELETE" className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs" />
                 <button className="w-full py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl">Confirm Delete</button>
@@ -1358,7 +1358,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "approval" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-emerald-400">Screen 17.09 — Approval Modal</h4>
+                <h4 className="text-base font-bold text-emerald-400">Approval Modal</h4>
                 <p className="text-xs text-slate-300">Confirm approval for NIP Payout #PAY-8802 (Value: ₦120,000).</p>
                 <button className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl">Approve Payout</button>
               </div>
@@ -1366,7 +1366,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "rejection" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-amber-400">Screen 17.10 — Rejection Modal</h4>
+                <h4 className="text-base font-bold text-amber-400">Rejection Modal</h4>
                 <p className="text-xs text-slate-300">Select reason code for rejecting referral conversion entry:</p>
                 <select className="w-full px-3 py-2 bg-slate-950 border border-slate-800 text-xs rounded-xl">
                   <option>Duplicate IP Fingerprint</option>
@@ -1379,7 +1379,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "image_upload" && (
               <div className="space-y-4 text-center">
-                <h4 className="text-base font-bold text-white">Screen 17.11 — Image Upload & Crop Modal</h4>
+                <h4 className="text-base font-bold text-white">Image Upload & Crop</h4>
                 <div className="border-2 border-dashed border-slate-700 p-8 rounded-2xl text-slate-400 text-xs">
                   Drag and drop brand logo or banner here (Max 5MB)
                 </div>
@@ -1388,7 +1388,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "qr_scanner" && (
               <div className="space-y-4 text-center">
-                <h4 className="text-base font-bold text-emerald-400">Screen 17.12 — Point of Sale Camera QR Scanner</h4>
+                <h4 className="text-base font-bold text-emerald-400">Point of Sale Camera QR Scanner</h4>
                 <div className="bg-slate-950 aspect-video rounded-2xl border border-slate-800 flex items-center justify-center text-xs text-emerald-400 font-mono">
                   [ CAMERA FEED ACTIVE — POINT AT QR CODE ]
                 </div>
@@ -1397,7 +1397,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "generator" && (
               <div className="space-y-4 text-center">
-                <h4 className="text-base font-bold text-white">Screen 17.13 — QR Code Generator</h4>
+                <h4 className="text-base font-bold text-white">QR Code Generator</h4>
                 <div className="bg-white p-4 rounded-2xl inline-block mx-auto">
                   <img src="/logo-primary-horizontal.svg" alt="QR Code" className="w-32 h-32 object-contain" />
                 </div>
@@ -1410,7 +1410,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "camera_permission" && (
               <div className="space-y-4 text-center">
-                <h4 className="text-base font-bold text-white">Screen 17.14 — Camera Permission Prompt</h4>
+                <h4 className="text-base font-bold text-white">Camera Permission Prompt</h4>
                 <p className="text-xs text-slate-400">Rippl requires camera access to scan physical QR codes at checkout.</p>
                 <button className="w-full py-2.5 bg-emerald-600 text-white font-bold text-xs rounded-xl">Allow Camera Access</button>
               </div>
@@ -1418,7 +1418,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "file_uploader" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-white">Screen 17.15 — File Uploader</h4>
+                <h4 className="text-base font-bold text-white">File Uploader</h4>
                 <div className="p-4 bg-slate-950 border border-slate-800 rounded-2xl text-xs space-y-2">
                   <p className="font-bold text-slate-200">cac_certificate_2026.pdf</p>
                   <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
@@ -1430,7 +1430,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "pdf_viewer" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-white">Screen 17.16 — In-App PDF Viewer</h4>
+                <h4 className="text-base font-bold text-white">In-App PDF Viewer</h4>
                 <div className="bg-slate-950 p-6 rounded-2xl border border-slate-800 text-xs font-mono text-slate-300">
                   [ CAC REGISTRATION DOCUMENT PREVIEW — INC NO: #CAC-890123 ]
                 </div>
@@ -1439,7 +1439,7 @@ export default function RipplLandingPage() {
 
             {currentModal === "csv_wizard" && (
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-white">Screen 17.17 — CSV Bulk Import Wizard</h4>
+                <h4 className="text-base font-bold text-white">CSV Bulk Import Wizard</h4>
                 <div className="space-y-2 text-xs">
                   <div className="flex justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
                     <span>Product Name Column</span>

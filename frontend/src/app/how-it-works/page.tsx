@@ -14,7 +14,7 @@ export default function HowItWorksPage() {
       <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.05 — How Rippl Works
+            How Rippl Works
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
             How Rippl Powers Online & In-Store Referral Growth
