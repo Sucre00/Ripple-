@@ -838,42 +838,44 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Pricing Teaser Section (Section 10) - Redesigned based on pricing section inspo.png */}
-      <section id="pricing" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-8">
-        <div className="flex flex-col items-center gap-1.5">
-          <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
-            ✦ NGN Pricing Matrix
+      {/* Pricing Section (Section 10) */}
+      <section id="pricing" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-12">
+        <div className="text-center space-y-3">
+          <span className="text-[10px] bg-slate-900 text-white px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+            NGN Pricing Matrix
           </span>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Flexible SaaS Pricing Packages</h2>
-          <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">Choose the right plan for your online shop or physical retail chain.</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            Flexible SaaS Pricing Packages
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-light max-w-xs mx-auto">
+            Choose the right plan for your online shop or physical retail chain.
+          </p>
+
+          {/* Toggle Switch */}
+          <div className="inline-flex bg-slate-100 p-1 rounded-full border border-slate-200/50 max-w-[220px] mx-auto shadow-inner mt-4">
+            <button
+              onClick={() => setBillingCycle("annually")}
+              className={`px-6 py-1.5 text-[10px] font-bold rounded-full transition-all ${
+                billingCycle === "annually" ? "bg-[#e15b3e] text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Yearly (Save 15%)
+            </button>
+            <button
+              onClick={() => setBillingCycle("monthly")}
+              className={`px-6 py-1.5 text-[10px] font-bold rounded-full transition-all ${
+                billingCycle === "monthly" ? "bg-[#e15b3e] text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              Monthly
+            </button>
+          </div>
         </div>
 
-        {/* Pricing cycle selector toggle switch */}
-        <div className="inline-flex bg-slate-100 p-1 rounded-full border border-slate-200/50 max-w-[220px] mx-auto shadow-inner">
-          <button
-            onClick={() => setBillingCycle("annually")}
-            className={`px-6 py-1.5 text-[10px] font-bold rounded-full transition-all ${
-              billingCycle === "annually" ? "bg-[#e15b3e] text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            Yearly (Save 15%)
-          </button>
-          <button
-            onClick={() => setBillingCycle("monthly")}
-            className={`px-6 py-1.5 text-[10px] font-bold rounded-full transition-all ${
-              billingCycle === "monthly" ? "bg-[#e15b3e] text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            Monthly
-          </button>
-        </div>
-
-        {/* Pricing packages cards in a 3-column matrix grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           
           {/* Card 1: Starter Plan */}
           <div className="h-full bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
-            {/* Top section */}
             <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white">
               <div className="space-y-1">
                 <h4 className="font-extrabold text-slate-900 text-sm">Starter Plan</h4>
@@ -894,7 +896,6 @@ export default function RipplLandingPage() {
                 </Link>
               </div>
             </div>
-            {/* Bottom section */}
             <div className="p-6 bg-slate-50 text-left border-t border-slate-200/50 flex-grow flex flex-col gap-4">
               <h5 className="text-[10px] font-bold text-slate-450 uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-slate-650 font-medium">
@@ -913,16 +914,9 @@ export default function RipplLandingPage() {
             </div>
           </div>
 
-          {/* Card 2: Growth Plan (Highlighted Center Card) */}
+          {/* Card 2: Growth Plan */}
           <div className="h-full bg-white rounded-3xl border-2 border-[#e15b3e] shadow-xl flex flex-col justify-between overflow-hidden relative">
-            {/* Top section with grid pattern overlay background */}
-            <div 
-              style={{
-                backgroundImage: 'linear-gradient(to right, #fcece9 1px, transparent 1px), linear-gradient(to bottom, #fcece9 1px, transparent 1px)',
-                backgroundSize: '16px 16px'
-              }}
-              className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white relative overflow-hidden"
-            >
+            <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white relative overflow-hidden">
               <div className="space-y-1 relative z-10">
                 <span className="bg-[#e15b3e] text-white text-[8px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Most Popular</span>
                 <h4 className="font-extrabold text-slate-900 text-sm mt-1">Growth Plan</h4>
@@ -943,7 +937,6 @@ export default function RipplLandingPage() {
                 </Link>
               </div>
             </div>
-            {/* Bottom section (Solid brand orange background) */}
             <div className="p-6 bg-[#e15b3e] text-left flex-grow flex flex-col gap-4">
               <h5 className="text-[10px] font-bold text-[#fcece9] uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-white font-medium">
@@ -965,7 +958,6 @@ export default function RipplLandingPage() {
 
           {/* Card 3: Pro Enterprise Plan */}
           <div className="h-full bg-white rounded-3xl border border-slate-200/60 shadow-sm flex flex-col justify-between overflow-hidden">
-            {/* Top section */}
             <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white">
               <div className="space-y-1">
                 <h4 className="font-extrabold text-slate-900 text-sm">Pro Enterprise Plan</h4>
@@ -986,7 +978,6 @@ export default function RipplLandingPage() {
                 </Link>
               </div>
             </div>
-            {/* Bottom section */}
             <div className="p-6 bg-slate-50 text-left border-t border-slate-200/50 flex-grow flex flex-col gap-4">
               <h5 className="text-[10px] font-bold text-slate-450 uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-slate-650 font-medium">
@@ -1005,6 +996,7 @@ export default function RipplLandingPage() {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
