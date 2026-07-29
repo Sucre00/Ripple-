@@ -72,9 +72,20 @@ export default function AuthPage() {
         } else if (stepParam === "biz_done") setBizStep(5);
       }
 
+      // Handle Google OAuth callback redirect
+      if (window.location.hash.includes("access_token") || searchParams.has("google_callback")) {
+        setIsLoading(true);
+        const hashParams = new URLSearchParams(window.location.hash.replace("#", "?"));
+        const activeRole = (searchParams.get("role") as Role) || role || "affiliate";
+        const destination = activeRole === "affiliate" ? "/affiliate" : activeRole === "business_admin" ? "/business-admin" : "/super-admin";
+        const userId = `google-user-${Date.now()}`;
+        setRoleCookieAndPush(activeRole as Role, destination, userId);
+        return;
+      }
+
       const match = document.cookie.match(/(?:^|; )user_role=([^;]*)/);
       const userRole = match ? match[1] : null;
-      if (userRole && !searchParams.has("mode") && !searchParams.has("step")) {
+      if (userRole && !searchParams.has("mode") && !searchParams.has("step") && !searchParams.has("google_callback")) {
         if (userRole === "affiliate") router.push("/affiliate");
         else if (userRole === "business_admin") router.push("/business-admin");
         else if (userRole === "super_admin") router.push("/super-admin");
@@ -206,15 +217,28 @@ export default function AuthPage() {
     setAuthMode(mode);
   };
 
-  // Google Login mockup
+  // Google OAuth 2.0 Login Handler
   const handleGoogleLogin = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      const path = role === "affiliate" ? "/affiliate" : role === "business_admin" ? "/business-admin" : "/super-admin";
-      const id = role === "affiliate" ? "affiliate-user-uuid-1111" : role === "business_admin" ? "business-user-uuid-2222" : "superadmin-user-uuid-3333";
-      setRoleCookieAndPush(role, path, id);
-    }, 1200);
+    setErrorMsg("");
+    
+    if (typeof window !== "undefined") {
+      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+      
+      if (clientId) {
+        // Redirect to Google's official OAuth 2.0 authorization endpoint
+        const redirectUri = `${window.location.origin}/auth`;
+        const scope = encodeURIComponent("openid email profile");
+        const state = encodeURIComponent(JSON.stringify({ role, mode: authMode }));
+        const googleOAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(clientId)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${scope}&prompt=select_account&state=${state}`;
+        window.location.href = googleOAuthUrl;
+      } else {
+        // Redirect to Google Account Chooser & Sign-in page
+        const returnUrl = encodeURIComponent(`${window.location.origin}/auth?google_callback=1&role=${role}`);
+        const googleAccountChooserUrl = `https://accounts.google.com/AccountChooser?continue=${returnUrl}`;
+        window.location.href = googleAccountChooserUrl;
+      }
+    }
   };
 
   // OTP login SMS verification mockup
