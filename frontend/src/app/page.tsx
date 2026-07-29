@@ -279,41 +279,31 @@ export default function RipplLandingPage() {
           >
             Pricing
           </a>
-          <a 
-            href="#about" 
-            onClick={(e) => handleScrollToSection(e, "about")}
-            className={`transition-colors duration-200 ${activeSection === "about" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            About
-          </a>
-          <a 
-            href="#blog" 
-            onClick={(e) => handleScrollToSection(e, "blog")}
-            className={`transition-colors duration-200 ${activeSection === "blog" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            Blog
-          </a>
-          <a 
-            href="#faq" 
-            onClick={(e) => handleScrollToSection(e, "faq")}
-            className={`transition-colors duration-200 ${activeSection === "faq" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            FAQs
-          </a>
-          <a 
-            href="#help" 
-            onClick={(e) => handleScrollToSection(e, "help")}
-            className={`transition-colors duration-200 ${activeSection === "help" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            Help Center
-          </a>
-          <a 
-            href="#contact" 
-            onClick={(e) => handleScrollToSection(e, "contact")}
-            className={`transition-colors duration-200 ${activeSection === "contact" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            Contact
-          </a>
+
+          {/* Resources Dropdown Menu */}
+          <div className="relative group">
+            <button className={`flex items-center gap-1 transition-colors py-2 ${["blog", "faq", "help", "about", "contact"].includes(activeSection) ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
+              <span>Resources</span>
+              <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
+            </button>
+            <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
+              <a href="#blog" onClick={(e) => handleScrollToSection(e, "blog")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Blog & Guides
+              </a>
+              <a href="#faq" onClick={(e) => handleScrollToSection(e, "faq")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                FAQs
+              </a>
+              <a href="#help" onClick={(e) => handleScrollToSection(e, "help")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Help Center
+              </a>
+              <a href="#about" onClick={(e) => handleScrollToSection(e, "about")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                About Rippl
+              </a>
+              <a href="#contact" onClick={(e) => handleScrollToSection(e, "contact")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+                Contact Us
+              </a>
+            </div>
+          </div>
         </nav>
 
         {/* Right: Auth CTAs & Mobile Hamburger Menu Button */}
@@ -372,27 +362,34 @@ export default function RipplLandingPage() {
             >
               How it works
             </a>
-            <a 
-              href="#solutions-business"
-              onClick={(e) => handleScrollToSection(e, "solutions-business")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "solutions-business" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Business Merchant Solutions
-            </a>
-            <a 
-              href="#solutions-affiliate"
-              onClick={(e) => handleScrollToSection(e, "solutions-affiliate")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "solutions-affiliate" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Affiliate Ambassador Solutions
-            </a>
-            <a 
-              href="#solutions-enterprise"
-              onClick={(e) => handleScrollToSection(e, "solutions-enterprise")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "solutions-enterprise" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Enterprise & Bank Solutions
-            </a>
+            
+            <div className="py-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3.5">Solutions</span>
+              <div className="flex flex-col gap-1 mt-1">
+                <a 
+                  href="#solutions-business"
+                  onClick={(e) => handleScrollToSection(e, "solutions-business")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-business" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Business Merchants
+                </a>
+                <a 
+                  href="#solutions-affiliate"
+                  onClick={(e) => handleScrollToSection(e, "solutions-affiliate")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-affiliate" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Creator Ambassadors
+                </a>
+                <a 
+                  href="#solutions-enterprise"
+                  onClick={(e) => handleScrollToSection(e, "solutions-enterprise")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-enterprise" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Enterprise & Banks
+                </a>
+              </div>
+            </div>
+
             <a 
               href="#features"
               onClick={(e) => handleScrollToSection(e, "features")}
@@ -407,41 +404,47 @@ export default function RipplLandingPage() {
             >
               Pricing
             </a>
-            <a 
-              href="#about"
-              onClick={(e) => handleScrollToSection(e, "about")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "about" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              About
-            </a>
-            <a 
-              href="#blog"
-              onClick={(e) => handleScrollToSection(e, "blog")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "blog" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Blog
-            </a>
-            <a 
-              href="#faq"
-              onClick={(e) => handleScrollToSection(e, "faq")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              FAQs
-            </a>
-            <a 
-              href="#help"
-              onClick={(e) => handleScrollToSection(e, "help")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "help" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Help Center
-            </a>
-            <a 
-              href="#contact"
-              onClick={(e) => handleScrollToSection(e, "contact")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "contact" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Contact
-            </a>
+
+            <div className="py-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3.5">Resources & Support</span>
+              <div className="flex flex-col gap-1 mt-1">
+                <a 
+                  href="#blog"
+                  onClick={(e) => handleScrollToSection(e, "blog")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "blog" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Blog & Guides
+                </a>
+                <a 
+                  href="#faq"
+                  onClick={(e) => handleScrollToSection(e, "faq")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  FAQs
+                </a>
+                <a 
+                  href="#help"
+                  onClick={(e) => handleScrollToSection(e, "help")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "help" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Help Center
+                </a>
+                <a 
+                  href="#about"
+                  onClick={(e) => handleScrollToSection(e, "about")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "about" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  About Rippl
+                </a>
+                <a 
+                  href="#contact"
+                  onClick={(e) => handleScrollToSection(e, "contact")}
+                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "contact" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
 
             <div className="pt-4 mt-1 border-t border-slate-200/60 flex flex-col gap-2.5">
               {userRole ? (
