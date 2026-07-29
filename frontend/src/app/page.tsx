@@ -32,7 +32,8 @@ import {
   IconChecks,
   IconCreditCard,
   IconWallet,
-  IconMenu2
+  IconMenu2,
+  IconQrcode
 } from "@tabler/icons-react";
 
 export default function RipplLandingPage() {
@@ -590,64 +591,58 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Outcome Framed Feature Highlights (Section 7) */}
-      <section className="px-6 py-12 max-w-5xl mx-auto w-full space-y-12">
-        {/* Highlight 1 */}
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1 space-y-4 text-left">
-            <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">Fast Liquidity</span>
-            <h3 className="text-xl font-bold text-slate-900 leading-tight">Affiliates paid in &lt;24h, not 90 days</h3>
-            <p className="text-xs text-slate-450 font-light leading-relaxed">
-              We eliminate traditional clearing delays. Once merchants approve conversions, funds resolve directly into available balances, letting ambassadors withdraw bank transfers instantly.
-            </p>
-          </div>
-          <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
-            <div>
-              <p className="text-4xl font-extrabold text-[#e15b3e]">Instant</p>
-              <p className="text-xs text-slate-400 font-medium mt-1">Payout Resolution Uptime</p>
-            </div>
-          </div>
+      {/* Platform Features Section */}
+      <section id="features" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-12">
+        <div className="text-center space-y-3">
+          <span className="text-[10px] bg-emerald-100 text-emerald-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+            Platform Features
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Full Platform Capabilities</h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-light max-w-xl mx-auto leading-relaxed">
+            Automated tracking, offline POS QR cards, zero-trust fraud protection, and sub-24h bank settlement.
+          </p>
         </div>
 
-        {/* Highlight 2 */}
-        <div className="flex flex-col md:flex-row-reverse items-center gap-8">
-          <div className="flex-1 space-y-4 text-left">
-            <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">Secure Safeguards</span>
-            <h3 className="text-xl font-bold text-slate-900 leading-tight">BVN-verified, IP-scored, self-referral blocked automatically</h3>
-            <p className="text-xs text-slate-450 font-light leading-relaxed">
-              Our embedded anti-fraud engine performs device fingerprint checks, logs geo IP scopes, and triggers progressive KYC lookups to protect businesses from self-referral leakage.
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+              <IconSparkles className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-base text-slate-900">Online Pixel & REST Webhooks</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Drop-in Javascript tracking pixel for Shopify, WooCommerce, or custom React apps with real-time conversion callbacks.
             </p>
           </div>
-          <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
-            <div>
-              <p className="text-4xl font-extrabold text-[#e15b3e]">0%</p>
-              <p className="text-xs text-slate-400 font-medium mt-1">Duplicate Referral Tolerance</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Highlight 3 */}
-        <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="flex-1 space-y-4 text-left">
-            <span className="px-3 py-1 bg-[#fcece9] text-[#e15b3e] text-[9px] font-bold rounded-full uppercase tracking-wider">Real-time Tracking</span>
-            <h3 className="text-xl font-bold text-slate-900 leading-tight">See every click, every conversion, live</h3>
-            <p className="text-xs text-slate-450 font-light leading-relaxed">
-              No more manual guesswork or data reconciliation tables. Our cookie pixel tracks referred actions instantly and sends real-time attribution details straight to your merchant dashboard.
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center">
+              <IconQrcode className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-base text-slate-900">Offline Point-Of-Sale QR Verification</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Printable QR code cards & store till camera scanning for physical supermarket and retail sales.
             </p>
           </div>
-          <div className="flex-1 bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm min-h-[150px] flex items-center justify-center text-center">
-            <div>
-              <p className="text-4xl font-extrabold text-[#e15b3e]">Live</p>
-              <p className="text-xs text-slate-400 font-medium mt-1">Attribution Sync Latency</p>
-            </div>
-          </div>
-        </div>
 
-        {/* View All Features CTA */}
-        <div className="pt-4 text-center">
-          <Link href="/features" className="text-[#e15b3e] font-bold text-xs hover:underline inline-flex items-center gap-1.5 bg-white px-5 py-2.5 rounded-full border border-slate-200/60 shadow-sm">
-            View All Platform Capabilities & REST API Specs &rarr;
-          </Link>
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+              <IconShieldCheck className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-base text-slate-900">Zero-Trust Fraud Prevention Engine</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Device fingerprinting, velocity tracking, double-cookie checks, and automated BVN verification to block self-referrals.
+            </p>
+          </div>
+
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <div className="w-10 h-10 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center">
+              <IconBuildingBank className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-base text-slate-900">Sub-24h NIP Bank Settlement</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Direct integration with NIBSS e-payments for sub-24h affiliate cashouts into any Nigerian bank account.
+            </p>
+          </div>
         </div>
       </section>
 
