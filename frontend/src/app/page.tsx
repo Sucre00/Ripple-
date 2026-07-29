@@ -534,35 +534,7 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Screen 1.05 — How It Works Section */}
-      <section id="how-it-works" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
-        <div className="text-center space-y-3">
-          <span className="text-[10px] bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.05 — How It Works
-          </span>
-          <h2 className="text-3xl font-bold text-slate-900">3 Steps To Launch Referral Growth</h2>
-          <p className="text-xs text-slate-500 font-light max-w-lg mx-auto">
-            From initial campaign creation to instant automated NIP bank settlement — here is how merchants and ambassadors collaborate.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <div className="w-9 h-9 rounded-2xl bg-[#e15b3e] text-white font-bold text-sm flex items-center justify-center shadow-md shadow-[#e15b3e]/20">1</div>
-            <h3 className="font-bold text-sm text-slate-900">Create Campaign</h3>
-            <p className="text-xs text-slate-500 font-light">Set your commission rate (% or flat NGN fee) and generate links or physical store QR code cards.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <div className="w-9 h-9 rounded-2xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center shadow-md">2</div>
-            <h3 className="font-bold text-sm text-slate-900">Ambassadors Share</h3>
-            <p className="text-xs text-slate-500 font-light">Ambassadors share referral links on WhatsApp/Instagram or hand out physical QR cards at point of sale.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-3">
-            <div className="w-9 h-9 rounded-2xl bg-emerald-600 text-white font-bold text-sm flex items-center justify-center shadow-md shadow-emerald-600/20">3</div>
-            <h3 className="font-bold text-sm text-slate-900">Instant 24h Payouts</h3>
-            <p className="text-xs text-slate-500 font-light">Conversions clear automatically. Ambassadors cash out directly to any Nigerian bank in 24 hours.</p>
-          </div>
-        </div>
-      </section>
+
 
       {/* Screen 1.06, 1.07, 1.08 — Solutions Section */}
       <section id="solutions" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-12 border-t border-slate-200/60">
@@ -870,7 +842,7 @@ export default function RipplLandingPage() {
       </section>
 
       {/* Audience Segmented How It Works (Section 5) - Redesigned for more context and cleaner aesthetics */}
-      <section id="features" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
+      <section id="how-it-works" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
             ✦ Workflow
