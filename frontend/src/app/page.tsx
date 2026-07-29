@@ -566,63 +566,6 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Screen 1.03 — Features Section */}
-      <section id="features" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
-        <div className="text-center space-y-3">
-          <span className="text-[10px] bg-emerald-100 text-emerald-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.03 — Platform Features
-          </span>
-          <h2 className="text-3xl font-bold text-slate-900">Full Platform Capabilities</h2>
-          <p className="text-xs text-slate-500 font-light max-w-lg mx-auto">Automated tracking, offline QR cards, velocity fraud protection, and instant payouts.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <h3 className="font-bold text-sm text-slate-900">Online Tracking Pixel & REST API</h3>
-            <p className="text-xs text-slate-500 font-light">Drop-in Javascript tracking pixel for Shopify, WooCommerce, or custom React apps.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <h3 className="font-bold text-sm text-slate-900">Offline Point-Of-Sale QR Verification</h3>
-            <p className="text-xs text-slate-500 font-light">Printable QR code cards & store till camera scanning for physical supermarket sales.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <h3 className="font-bold text-sm text-slate-900">Zero-Trust Fraud Prevention Engine</h3>
-            <p className="text-xs text-slate-500 font-light">Device fingerprinting, velocity tracking, and automated BVN verification to block self-referrals.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <h3 className="font-bold text-sm text-slate-900">Instant NIP Bank Settlement</h3>
-            <p className="text-xs text-slate-500 font-light">Direct integration with NIBSS e-payments for sub-24h affiliate cashouts into any bank account.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Screen 1.04 — Pricing Section */}
-      <section id="pricing" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
-        <div className="text-center space-y-3">
-          <span className="text-[10px] bg-slate-900 text-white px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.04 — NGN Pricing Matrix
-          </span>
-          <h2 className="text-3xl font-bold text-slate-900">Flexible Plans For Growth</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <h3 className="font-bold text-base text-slate-900">Starter</h3>
-            <div className="text-2xl font-extrabold text-[#e15b3e]">₦15,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
-            <p className="text-xs text-slate-500 font-light">For emerging online shops & single-branch stores.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border-2 border-[#e15b3e] shadow-md space-y-4 relative">
-            <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#e15b3e] text-white text-[9px] font-bold px-3 py-0.5 rounded-full uppercase">Most Popular</span>
-            <h3 className="font-bold text-base text-slate-900">Growth</h3>
-            <div className="text-2xl font-extrabold text-[#e15b3e]">₦45,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
-            <p className="text-xs text-slate-500 font-light">For growing retail chains & active ambassador networks.</p>
-          </div>
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <h3 className="font-bold text-base text-slate-900">Pro</h3>
-            <div className="text-2xl font-extrabold text-[#e15b3e]">₦120,000<span className="text-xs text-slate-400 font-normal">/mo</span></div>
-            <p className="text-xs text-slate-500 font-light">For high-volume merchants with custom domain white-labeling.</p>
-          </div>
-        </div>
-      </section>
-
       {/* Screen 1.02 — About Rippl Section */}
       <section id="about" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
         <div className="text-center space-y-3">
@@ -672,16 +615,6 @@ export default function RipplLandingPage() {
             <h3 className="font-bold text-sm text-slate-900">5 Ways Creator Ambassadors Earn Consistent Income with Sub-24h NIP Payouts</h3>
             <p className="text-xs text-slate-500 font-light">Discover top-performing WhatsApp broadcast strategies and custom link placement techniques for Nigerian creators.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Screen 1.09 — FAQs Section */}
-      <section id="faq" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
-        <div className="text-center space-y-3">
-          <span className="text-[10px] bg-slate-100 text-slate-700 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Screen 1.09 — Frequently Asked Questions
-          </span>
-          <h2 className="text-3xl font-bold text-slate-900">Everything You Need To Know</h2>
         </div>
       </section>
 
@@ -1230,10 +1163,10 @@ export default function RipplLandingPage() {
       <section id="pricing" className="scroll-section px-6 py-16 max-w-5xl mx-auto w-full text-center space-y-8">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
-            ✦ Pricing Plans
+            ✦ Screen 1.04 — NGN Pricing Matrix
           </span>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Flexible SaaS Pricing Packages</h2>
-          <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">Choose the right plan for your team to scale referrals.</p>
+          <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">Choose the right plan for your online shop or physical retail chain.</p>
         </div>
 
         {/* Pricing cycle selector toggle switch */}
@@ -1244,7 +1177,7 @@ export default function RipplLandingPage() {
               billingCycle === "annually" ? "bg-[#e15b3e] text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
             }`}
           >
-            Yearly
+            Yearly (Save 15%)
           </button>
           <button
             onClick={() => setBillingCycle("monthly")}
@@ -1266,12 +1199,12 @@ export default function RipplLandingPage() {
               <div className="space-y-1">
                 <h4 className="font-extrabold text-slate-900 text-sm">Starter Plan</h4>
                 <p className="text-[10px] text-slate-400 font-light leading-relaxed">
-                  Perfect for startups looking to launch custom referral campaigns.
+                  For emerging online shops & single-branch stores.
                 </p>
               </div>
               <div className="mt-4 space-y-4">
                 <p className="text-3xl font-extrabold text-slate-950 leading-none">
-                  ₦0{" "}
+                  {billingCycle === "monthly" ? "₦15,000" : "₦12,750"}{" "}
                   <span className="text-[10px] text-slate-400 font-light">/month</span>
                 </p>
                 <Link
@@ -1287,10 +1220,10 @@ export default function RipplLandingPage() {
               <h5 className="text-[10px] font-bold text-slate-450 uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-slate-650 font-medium">
                 {[
-                  "Up to 50 active affiliates",
-                  "Basic click & conversion logs",
-                  "Standard email support",
-                  "Paystack payment clearances"
+                  "Up to 50 active ambassadors",
+                  "Shopify & WooCommerce pixel tracking",
+                  "Standard email & chat support",
+                  "Paystack & Flutterwave NIP clearances"
                 ].map((feat, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <IconCheck className="w-4 h-4 text-slate-400 shrink-0" />
@@ -1312,9 +1245,10 @@ export default function RipplLandingPage() {
               className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white relative overflow-hidden"
             >
               <div className="space-y-1 relative z-10">
-                <h4 className="font-extrabold text-slate-900 text-sm">Growth Plan</h4>
+                <span className="bg-[#e15b3e] text-white text-[8px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Most Popular</span>
+                <h4 className="font-extrabold text-slate-900 text-sm mt-1">Growth Plan</h4>
                 <p className="text-[10px] text-slate-400 font-light leading-relaxed">
-                  Best for growing businesses that need deeper insights.
+                  For growing retail chains & active ambassador networks.
                 </p>
               </div>
               <div className="mt-4 space-y-4 relative z-10">
@@ -1335,10 +1269,10 @@ export default function RipplLandingPage() {
               <h5 className="text-[10px] font-bold text-[#fcece9] uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-white font-medium">
                 {[
-                  "Up to 500 active affiliates",
-                  "Unlimited campaign programs",
-                  "Up to ₦10M monthly payouts",
-                  "Standard double-cookie checks",
+                  "Up to 500 active ambassadors",
+                  "Printable POS QR cards & till scanning",
+                  "Sub-24h NIBSS NIP bank transfers",
+                  "Device fingerprinting & anti-fraud",
                   "BVN progressive KYC validation"
                 ].map((feat, i) => (
                   <div key={i} className="flex items-center gap-2">
@@ -1355,14 +1289,14 @@ export default function RipplLandingPage() {
             {/* Top section */}
             <div className="p-6 text-left flex flex-col justify-between min-h-[220px] bg-white">
               <div className="space-y-1">
-                <h4 className="font-extrabold text-slate-900 text-sm">Business Plan</h4>
+                <h4 className="font-extrabold text-slate-900 text-sm">Pro Enterprise Plan</h4>
                 <p className="text-[10px] text-slate-400 font-light leading-relaxed">
-                  Ideal for scaling companies that need full control and automation.
+                  For high-volume merchants with custom domain white-labeling.
                 </p>
               </div>
               <div className="mt-4 space-y-4">
                 <p className="text-3xl font-extrabold text-slate-950 leading-none">
-                  {billingCycle === "monthly" ? "₦150,000" : "₦127,500"}{" "}
+                  {billingCycle === "monthly" ? "₦120,000" : "₦102,000"}{" "}
                   <span className="text-[10px] text-slate-400 font-light">/month</span>
                 </p>
                 <Link
@@ -1378,11 +1312,11 @@ export default function RipplLandingPage() {
               <h5 className="text-[10px] font-bold text-slate-450 uppercase tracking-wide">Includes:</h5>
               <div className="space-y-3.5 text-xs text-slate-650 font-medium">
                 {[
-                  "Everything in Growth Plan",
-                  "Dedicated account manager",
-                  "Custom webhook event selectors",
-                  "Extended SLA uptime guarantee",
-                  "FIRS, CBN, and NDPR tax exports"
+                  "Unlimited active ambassadors & campaigns",
+                  "Custom domain white-labeling",
+                  "Dedicated SLA account manager",
+                  "Custom webhook event triggers",
+                  "FIRS, CBN, and NDPR compliance tax exports"
                 ].map((feat, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <IconCheck className="w-4 h-4 text-slate-400 shrink-0" />
@@ -1395,27 +1329,26 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* FAQ Accordion Section (Section 11) */}
       {/* Support & Faq Section (Section 11) - Redesigned to collapsible modern accordions */}
       <section id="faq" className="scroll-section px-6 py-16 max-w-3xl mx-auto w-full space-y-10 text-center">
         <div className="flex flex-col items-center gap-1.5">
           <span className="text-[9px] font-bold text-[#e15b3e] uppercase tracking-widest flex items-center gap-1">
-            ✦ Got Questions?
+            ✦ Screen 1.09 — Frequently Asked Questions
           </span>
           <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Support & Faq</h2>
           <p className="text-xs text-slate-450 font-light max-w-xs mx-auto">
-            Objection handling queries answered instantly.
+            Everything you need to know about payments, KYC, anti-fraud, and offline QR scanning.
           </p>
         </div>
 
         <div className="space-y-3.5 max-w-2xl mx-auto">
           {[
-            { q: "Is this legal and compliant in Nigeria?", a: "Yes. Rippl is fully NDPR data compliant and operates payout clearances securely integrated with licensed central platforms." },
-            { q: "How fast do affiliates receive cashouts?", a: "Affiliates receive bank cashout transfers instantly in under 24 hours once merchant approvals clear pending buffers." },
-            { q: "What if someone tries to cheat the system?", a: "Our system performs double-cookie tests, device fingerprint matching, and logs IP details to suspend fraudulent attributions automatically." },
-            { q: "Can I upgrade or downgrade my plan?", a: "Yes. You can manage subscription plans, change billing preferences, or download invoices directly from Billing." },
-            { q: "What integration methods are supported?", a: "We support a lightweight web SDK tracking pixel, custom API attribution webhooks, and popular platform plugins (Shopify and WooCommerce)." },
-            { q: "Are there any hidden payout or transaction fees?", a: "None. Affiliates cash out cleared earnings directly to local banks with standard processing fees. Businesses only pay their selected monthly subscription and defined payouts." }
+            { category: "Compliance & NDPR", q: "Is this legal and compliant in Nigeria?", a: "Yes. Rippl is fully NDPR data compliant and operates payout clearances securely integrated with CBN-licensed central platforms like Paystack and Flutterwave." },
+            { category: "Offline Commerce", q: "How does referral tracking work for physical supermarkets and offline stores without a website?", a: "Rippl generates printable QR code cards and short referral codes (e.g. JOHN-REF-01) for your cashiers to scan or confirm at point of sale, rewarding ambassadors instantly." },
+            { category: "Payout Speeds", q: "How fast do creator ambassadors receive cashouts?", a: "Affiliates receive direct bank cashout transfers via NIBSS e-payments instantly in under 24 hours once merchant clearances clear." },
+            { category: "Anti-Fraud Engine", q: "What if someone tries to cheat or self-refer?", a: "Our zero-trust anti-fraud engine performs device fingerprinting, logs IP velocity scopes, double-cookie checks, and triggers progressive BVN verification to block self-referrals automatically." },
+            { category: "Integrations", q: "What integration options are supported?", a: "We support drop-in Javascript tracking pixels for Shopify and WooCommerce, REST Webhook APIs for custom React/SaaS apps, and physical QR cards for offline shops." },
+            { category: "Plans & Billing", q: "Can I upgrade or downgrade my plan at any time?", a: "Yes. You can manage subscription plans, change billing preferences, or download FIRS/NDPR tax invoices directly from your Business Admin settings." }
           ].map((faq, i) => {
             const isOpen = activeFaqIdx === i;
             return (
@@ -1429,11 +1362,11 @@ export default function RipplLandingPage() {
                   onClick={() => setActiveFaqIdx(isOpen ? null : i)}
                   className="w-full p-5 flex justify-between items-center gap-4 text-xs font-semibold text-slate-800 focus:outline-none"
                 >
-                  <span className="flex items-center gap-2">
-                    <span className={`text-[10px] ${isOpen ? "text-[#e15b3e]" : "text-slate-400"}`}>
-                      {isOpen ? "✦" : "•"}
+                  <span className="flex items-center gap-2.5">
+                    <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[9px] font-bold text-slate-500 uppercase tracking-wider shrink-0">
+                      {faq.category}
                     </span>
-                    {faq.q}
+                    <span>{faq.q}</span>
                   </span>
                   <IconChevronDown 
                     className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300 ${
@@ -1444,7 +1377,7 @@ export default function RipplLandingPage() {
                 
                 <div 
                   className={`transition-all duration-300 overflow-hidden ${
-                    isOpen ? "max-h-[150px] border-t border-slate-100/60" : "max-h-0"
+                    isOpen ? "max-h-[160px] border-t border-slate-100/60" : "max-h-0"
                   }`}
                 >
                   <p className="p-5 text-slate-500 font-light text-[11px] leading-relaxed bg-slate-50/30">
