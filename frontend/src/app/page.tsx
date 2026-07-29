@@ -310,18 +310,9 @@ export default function RipplLandingPage() {
 
 
 
-      {/* Contact Us Section */}
-      <section id="contact" className="scroll-mt-24 max-w-5xl mx-auto px-6 py-16 space-y-10 border-t border-slate-200/60">
-        <div className="text-center space-y-3">
-          <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
-            Contact Us
-          </span>
-          <h2 className="text-3xl font-bold text-slate-900">Get In Touch With The Rippl Team</h2>
-          <p className="text-xs text-slate-500 font-light">Victoria Island, Lagos, Nigeria • support@rippl.io</p>
-        </div>
-
-        {/* Trust Anchors Badges with CBN and NDPR Elevated */}
-        <div className="flex flex-wrap justify-center items-center gap-6 mt-8 pt-6 border-t border-slate-200/50 w-full max-w-xl mx-auto">
+      {/* Trust Anchors Badges with CBN and NDPR Elevated */}
+      <section className="px-6 py-6 max-w-5xl mx-auto w-full border-t border-slate-200/60">
+        <div className="flex flex-wrap justify-center items-center gap-6 w-full max-w-xl mx-auto">
           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
             <IconShieldCheck className="w-4 h-4 text-green-600" />
             <span>NDPR Data Protected</span>
