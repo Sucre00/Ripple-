@@ -121,11 +121,23 @@ export default function RipplLandingPage() {
   }, []);
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    if (window.location.pathname === "/") {
-      e.preventDefault();
+    e.preventDefault();
+    setCurrentView("landing");
+    setMobileMenuOpen(false);
+    if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       window.history.pushState(null, "", "/");
       setActiveSection("");
+    }
+  };
+
+  const handleNavClick = (e: React.MouseEvent, view: string, path: string) => {
+    e.preventDefault();
+    setCurrentView(view);
+    setMobileMenuOpen(false);
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", path);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -221,25 +233,26 @@ export default function RipplLandingPage() {
         <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
           <Link 
             href="/how-it-works" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "how-it-works", "/how-it-works")}
+            className={`transition-colors duration-200 ${currentView === "how-it-works" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             How it works
           </Link>
 
           {/* Solutions Dropdown Menu */}
           <div className="relative group">
-            <button className="flex items-center gap-1 text-slate-500 hover:text-[#e15b3e] transition-colors py-2">
+            <button className={`flex items-center gap-1 transition-colors py-2 ${currentView.startsWith("solutions") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
               <span>Solutions</span>
               <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
             </button>
             <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
-              <Link href="/solutions/business" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+              <Link href="/solutions/business" onClick={(e) => handleNavClick(e, "solutions-business", "/solutions/business")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
                 Business Merchants
               </Link>
-              <Link href="/solutions/affiliate" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+              <Link href="/solutions/affiliate" onClick={(e) => handleNavClick(e, "solutions-affiliate", "/solutions/affiliate")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
                 Creator Ambassadors
               </Link>
-              <Link href="/solutions/enterprise" className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
+              <Link href="/solutions/enterprise" onClick={(e) => handleNavClick(e, "solutions-enterprise", "/solutions/enterprise")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
                 Enterprise & Banks
               </Link>
             </div>
@@ -247,43 +260,50 @@ export default function RipplLandingPage() {
 
           <Link 
             href="/features" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "features", "/features")}
+            className={`transition-colors duration-200 ${currentView === "features" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             Features
           </Link>
           <Link 
             href="/pricing" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "pricing", "/pricing")}
+            className={`transition-colors duration-200 ${currentView === "pricing" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             Pricing
           </Link>
           <Link 
             href="/about" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "about", "/about")}
+            className={`transition-colors duration-200 ${currentView === "about" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             About
           </Link>
           <Link 
             href="/blog" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "blog", "/blog")}
+            className={`transition-colors duration-200 ${currentView === "blog" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             Blog
           </Link>
           <Link 
             href="/faq" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "faq", "/faq")}
+            className={`transition-colors duration-200 ${currentView === "faq" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             FAQs
           </Link>
           <Link 
             href="/help" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "help", "/help")}
+            className={`transition-colors duration-200 ${currentView === "help" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             Help Center
           </Link>
           <Link 
             href="/contact" 
-            className="text-slate-500 hover:text-[#e15b3e] transition-colors duration-200"
+            onClick={(e) => handleNavClick(e, "contact", "/contact")}
+            className={`transition-colors duration-200 ${currentView === "contact" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
           >
             Contact
           </Link>
@@ -340,71 +360,78 @@ export default function RipplLandingPage() {
           <nav className="flex flex-col gap-2 text-sm font-semibold">
             <Link 
               href="/how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "how-it-works", "/how-it-works")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "how-it-works" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               How it works
             </Link>
             <Link 
               href="/solutions/business"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "solutions-business", "/solutions/business")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "solutions-business" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Business Merchant Solutions
             </Link>
             <Link 
               href="/solutions/affiliate"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "solutions-affiliate", "/solutions/affiliate")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "solutions-affiliate" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Affiliate Ambassador Solutions
             </Link>
             <Link 
+              href="/solutions/enterprise"
+              onClick={(e) => handleNavClick(e, "solutions-enterprise", "/solutions/enterprise")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "solutions-enterprise" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
+            >
+              Enterprise & Bank Solutions
+            </Link>
+            <Link 
               href="/features"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "features", "/features")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "features" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Features
             </Link>
             <Link 
               href="/pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "pricing", "/pricing")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "pricing" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Pricing
             </Link>
             <Link 
               href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "about", "/about")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "about" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               About
             </Link>
             <Link 
               href="/blog"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "blog", "/blog")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "blog" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Blog
             </Link>
             <Link 
               href="/faq"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "faq", "/faq")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               FAQs
             </Link>
             <Link 
               href="/help"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "help", "/help")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "help" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Help Center
             </Link>
             <Link 
               href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 hover:text-[#e15b3e] transition-colors"
+              onClick={(e) => handleNavClick(e, "contact", "/contact")}
+              className={`py-2.5 px-3.5 rounded-xl transition-colors ${currentView === "contact" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
             >
               Contact
             </Link>
