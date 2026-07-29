@@ -24,7 +24,7 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
       {/* Center: Desktop links */}
       <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
         <Link 
-          href="/#how-it-works" 
+          href="/how-it-works" 
           className={`transition-colors duration-200 ${activeSection === "how-it-works" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           How it works
@@ -50,13 +50,13 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
         </div>
 
         <Link 
-          href="/#features" 
+          href="/features" 
           className={`transition-colors duration-200 ${activeSection === "features" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           Features
         </Link>
         <Link 
-          href="/#pricing" 
+          href="/pricing" 
           className={`transition-colors duration-200 ${activeSection === "pricing" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
         >
           Pricing
@@ -137,7 +137,7 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
         <div className="md:hidden fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-2xl z-40 max-w-xl mx-auto p-6 animate-in fade-in slide-in-from-top-4 duration-200">
           <nav className="flex flex-col gap-2 text-sm font-semibold">
             <Link 
-              href="/#how-it-works"
+              href="/how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
             >
@@ -172,14 +172,14 @@ export default function Navbar({ userRole, activeSection = "" }: NavbarProps) {
             </div>
 
             <Link 
-              href="/#features"
+              href="/features"
               onClick={() => setMobileMenuOpen(false)}
               className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
             >
               Features
             </Link>
             <Link 
-              href="/#pricing"
+              href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="py-2.5 px-3.5 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
             >
