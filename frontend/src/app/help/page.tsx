@@ -1,65 +1,65 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { IconSearch, IconHelp, IconBriefcase, IconWallet, IconShieldCheck, IconQrcode } from "@tabler/icons-react";
+import { IconSearch, IconBook, IconFileCode, IconHelp, IconMessage } from "@tabler/icons-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function HelpPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-slate-800 flex flex-col font-sans">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/50 px-6 py-4 flex items-center justify-between">
-        <Link href="/">
-          <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-7 w-auto" />
-        </Link>
-        <Link href="/auth?mode=signup" className="px-4 py-2 rounded-xl bg-[#e15b3e] text-white text-xs font-semibold hover:bg-[#d04a2d]">
-          Get Started
-        </Link>
-      </header>
+    <div className="min-h-screen bg-[#edf1f5] text-slate-800 flex flex-col font-sans">
+      <Navbar activeSection="help" />
 
-      <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 space-y-10">
+      <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
-          <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-            Help Center & Knowledge Base
+          <span className="text-[10px] bg-blue-100 text-blue-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+            Screen 1.13 & 16.01 — Help Center & Documentation
           </span>
-          <h1 className="text-3xl font-bold text-slate-900">How Can We Help You?</h1>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Support Knowledge Base</h1>
+          <p className="text-xs text-slate-500 font-light max-w-md mx-auto">
+            Search developer documentation, merchant integration guides, and ambassador withdrawal steps.
+          </p>
 
-          <div className="relative max-w-md mx-auto pt-2">
-            <IconSearch className="w-4 h-4 text-slate-400 absolute left-4 top-6" />
-            <input
-              type="text"
-              placeholder="Search help articles (e.g. NIP payouts, QR codes, CAC)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-xs shadow-sm focus:outline-none"
+          {/* Search bar */}
+          <div className="max-w-md mx-auto pt-2 relative">
+            <input 
+              type="text" 
+              placeholder="Search help articles, SDK docs, payout rules..." 
+              className="w-full pl-10 pr-4 py-3 rounded-full border border-slate-200 bg-white text-xs shadow-sm focus:outline-none focus:border-[#e15b3e]"
             />
+            <IconSearch className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconBriefcase className="w-5 h-5 text-[#e15b3e]" />
-            <h3 className="font-semibold text-xs text-slate-900">Campaign Management</h3>
-            <p className="text-[11px] text-slate-500 font-light">How to set commission rates, upload banner creative assets, and pause live programs.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <IconBook className="w-6 h-6 text-[#e15b3e]" />
+            <h3 className="font-bold text-sm text-slate-900">Merchant Setup Guides</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Step-by-step guides for installing pixels on Shopify, WooCommerce, and custom checkout flows.
+            </p>
           </div>
-          <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconQrcode className="w-5 h-5 text-purple-600" />
-            <h3 className="font-semibold text-xs text-slate-900">Offline Store QR Codes</h3>
-            <p className="text-[11px] text-slate-500 font-light">Generating printable QR codes for supermarket POS terminals and physical fashion boutiques.</p>
+
+          <div className="p-6 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <IconFileCode className="w-6 h-6 text-blue-600" />
+            <h3 className="font-bold text-sm text-slate-900">Developer API & Webhooks</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              REST endpoint specs, conversion signature validation, and event webhook selectors.
+            </p>
           </div>
-          <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconWallet className="w-5 h-5 text-green-600" />
-            <h3 className="font-semibold text-xs text-slate-900">Bank Cashouts & NIP Payouts</h3>
-            <p className="text-[11px] text-slate-500 font-light">Understanding cleared balances, Paystack NIP bank account resolution, and 24h SLA processing.</p>
-          </div>
-          <div className="p-5 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-2">
-            <IconShieldCheck className="w-5 h-5 text-blue-600" />
-            <h3 className="font-semibold text-xs text-slate-900">KYC & Document Verification</h3>
-            <p className="text-[11px] text-slate-500 font-light">Submitting CAC registration certificates, BVN validation, and NIN government IDs.</p>
+
+          <div className="p-6 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-3">
+            <IconHelp className="w-6 h-6 text-emerald-600" />
+            <h3 className="font-bold text-sm text-slate-900">Ambassador Cashouts</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              How NIP 24h bank payouts resolve, BVN identity verification, and referral link creation.
+            </p>
           </div>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

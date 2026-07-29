@@ -3,55 +3,79 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { IconChevronDown } from "@tabler/icons-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export default function FaqPage() {
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
+export default function FAQPage() {
+  const [activeFaqIdx, setActiveFaqIdx] = useState<number | null>(0);
 
   const faqs = [
-    { q: "How does offline referral tracking work for physical stores?", a: "Offline businesses generate printable QR code cards and short referral codes for their ambassadors. When a customer visits the store, staff scan the QR code or enter the code into their POS terminal to verify the referral and attribute commission." },
-    { q: "How quickly do ambassadors receive their cashout payments?", a: "Cleared commissions are processed within 24 hours directly into any registered Nigerian bank account via automated Paystack/NIP rails. Minimum cashout is ₦2,000." },
-    { q: "What documents are required for merchant KYC verification?", a: "Merchants submit their CAC registration certificate, director government-issued ID (NIN/Voter Card/Passport), and business logo to unlock full wallet withdrawal limits." },
-    { q: "How does Rippl prevent double-counting and referral fraud?", a: "Rippl's anti-fraud engine uses device fingerprinting, IP velocity monitoring, and cookie-stuffing detection algorithms to flag suspicious conversions before commission clearance." }
+    { category: "Compliance & NDPR", q: "Is this legal and compliant in Nigeria?", a: "Yes. Rippl is fully NDPR data compliant and operates payout clearances securely integrated with CBN-licensed central platforms like Paystack and Flutterwave." },
+    { category: "Offline Commerce", q: "How does referral tracking work for physical supermarkets and offline stores without a website?", a: "Rippl generates printable QR code cards and short referral codes (e.g. JOHN-REF-01) for your cashiers to scan or confirm at point of sale, rewarding ambassadors instantly." },
+    { category: "Payout Speeds", q: "How fast do creator ambassadors receive cashouts?", a: "Affiliates receive direct bank cashout transfers via NIBSS e-payments instantly in under 24 hours once merchant clearances clear." },
+    { category: "Anti-Fraud Engine", q: "What if someone tries to cheat or self-refer?", a: "Our zero-trust anti-fraud engine performs device fingerprinting, logs IP velocity scopes, double-cookie checks, and triggers progressive BVN verification to block self-referrals automatically." },
+    { category: "Integrations", q: "What integration options are supported?", a: "We support drop-in Javascript tracking pixels for Shopify and WooCommerce, REST Webhook APIs for custom React/SaaS apps, and physical QR cards for offline shops." },
+    { category: "Plans & Billing", q: "Can I upgrade or downgrade my plan at any time?", a: "Yes. You can manage subscription plans, change billing preferences, or download FIRS/NDPR tax invoices directly from your Business Admin settings." }
   ];
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-slate-800 flex flex-col font-sans">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/50 px-6 py-4 flex items-center justify-between">
-        <Link href="/">
-          <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-7 w-auto" />
-        </Link>
-        <Link href="/auth?mode=signup" className="px-4 py-2 rounded-xl bg-[#e15b3e] text-white text-xs font-semibold hover:bg-[#d04a2d]">
-          Get Started
-        </Link>
-      </header>
+    <div className="min-h-screen bg-[#edf1f5] text-slate-800 flex flex-col font-sans">
+      <Navbar activeSection="faq" />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-12 space-y-8">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16 space-y-10">
         <div className="text-center space-y-3">
-          <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-            Frequently Asked Questions
+          <span className="text-[10px] bg-slate-100 text-slate-700 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+            Screen 1.09 — Frequently Asked Questions
           </span>
-          <h1 className="text-3xl font-bold text-slate-900">Got Questions? We Have Answers.</h1>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Everything You Need To Know</h1>
+          <p className="text-xs text-slate-500 font-light max-w-xs mx-auto">
+            Categorized queries covering payments, compliance, anti-fraud, and offline QR tracking.
+          </p>
         </div>
 
-        <div className="space-y-3">
-          {faqs.map((f, idx) => (
-            <div key={idx} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-              <button
-                onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
-                className="w-full p-4 text-left font-semibold text-xs text-slate-900 flex justify-between items-center"
+        <div className="space-y-3.5 max-w-2xl mx-auto">
+          {faqs.map((faq, i) => {
+            const isOpen = activeFaqIdx === i;
+            return (
+              <div 
+                key={i} 
+                className={`bg-white rounded-2xl border transition-all duration-300 text-left overflow-hidden ${
+                  isOpen ? "border-[#e15b3e]/30 shadow-md shadow-slate-100" : "border-slate-200/50 hover:border-slate-350"
+                }`}
               >
-                <span>{f.q}</span>
-                <IconChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${openIdx === idx ? "rotate-180" : ""}`} />
-              </button>
-              {openIdx === idx && (
-                <div className="p-4 pt-0 text-xs text-slate-500 font-light leading-relaxed border-t border-slate-50">
-                  {f.a}
+                <button
+                  onClick={() => setActiveFaqIdx(isOpen ? null : i)}
+                  className="w-full p-5 flex justify-between items-center gap-4 text-xs font-semibold text-slate-800 focus:outline-none"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[9px] font-bold text-slate-500 uppercase tracking-wider shrink-0">
+                      {faq.category}
+                    </span>
+                    <span>{faq.q}</span>
+                  </span>
+                  <IconChevronDown 
+                    className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180 text-[#e15b3e]" : ""
+                    }`}
+                  />
+                </button>
+                
+                <div 
+                  className={`transition-all duration-300 overflow-hidden ${
+                    isOpen ? "max-h-[160px] border-t border-slate-100/60" : "max-h-0"
+                  }`}
+                >
+                  <p className="p-5 text-slate-500 font-light text-[11px] leading-relaxed bg-slate-50/30">
+                    {faq.a}
+                  </p>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -3,56 +3,73 @@
 import React from "react";
 import Link from "next/link";
 import { IconBriefcase, IconCheck, IconArrowRight, IconSparkles, IconQrcode } from "@tabler/icons-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function BusinessSolutionsPage() {
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-slate-800 flex flex-col font-sans">
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-white/80 border-b border-slate-200/50 px-6 py-4 flex items-center justify-between">
-        <Link href="/">
-          <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-7 w-auto" />
-        </Link>
-        <Link href="/auth?mode=signup&role=business_admin" className="px-4 py-2 rounded-xl bg-[#e15b3e] text-white text-xs font-semibold hover:bg-[#d04a2d]">
-          Launch Merchant Program
-        </Link>
-      </header>
+    <div className="min-h-screen bg-[#edf1f5] text-slate-800 flex flex-col font-sans">
+      <Navbar activeSection="solutions-business" />
 
-      <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 space-y-10">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-16 space-y-12">
         <div className="text-center space-y-3">
-          <span className="text-[10px] bg-[#fcece9] text-[#e15b3e] px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-            Solutions For Online & Offline Merchants
+          <span className="text-[10px] bg-purple-100 text-purple-800 px-3.5 py-1 rounded-full font-bold uppercase tracking-wider">
+            Screen 1.06 — Business Merchant Solutions
           </span>
-          <h1 className="text-3xl font-bold text-slate-900">Scale Customer Acquisition With Zero Upfront Risk</h1>
-          <p className="text-xs text-slate-500 font-light max-w-xl mx-auto">
-            Pay commissions only when verified sales occur — online via tracking pixel or in-store via printable QR codes and POS confirmation.
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+            Scale E-Commerce & In-Store Customer Acquisition
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 font-light max-w-xl mx-auto leading-relaxed">
+            Pay commissions only on verified sales — online via tracking pixel or in-store via printable QR codes and cashier till confirmation.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <h3 className="font-semibold text-sm text-slate-900 flex items-center gap-2">
-              <IconSparkles className="w-4 h-4 text-[#e15b3e]" />
-              Online E-Commerce Merchants
-            </h3>
-            <div className="space-y-2 text-xs text-slate-600 font-light">
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Shopify, WooCommerce, & Custom API pixels</p>
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Automated purchase conversion attribution</p>
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Real-time ROI analytics & EPC metrics</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-5">
+            <div className="w-10 h-10 rounded-2xl bg-[#fcece9] text-[#e15b3e] flex items-center justify-center">
+              <IconSparkles className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">Online E-Commerce Merchants</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Drop-in Javascript tracking pixel for Shopify, WooCommerce, or custom React apps. Track conversion attribution in real time with zero manual spreadsheets.
+            </p>
+            <div className="space-y-2.5 pt-2 text-xs text-slate-600 font-medium">
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Drop-in Javascript & REST API integration</p>
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Automatic double-cookie attribution clearing</p>
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Live EPC, conversion rate, and GMV analytics</p>
             </div>
           </div>
 
-          <div className="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
-            <h3 className="font-semibold text-sm text-slate-900 flex items-center gap-2">
-              <IconQrcode className="w-4 h-4 text-purple-600" />
-              Offline Physical Stores & SMBs
-            </h3>
-            <div className="space-y-2 text-xs text-slate-600 font-light">
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Printable QR code cards for ambassadors</p>
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Manual sale logger & POS receipt validation</p>
-              <p className="flex items-center gap-2"><IconCheck className="w-3.5 h-3.5 text-green-600" /> Works for supermarkets, pharmacies, & restaurants</p>
+          <div className="p-8 bg-white rounded-3xl border border-slate-200/60 shadow-sm space-y-5">
+            <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center">
+              <IconQrcode className="w-5 h-5" />
+            </div>
+            <h3 className="font-bold text-lg text-slate-900">Offline Physical Stores & Supermarkets</h3>
+            <p className="text-xs text-slate-500 font-light leading-relaxed">
+              Printable QR code cards & store till camera scanning for physical supermarket sales in Lagos, Abuja, and Port Harcourt.
+            </p>
+            <div className="space-y-2.5 pt-2 text-xs text-slate-600 font-medium">
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Printable ambassador QR code cards</p>
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Cashier till camera scanning app</p>
+              <p className="flex items-center gap-2.5"><IconCheck className="w-4 h-4 text-emerald-600 shrink-0" /> Instant POS referral sale validation</p>
             </div>
           </div>
         </div>
+
+        <div className="bg-white rounded-3xl border border-slate-200/60 p-8 text-center space-y-4 max-w-2xl mx-auto shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900">Ready to Launch Your Merchant Campaign?</h2>
+          <p className="text-xs text-slate-500 font-light max-w-md mx-auto">
+            Set your commission percentage, invite ambassadors, and pay only for verified customer growth.
+          </p>
+          <div className="pt-2">
+            <Link href="/auth?role=business_admin" className="px-6 py-3 rounded-full bg-[#e15b3e] text-white text-xs font-semibold hover:bg-[#d04a2d] transition-all shadow-md shadow-[#e15b3e]/20 inline-flex items-center gap-1.5">
+              Launch Merchant Campaign <IconArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
       </main>
+
+      <Footer />
     </div>
   );
 }
