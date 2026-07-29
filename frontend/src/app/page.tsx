@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import {
   IconBuildingBank,
   IconClock,
@@ -186,11 +188,6 @@ export default function RipplLandingPage() {
   // Pricing Teaser states
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annually">("monthly");
 
-  // Exit intent popup state
-  const [showExitIntent, setShowExitIntent] = useState(false);
-  const [exitEmail, setExitEmail] = useState("");
-  const [exitSubmitted, setExitSubmitted] = useState(false);
-
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY < 30) {
@@ -204,18 +201,45 @@ export default function RipplLandingPage() {
     document.addEventListener("mouseleave", handleMouseLeave);
     return () => document.removeEventListener("mouseleave", handleMouseLeave);
   }, []);
+  // Exit intent & Cookie consent states
+  const [showExitIntent, setShowExitIntent] = useState<boolean>(false);
+  const [exitEmail, setExitEmail] = useState<string>("");
+  const [exitSubmitted, setExitSubmitted] = useState<boolean>(false);
+  const [showCookieBanner, setShowCookieBanner] = useState<boolean>(false);
 
-  // NDPR Cookie Banner states
-  const [showCookieBanner, setShowCookieBanner] = useState(false);
   useEffect(() => {
+    // Check logged in user role
+    const role = localStorage.getItem("user_role");
+    if (role) setUserRole(role);
+
+    // Check cookie consent
     const consent = localStorage.getItem("cookie_consent");
-    if (!consent) {
-      setShowCookieBanner(true);
-    }
+    if (!consent) setShowCookieBanner(true);
+
+    // Listen for modal URL search query
+    const params = new URLSearchParams(window.location.search);
+    const modalParam = params.get("modal");
+    if (modalParam) setCurrentModal(modalParam);
+
+    // Section scroll observer
+    const sections = document.querySelectorAll("section[id]");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.25, rootMargin: "-80px 0px 0px 0px" }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+    return () => observer.disconnect();
   }, []);
 
-  const handleCookieConsent = (accepted: boolean) => {
-    localStorage.setItem("cookie_consent", accepted ? "accepted" : "declined");
+  const handleCookieConsent = (accept: boolean) => {
+    localStorage.setItem("cookie_consent", accept ? "accepted" : "declined");
     setShowCookieBanner(false);
   };
 
@@ -226,263 +250,8 @@ export default function RipplLandingPage() {
   return (
     <div className="min-h-screen bg-[#edf1f5] font-sans antialiased text-slate-800 flex flex-col selection:bg-[#e15b3e]/20 selection:text-[#e15b3e] relative">
       
-      {/* Sticky Header */}
-      <header className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200/50 px-4 md:px-6 py-4 flex items-center justify-between z-50">
-        
-        {/* Left: Logo */}
-        <div className="flex items-center">
-          <Link href="/" onClick={(e) => { handleLogoClick(e); setMobileMenuOpen(false); }} className="flex items-center">
-            <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" loading="eager" fetchPriority="high" />
-          </Link>
-        </div>
-
-        {/* Center: Desktop links */}
-        <nav className="hidden md:flex items-center justify-center gap-6 text-xs font-semibold">
-          <a 
-            href="#how-it-works" 
-            onClick={(e) => handleScrollToSection(e, "how-it-works")}
-            className={`transition-colors duration-200 ${activeSection === "how-it-works" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            How it works
-          </a>
-
-          {/* Solutions Dropdown Menu */}
-          <div className="relative group">
-            <button className={`flex items-center gap-1 transition-colors py-2 ${activeSection.startsWith("solutions") ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
-              <span>Solutions</span>
-              <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </button>
-            <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
-              <a href="#solutions-business" onClick={(e) => handleScrollToSection(e, "solutions-business")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Business Merchants
-              </a>
-              <a href="#solutions-affiliate" onClick={(e) => handleScrollToSection(e, "solutions-affiliate")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Creator Ambassadors
-              </a>
-              <a href="#solutions-enterprise" onClick={(e) => handleScrollToSection(e, "solutions-enterprise")} className="px-3.5 py-2.5 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Enterprise & Banks
-              </a>
-            </div>
-          </div>
-
-          <a 
-            href="#features" 
-            onClick={(e) => handleScrollToSection(e, "features")}
-            className={`transition-colors duration-200 ${activeSection === "features" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            Features
-          </a>
-          <a 
-            href="#pricing" 
-            onClick={(e) => handleScrollToSection(e, "pricing")}
-            className={`transition-colors duration-200 ${activeSection === "pricing" ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}
-          >
-            Pricing
-          </a>
-
-          {/* Resources Dropdown Menu */}
-          <div className="relative group">
-            <button className={`flex items-center gap-1 transition-colors py-2 ${["blog", "faq", "help", "about", "contact"].includes(activeSection) ? "text-[#e15b3e] font-bold" : "text-slate-500 hover:text-[#e15b3e]"}`}>
-              <span>Resources</span>
-              <IconChevronDown className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform" />
-            </button>
-            <div className="absolute top-full left-0 hidden group-hover:flex flex-col bg-white border border-slate-200/80 rounded-2xl shadow-xl p-2 min-w-[200px] z-50 animate-in fade-in zoom-in-95 duration-150">
-              <a href="#blog" onClick={(e) => handleScrollToSection(e, "blog")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Blog & Guides
-              </a>
-              <a href="#faq" onClick={(e) => handleScrollToSection(e, "faq")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                FAQs
-              </a>
-              <a href="#help" onClick={(e) => handleScrollToSection(e, "help")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Help Center
-              </a>
-              <a href="#about" onClick={(e) => handleScrollToSection(e, "about")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                About Rippl
-              </a>
-              <a href="#contact" onClick={(e) => handleScrollToSection(e, "contact")} className="px-3.5 py-2 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#e15b3e] font-semibold text-xs">
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </nav>
-
-        {/* Right: Auth CTAs & Mobile Hamburger Menu Button */}
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-3">
-            {userRole ? (
-              <Link
-                href={
-                  userRole === "affiliate"
-                    ? "/affiliate"
-                    : userRole === "business_admin"
-                    ? "/business-admin"
-                    : "/super-admin"
-                }
-                className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95 flex items-center gap-1.5"
-              >
-                Go to Dashboard
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/auth"
-                  className="px-4 py-2 text-xs font-semibold text-slate-650 hover:text-[#e15b3e] transition-colors"
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/auth"
-                  className="px-5 py-2.5 rounded-full bg-[#e15b3e] hover:bg-[#d04e32] text-white text-xs font-semibold transition-all shadow-md shadow-[#e15b3e]/10 active:scale-95"
-                >
-                  Get Started
-                </Link>
-              </>
-            )}
-          </div>
-
-          {/* Mobile Hamburger Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 hover:text-[#e15b3e] transition-colors focus:outline-none"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <IconX className="w-6 h-6" /> : <IconMenu2 className="w-6 h-6" />}
-          </button>
-        </div>
-      </header>
-
-      {/* Mobile Navigation Drawer Overlay */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-[65px] bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-2xl z-40 max-w-xl mx-auto p-6 animate-in fade-in slide-in-from-top-4 duration-200">
-          <nav className="flex flex-col gap-2 text-sm font-semibold">
-            <a 
-              href="#how-it-works"
-              onClick={(e) => handleScrollToSection(e, "how-it-works")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "how-it-works" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              How it works
-            </a>
-            
-            <div className="py-1">
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3.5">Solutions</span>
-              <div className="flex flex-col gap-1 mt-1">
-                <a 
-                  href="#solutions-business"
-                  onClick={(e) => handleScrollToSection(e, "solutions-business")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-business" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Business Merchants
-                </a>
-                <a 
-                  href="#solutions-affiliate"
-                  onClick={(e) => handleScrollToSection(e, "solutions-affiliate")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-affiliate" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Creator Ambassadors
-                </a>
-                <a 
-                  href="#solutions-enterprise"
-                  onClick={(e) => handleScrollToSection(e, "solutions-enterprise")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "solutions-enterprise" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Enterprise & Banks
-                </a>
-              </div>
-            </div>
-
-            <a 
-              href="#features"
-              onClick={(e) => handleScrollToSection(e, "features")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "features" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Features
-            </a>
-            <a 
-              href="#pricing"
-              onClick={(e) => handleScrollToSection(e, "pricing")}
-              className={`py-2.5 px-3.5 rounded-xl transition-colors ${activeSection === "pricing" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-            >
-              Pricing
-            </a>
-
-            <div className="py-1">
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider px-3.5">Resources & Support</span>
-              <div className="flex flex-col gap-1 mt-1">
-                <a 
-                  href="#blog"
-                  onClick={(e) => handleScrollToSection(e, "blog")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "blog" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Blog & Guides
-                </a>
-                <a 
-                  href="#faq"
-                  onClick={(e) => handleScrollToSection(e, "faq")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "faq" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  FAQs
-                </a>
-                <a 
-                  href="#help"
-                  onClick={(e) => handleScrollToSection(e, "help")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "help" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Help Center
-                </a>
-                <a 
-                  href="#about"
-                  onClick={(e) => handleScrollToSection(e, "about")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "about" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  About Rippl
-                </a>
-                <a 
-                  href="#contact"
-                  onClick={(e) => handleScrollToSection(e, "contact")}
-                  className={`py-2 px-3.5 rounded-xl text-xs transition-colors ${activeSection === "contact" ? "bg-[#e15b3e]/10 text-[#e15b3e]" : "text-slate-700 hover:bg-slate-50"}`}
-                >
-                  Contact Us
-                </a>
-              </div>
-            </div>
-
-            <div className="pt-4 mt-1 border-t border-slate-200/60 flex flex-col gap-2.5">
-              {userRole ? (
-                <Link
-                  href={
-                    userRole === "affiliate"
-                      ? "/affiliate"
-                      : userRole === "business_admin"
-                      ? "/business-admin"
-                      : "/super-admin"
-                  }
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full text-center py-3 rounded-full bg-[#e15b3e] text-white text-xs font-semibold shadow-md shadow-[#e15b3e]/10"
-                >
-                  Go to Dashboard
-                </Link>
-              ) : (
-                <>
-                  <Link
-                    href="/auth"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center py-2.5 rounded-full border border-slate-300 text-slate-700 text-xs font-semibold hover:bg-slate-50"
-                  >
-                    Log In
-                  </Link>
-                  <Link
-                    href="/auth"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center py-3 rounded-full bg-[#e15b3e] text-white text-xs font-semibold shadow-md shadow-[#e15b3e]/10"
-                  >
-                    Get Started
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
-        </div>
-      )}
+      {/* Shared Navbar */}
+      <Navbar userRole={userRole} activeSection={activeSection} />
 
       {/* Sequential Landing Page Sections with Target Screen Content (1.02 – 1.15) */}
       
@@ -1406,65 +1175,8 @@ export default function RipplLandingPage() {
         </div>
       </section>
 
-      {/* Detailed Multi-Column SaaS Footer (Section 13) */}
-      <footer className="mt-auto bg-white border-t border-slate-200/40 pt-16 pb-8 px-6 md:px-12 flex flex-col gap-10 text-xs text-slate-500 font-medium z-30">
-        <div className="max-w-5xl mx-auto w-full grid grid-cols-2 md:grid-cols-5 gap-8">
-          
-          {/* Column 1: Brand Info (Double width on desktop) */}
-          <div className="col-span-2 space-y-4 text-left">
-            <Link href="/" onClick={handleLogoClick} className="flex items-center">
-              <img src="/logo-primary-horizontal.svg" alt="Rippl Logo" className="h-8 w-auto" />
-            </Link>
-            <p className="text-[11px] text-slate-400 font-light max-w-xs leading-relaxed">
-              Nigeria & emerging market's first growth and rewards infrastructure. Empowering brands to launch automated, fraud-aware referral channels.
-            </p>
-            <div className="flex gap-2.5 pt-1">
-              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[8px] font-bold text-slate-400 uppercase tracking-wider">NDPR</span>
-              <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[8px] font-bold text-slate-400 uppercase tracking-wider">CBN Guideline</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#fcece9] text-[8px] font-bold text-[#e15b3e] uppercase tracking-wider">Paystack Partner</span>
-            </div>
-          </div>
-
-          {/* Column 2: Products */}
-          <div className="flex flex-col gap-3 text-left">
-            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Products</h4>
-            <Link href="/auth" className="hover:text-slate-900 transition-colors">For Merchants</Link>
-            <Link href="/auth" className="hover:text-slate-900 transition-colors">For Ambassadors</Link>
-            <a href="#roi-simulator" className="hover:text-slate-900 transition-colors">ROI Simulator</a>
-          </div>
-
-          {/* Column 3: Company */}
-          <div className="flex flex-col gap-3 text-left">
-            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Company</h4>
-            <a href="#" className="hover:text-slate-900 transition-colors">About Us</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Careers</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Blog & News</a>
-          </div>
-
-          {/* Column 4: Help & Legal */}
-          <div className="flex flex-col gap-3 text-left">
-            <h4 className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Trust & Legal</h4>
-            <a href="#" className="hover:text-slate-900 transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">GDPR & Cookies</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Compliance reports</a>
-          </div>
-
-        </div>
-
-        {/* Bottom Partnership Bar */}
-        <div className="max-w-5xl mx-auto w-full border-t border-slate-100 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left text-[10px] text-slate-400 leading-relaxed font-medium">
-          <p className="max-w-md">
-            Payment processing services are securely provided by Paystack and Flutterwave, licensed by the Central Bank of Nigeria (CBN). Rippl is NDPR compliant and operates under strict anti-money laundering frameworks.
-          </p>
-          <div className="flex flex-col items-end gap-1 shrink-0">
-            <span>&copy; 2026 Rippl Inc. All rights reserved.</span>
-            <a href="https://wa.me/2348000000000" className="text-[#e15b3e] font-bold hover:underline flex items-center gap-1 text-[9px] uppercase tracking-wider">
-              <IconMessage className="w-3.5 h-3.5" /> WhatsApp Support
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* Shared Footer */}
+      <Footer />
 
       {/* Exit Intent Capturer modal popup (Section 12) */}
       {showExitIntent && (
