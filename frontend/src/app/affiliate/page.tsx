@@ -1375,8 +1375,8 @@ export default function AffiliateDashboard() {
                   <div className="flex justify-between items-center text-xs border-t border-slate-50 pt-3">
                     <span className="text-slate-500">Disputed/Reversed Payouts:</span>
                     <span className="font-semibold text-red-500">
-                      {dashboardData && dashboardData.total_conversions > 0
-                        ? ((dashboardData.conversions.filter((c: any) => c.status === "rejected").length / dashboardData.total_conversions) * 100).toFixed(1) + "%"
+                      {dashboardData && Array.isArray(dashboardData.conversions) && dashboardData.total_conversions > 0
+                        ? (((dashboardData.conversions || []).filter((c: any) => c.status === "rejected").length / dashboardData.total_conversions) * 100).toFixed(1) + "%"
                         : "0.0%"}
                     </span>
                   </div>

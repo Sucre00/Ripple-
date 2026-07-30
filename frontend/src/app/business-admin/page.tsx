@@ -197,7 +197,7 @@ export default function MerchantDashboard() {
       const res = await fetch(`${API_BASE_URL}/api/merchant/campaigns?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
-        setMerchantCampaigns(data);
+        setMerchantCampaigns(Array.isArray(data) ? data : []);
       }
     } catch (e) {
       console.error("Failed to load campaigns", e);
@@ -209,8 +209,8 @@ export default function MerchantDashboard() {
       const res = await fetch(`${API_BASE_URL}/api/merchant/affiliates?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
-        setAffiliatesList(data.enrolled);
-        setAffiliateApplications(data.applications);
+        setAffiliatesList(Array.isArray(data?.enrolled) ? data.enrolled : []);
+        setAffiliateApplications(Array.isArray(data?.applications) ? data.applications : []);
       }
     } catch (e) {
       console.error("Failed to load affiliates", e);
@@ -222,8 +222,8 @@ export default function MerchantDashboard() {
       const res = await fetch(`${API_BASE_URL}/api/merchant/payouts?merchant_id=${id}`);
       if (res.ok) {
         const data = await res.json();
-        setPendingPayouts(data.pending);
-        setActiveDisputes(data.disputed);
+        setPendingPayouts(Array.isArray(data?.pending) ? data.pending : []);
+        setActiveDisputes(Array.isArray(data?.disputed) ? data.disputed : []);
       }
     } catch (e) {
       console.error("Failed to load payouts", e);
@@ -741,7 +741,7 @@ export default function MerchantDashboard() {
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Referral Revenue</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">
-                  ₦{dashboardData ? (dashboardData.conversions.reduce((acc: number, c: any) => acc + c.order_value, 0) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                  ₦{dashboardData && Array.isArray(dashboardData.conversions) ? ((dashboardData.conversions || []).reduce((acc: number, c: any) => acc + (c.order_value || 0), 0) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
                 </p>
                 <p className="text-[9px] text-green-600 font-bold flex items-center gap-0.5">
                   <IconArrowUpRight className="w-3 h-3" /> +18.4% MTD
@@ -755,12 +755,12 @@ export default function MerchantDashboard() {
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Active Affiliates</p>
                 <p className="text-2xl font-semibold text-slate-800 mt-1">{dashboardData ? dashboardData.total_links : 0} Enrolled</p>
-                <p className="text-[9px] text-slate-400 font-medium">{affiliateApplications.length} application pending</p>
+                <p className="text-[9px] text-slate-400 font-medium">{(affiliateApplications || []).length} application pending</p>
               </div>
               <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex flex-col gap-2">
                 <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Total commission Paid</p>
                 <p className="text-2xl font-semibold text-slate-900 mt-1">
-                  ₦{dashboardData ? (dashboardData.conversions.filter((c: any) => c.status === "paid" || c.status === "cleared").reduce((acc: number, c: any) => acc + c.commission_amount, 0) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
+                  ₦{dashboardData && Array.isArray(dashboardData.conversions) ? (((dashboardData.conversions || []).filter((c: any) => c.status === "paid" || c.status === "cleared").reduce((acc: number, c: any) => acc + (c.commission_amount || 0), 0)) / 100).toLocaleString("en-NG", { minimumFractionDigits: 2 }) : "0.00"}
                 </p>
               </div>
             </div>
