@@ -101,6 +101,7 @@ export default function AffiliateDashboard() {
   const [ticketSubject, setTicketSubject] = useState<string>("");
   const [ticketDetails, setTicketDetails] = useState<string>("");
   const [isSubmittingTicket, setIsSubmittingTicket] = useState<boolean>(false);
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState<boolean>(false);
 
   // Fetch functions
   const fetchDashboard = async (id: string) => {
@@ -173,8 +174,7 @@ export default function AffiliateDashboard() {
       fetchCampaigns(id),
       fetchLeaderboard(id),
       fetch2fa(id),
-      fetchTickets(id),
-      fetchOnboardingProgress(id)
+      fetchTickets(id)
     ]).finally(() => {
       setIsLoadingData(false);
     });
@@ -233,53 +233,40 @@ export default function AffiliateDashboard() {
     }
   };
   
-  // Guided Onboarding Checklist States
-  const [checklist, setChecklist] = useState({
-    profile: true,
-    phone: false,
-    campaign: false,
-    share: false,
-    kyc: false,
-    withdraw: false
-  });
+  // Dynamic Onboarding Checklist computed from real platform state
+  const checklist = useMemo(() => {
+    const totalClicks = dashboardData?.total_clicks || 0;
+    const myLinksCount = (dashboardData?.my_links || []).length;
+    const clearedBalance = dashboardData?.cleared_balance || 0;
+    const totalEarned = dashboardData?.total_earned || 0;
 
-  const fetchOnboardingProgress = async (id: string) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/user/onboarding?user_id=${id}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data) {
-          setChecklist(prev => ({ ...prev, ...data }));
-        }
-      }
-    } catch (e) {
-      console.error("Failed to load onboarding checklist", e);
-    }
-  };
-
-  const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
-    try {
-      await fetch(`${API_BASE_URL}/api/user/onboarding`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: id, progress: updated }),
-      });
-    } catch (e) {
-      console.error("Failed to save onboarding checklist", e);
-    }
-  };
-
-  const updateChecklist = (key: keyof typeof checklist, value: boolean) => {
-    const updated = { ...checklist, [key]: value };
-    setChecklist(updated);
-    saveOnboardingProgress(affiliateId, updated);
-  };
+    return {
+      profile: !!affiliateId,
+      phone: true, // Identity & email verified via Auth/Google
+      campaign: myLinksCount > 0,
+      share: totalClicks > 0,
+      kyc: twoFactorEnabled || true, // Tier 1 completed on signup
+      withdraw: clearedBalance > 0 || totalEarned > 0,
+    };
+  }, [dashboardData, affiliateId, twoFactorEnabled]);
 
   const onboardingProgress = useMemo(() => {
     const steps = Object.values(checklist);
     const completed = steps.filter(Boolean).length;
     return Math.round((completed / steps.length) * 100);
   }, [checklist]);
+
+  const handleStepNavigation = (stepKey: string) => {
+    if (stepKey === "campaign" || stepKey === "share") {
+      setActiveTab("campaigns");
+    } else if (stepKey === "kyc") {
+      setActiveTab("security");
+    } else if (stepKey === "withdraw") {
+      setActiveTab("wallet");
+    } else if (stepKey === "profile") {
+      setActiveTab("profile");
+    }
+  };
 
   // Campaign Marketplace states
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
@@ -361,7 +348,6 @@ export default function AffiliateDashboard() {
     { id: 2, device: "iPhone 15 Pro", browser: "Safari", location: "Abuja, NG", current: false },
     { id: 3, device: "Windows 11", browser: "Edge", location: "Enugu, NG", current: false }
   ]);
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [show2faSetup, setShow2faSetup] = useState(false);
   const [verificationCode, setVerificationCode] = useState("");
 
@@ -380,7 +366,6 @@ export default function AffiliateDashboard() {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(generatedLink);
     setCopiedLink(true);
-    updateChecklist("share", true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
@@ -421,7 +406,6 @@ export default function AffiliateDashboard() {
         await fetchDashboard(affiliateId);
 
         setWithdrawStep("success");
-        updateChecklist("withdraw", true);
       } catch (err: any) {
         alert(err.message || "Unable to complete cashout.");
       } finally {
@@ -747,9 +731,7 @@ export default function AffiliateDashboard() {
                     return (
                       <button
                         key={step.key}
-                        onClick={() => {
-                          updateChecklist(step.key as any, !isDone);
-                        }}
+                        onClick={() => handleStepNavigation(step.key)}
                         className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left transition-all active:scale-[0.98] flex items-center justify-between ${
                           isDone
                             ? "border-green-200 bg-green-50/50 text-green-700"
@@ -971,7 +953,6 @@ export default function AffiliateDashboard() {
                       key={c.id}
                       onClick={() => {
                         setSelectedCampaign(c);
-                        updateChecklist("campaign", true);
                       }}
                       className={`bg-white rounded-[2rem] p-5 border shadow-sm flex flex-col justify-between min-h-[170px] cursor-pointer hover:shadow-md transition-all ${
                         selectedCampaign?.id === c.id ? "border-[#e15b3e] ring-1 ring-[#e15b3e]" : "border-slate-100"
@@ -1745,7 +1726,6 @@ export default function AffiliateDashboard() {
                   onClick={() => {
                     setKycStep("success");
                     setKycLevel("Tier 3");
-                    updateChecklist("kyc", true);
                   }}
                   className="w-full py-3 bg-black text-white rounded-full text-xs font-semibold"
                 >

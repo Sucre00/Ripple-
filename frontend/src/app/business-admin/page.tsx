@@ -79,15 +79,7 @@ export default function MerchantDashboard() {
     }
   };
 
-  // Merchant Guided Onboarding Checklist
-  const [checklist, setChecklist] = useState({
-    profile: true,
-    pixel: false,
-    campaign: false,
-    recruit: false,
-    fund: false,
-    payout: false
-  });
+
 
   const [webhookUrl, setWebhookUrl] = useState("");
   const [isSavingWebhook, setIsSavingWebhook] = useState(false);
@@ -125,43 +117,45 @@ export default function MerchantDashboard() {
     }
   };
 
-  const fetchOnboardingProgress = async (id: string) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/user/onboarding?user_id=${id}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data) {
-          setChecklist(prev => ({ ...prev, ...data }));
-        }
-      }
-    } catch (e) {
-      console.error("Failed to load onboarding checklist", e);
-    }
-  };
+  const [merchantId, setMerchantId] = useState<string>("");
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
 
-  const saveOnboardingProgress = async (id: string, updated: typeof checklist) => {
-    try {
-      await fetch(`${API_BASE_URL}/api/user/onboarding`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: id, progress: updated }),
-      });
-    } catch (e) {
-      console.error("Failed to save onboarding checklist", e);
-    }
-  };
+  // Dynamic Merchant Onboarding Checklist computed from real platform state
+  const checklist = useMemo(() => {
+    const campaignsCount = dashboardData?.total_campaigns || 0;
+    const affiliatesCount = dashboardData?.total_affiliates || 0;
+    const conversionsCount = (dashboardData?.conversions || []).length;
+    const totalBalance = (dashboardData?.cleared_balance || 0) + (dashboardData?.pending_balance || 0);
+    const payoutsCount = (dashboardData?.payouts || []).length;
 
-  const updateChecklist = (key: keyof typeof checklist, value: boolean) => {
-    const updated = { ...checklist, [key]: value };
-    setChecklist(updated);
-    saveOnboardingProgress(merchantId, updated);
-  };
+    return {
+      profile: !!merchantId,
+      pixel: conversionsCount > 0 || !!webhookUrl,
+      campaign: campaignsCount > 0,
+      recruit: affiliatesCount > 0,
+      fund: totalBalance > 0,
+      payout: payoutsCount > 0,
+    };
+  }, [dashboardData, merchantId, webhookUrl]);
 
   const onboardingProgress = useMemo(() => {
     const steps = Object.values(checklist);
     const completed = steps.filter(Boolean).length;
     return Math.round((completed / steps.length) * 100);
   }, [checklist]);
+
+  const handleStepNavigation = (stepKey: string) => {
+    if (stepKey === "campaign") {
+      setActiveTab("campaigns");
+    } else if (stepKey === "recruit") {
+      setActiveTab("affiliates");
+    } else if (stepKey === "fund" || stepKey === "payout") {
+      setActiveTab("payouts");
+    } else if (stepKey === "pixel" || stepKey === "profile") {
+      setActiveTab("billing");
+    }
+  };
 
   // Campaign creation wizard states
   const [showWizard, setShowWizard] = useState(false);
@@ -181,9 +175,7 @@ export default function MerchantDashboard() {
     return null;
   };
 
-  const [merchantId, setMerchantId] = useState<string>("");
-  const [dashboardData, setDashboardData] = useState<any>(null);
-  const [isLoadingData, setIsLoadingData] = useState<boolean>(true);
+
 
   // Merchant campaigns database
   const [merchantCampaigns, setMerchantCampaigns] = useState<any[]>([]);
@@ -247,7 +239,6 @@ export default function MerchantDashboard() {
       fetchCampaigns(id),
       fetchAffiliates(id),
       fetchPayouts(id),
-      fetchOnboardingProgress(id),
       fetchWebhookConfig(id)
     ]).finally(() => {
       setIsLoadingData(false);
@@ -333,7 +324,6 @@ export default function MerchantDashboard() {
       setWizardStep(1);
       setCampaignName("");
       setTargetUrl("");
-      updateChecklist("campaign", true);
     } catch (err: any) {
       alert(err.message || "An error occurred.");
     }
@@ -359,7 +349,6 @@ export default function MerchantDashboard() {
       await fetchDashboard(merchantId);
       setShowFundModal(false);
       setFundAmount("");
-      updateChecklist("fund", true);
     } catch (err: any) {
       alert(err.message || "An error occurred.");
     } finally {
@@ -381,7 +370,6 @@ export default function MerchantDashboard() {
       alert("Payout approved successfully!");
       await fetchPayouts(merchantId);
       await fetchDashboard(merchantId);
-      updateChecklist("payout", true);
     } catch (e: any) {
       alert(e.message || "An error occurred.");
     }
@@ -434,7 +422,6 @@ export default function MerchantDashboard() {
       alert("Affiliate approved successfully!");
       await fetchAffiliates(merchantId);
       await fetchDashboard(merchantId);
-      updateChecklist("recruit", true);
     } catch (e: any) {
       alert(e.message || "An error occurred.");
     }
@@ -480,7 +467,6 @@ export default function MerchantDashboard() {
       }
       setPixelResultPayload(data);
       setPixelTestStatus("success");
-      updateChecklist("pixel", true);
       await fetchPayouts(merchantId);
       await fetchDashboard(merchantId);
     } catch (err: any) {
@@ -728,12 +714,13 @@ export default function MerchantDashboard() {
                   ].map((step) => {
                     const isDone = (checklist as any)[step.key];
                     return (
-                      <div
+                      <button
                         key={step.key}
-                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left flex items-center justify-between ${
+                        onClick={() => handleStepNavigation(step.key)}
+                        className={`px-3 py-2 rounded-xl border text-[10px] font-semibold text-left flex items-center justify-between transition-all active:scale-[0.98] ${
                           isDone
                             ? "border-green-200 bg-green-50/50 text-green-700"
-                            : "border-slate-200 bg-white text-slate-500"
+                            : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
                         }`}
                       >
                         <span>{step.label}</span>
@@ -742,7 +729,7 @@ export default function MerchantDashboard() {
                         }`}>
                           {isDone ? "✓" : ""}
                         </span>
-                      </div>
+                      </button>
                     );
                   })}
                 </div>
