@@ -41,6 +41,7 @@ func main() {
 	// Auth Endpoints
 	mux.HandleFunc("POST /api/auth/login", loginHandler)
 	mux.HandleFunc("POST /api/auth/register", registerHandler)
+	mux.HandleFunc("POST /api/auth/google", googleAuthHandler)
 	mux.HandleFunc("POST /api/auth/otp/send", sendOtpHandler)
 	mux.HandleFunc("POST /api/auth/otp/verify", verifyOtpHandler)
 	mux.HandleFunc("POST /api/auth/appeal", appealHandler)
@@ -366,6 +367,94 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 			writeJSONError(w, http.StatusInternalServerError, "user created, but failed to create wallet ledger")
 			return
 		}
+	}
+
+	writeJSONSuccess(w, http.StatusCreated, LoginResponse{
+		ID:    newUser.ID,
+		Email: newUser.Email,
+		Role:  newUser.Role,
+	})
+}
+
+type GoogleAuthRequest struct {
+	Email        string `json:"email"`
+	Name         string `json:"name"`
+	Role         string `json:"role"`
+	GoogleToken  string `json:"google_token"`
+	BusinessName string `json:"business_name"`
+}
+
+func googleAuthHandler(w http.ResponseWriter, r *http.Request) {
+	var req GoogleAuthRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		writeJSONError(w, http.StatusBadRequest, "invalid request payload")
+		return
+	}
+
+	if req.Role == "" {
+		req.Role = "affiliate"
+	}
+	if req.Email == "" {
+		req.Email = fmt.Sprintf("google_user_%d@gmail.com", time.Now().UnixNano())
+	}
+
+	ctx := context.Background()
+
+	// Check if user exists
+	existing, _ := client.User.FindUnique(
+		db.User.Email.Equals(req.Email),
+	).Exec(ctx)
+
+	if existing != nil {
+		writeJSONSuccess(w, http.StatusOK, LoginResponse{
+			ID:    existing.ID,
+			Email: existing.Email,
+			Role:  existing.Role,
+		})
+		return
+	}
+
+	// Hash placeholder for OAuth user
+	hashed, _ := bcrypt.GenerateFromPassword([]byte("google_oauth_token_"+req.GoogleToken), bcrypt.DefaultCost)
+
+	// Create user
+	newUser, err := client.User.CreateOne(
+		db.User.Email.Set(req.Email),
+		db.User.PasswordHash.Set(string(hashed)),
+		db.User.Role.Set(req.Role),
+		db.User.Status.Set("active"),
+	).Exec(ctx)
+
+	if err != nil {
+		writeJSONError(w, http.StatusInternalServerError, fmt.Sprintf("failed to create Google user: %v", err))
+		return
+	}
+
+	if req.Role == "business_admin" {
+		bizName := req.BusinessName
+		if bizName == "" {
+			bizName = fmt.Sprintf("%s's Business", req.Name)
+			if req.Name == "" {
+				bizName = "My Business"
+			}
+		}
+		biz, err := client.Business.CreateOne(
+			db.Business.User.Link(db.User.ID.Equals(newUser.ID)),
+			db.Business.Name.Set(bizName),
+		).Exec(ctx)
+		if err == nil {
+			_, _ = client.Wallet.CreateOne(
+				db.Wallet.OwnerID.Set(biz.ID),
+				db.Wallet.OwnerType.Set("business"),
+				db.Wallet.Currency.Set("NGN"),
+			).Exec(ctx)
+		}
+	} else if req.Role == "affiliate" {
+		_, _ = client.Wallet.CreateOne(
+			db.Wallet.OwnerID.Set(newUser.ID),
+			db.Wallet.OwnerType.Set("affiliate"),
+			db.Wallet.Currency.Set("NGN"),
+		).Exec(ctx)
 	}
 
 	writeJSONSuccess(w, http.StatusCreated, LoginResponse{

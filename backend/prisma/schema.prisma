@@ -20,8 +20,12 @@ model User {
   createdAt    DateTime       @default(now()) @map("created_at")
   updatedAt    DateTime       @updatedAt @map("updated_at")
   
-  businesses   Business[]
+  businesses    Business[]
   referralLinks ReferralLink[]
+  bankAccounts  BankAccount[]
+  kycDocuments  KycDocument[]
+  supportTickets SupportTicket[]
+  payoutRequests PayoutRequest[]
 
   @@map("users")
 }
@@ -36,6 +40,7 @@ model Business {
   updatedAt        DateTime   @updatedAt @map("updated_at")
   
   campaigns        Campaign[]
+  products         Product[]
 
   @@map("businesses")
 }
@@ -61,6 +66,21 @@ model Campaign {
   referralLinks         ReferralLink[]
 
   @@map("campaigns")
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  businessId  String    @map("business_id")
+  business    Business  @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  name        String
+  sku         String?   @unique
+  priceKobo   Int       @map("price_kobo")
+  qrCodeUrl   String?   @map("qr_code_url")
+  status      String    @default("active") // 'active', 'archived'
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("products")
 }
 
 model ReferralLink {
@@ -110,4 +130,67 @@ model Wallet {
   updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("wallets")
+}
+
+model BankAccount {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bankName      String   @map("bank_name")
+  bankCode      String   @map("bank_code")
+  accountNumber String   @map("account_number")
+  accountName   String   @map("account_name")
+  isPrimary     Boolean  @default(true) @map("is_primary")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("bank_accounts")
+}
+
+model PayoutRequest {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amountKobo      Int       @map("amount_kobo")
+  bankName        String    @map("bank_name")
+  accountNumber   String    @map("account_number")
+  accountName     String    @map("account_name")
+  status          String    @default("pending") // 'pending', 'processing', 'completed', 'rejected', 'failed'
+  reference       String?   @unique
+  nipSessionId    String?   @map("nip_session_id")
+  rejectionReason String?   @map("rejection_reason")
+  requestedAt     DateTime  @default(now()) @map("requested_at")
+  processedAt     DateTime? @map("processed_at")
+
+  @@map("payout_requests")
+}
+
+model KycDocument {
+  id             String    @id @default(uuid())
+  userId         String    @map("user_id")
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  documentType   String    @map("document_type") // 'cac', 'nin', 'bvn', 'passport'
+  documentNumber String?   @map("document_number")
+  fileUrl        String    @map("file_url")
+  status         String    @default("pending") // 'pending', 'approved', 'rejected'
+  notes          String?
+  submittedAt    DateTime  @default(now()) @map("submitted_at")
+  reviewedAt     DateTime? @map("reviewed_at")
+
+  @@map("kyc_documents")
+}
+
+model SupportTicket {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   String
+  category  String   // 'payout', 'tracking', 'fraud', 'billing', 'general'
+  priority  String   @default("medium") // 'low', 'medium', 'high', 'urgent'
+  status    String   @default("open") // 'open', 'in_progress', 'resolved', 'closed'
+  message   String
+  responses String?  // JSON string array of responses
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("support_tickets")
 }

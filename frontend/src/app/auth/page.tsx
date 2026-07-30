@@ -76,10 +76,28 @@ export default function AuthPage() {
       if (window.location.hash.includes("access_token") || searchParams.has("google_callback")) {
         setIsLoading(true);
         const hashParams = new URLSearchParams(window.location.hash.replace("#", "?"));
+        const accessToken = hashParams.get("access_token") || "mock_google_oauth_token";
         const activeRole = (searchParams.get("role") as Role) || role || "affiliate";
         const destination = activeRole === "affiliate" ? "/affiliate" : activeRole === "business_admin" ? "/business-admin" : "/super-admin";
-        const userId = `google-user-${Date.now()}`;
-        setRoleCookieAndPush(activeRole as Role, destination, userId);
+        
+        fetch(`${API_BASE_URL}/api/auth/google`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            google_token: accessToken,
+            role: activeRole,
+            email: `google_user_${Date.now()}@gmail.com`
+          })
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          const userId = data.id || `google-user-${Date.now()}`;
+          setRoleCookieAndPush(activeRole as Role, destination, userId);
+        })
+        .catch(() => {
+          const userId = `google-user-${Date.now()}`;
+          setRoleCookieAndPush(activeRole as Role, destination, userId);
+        });
         return;
       }
 
@@ -234,7 +252,7 @@ export default function AuthPage() {
         window.location.href = googleOAuthUrl;
       } else {
         // Redirect to Google Account Chooser & Sign-in page
-        const returnUrl = encodeURIComponent(`${window.location.origin}/auth?google_callback=1&role=${role}`);
+        const returnUrl = encodeURIComponent(`${window.location.origin}/auth?google_callback=1&role=${role}&mode=${authMode}`);
         const googleAccountChooserUrl = `https://accounts.google.com/AccountChooser?continue=${returnUrl}`;
         window.location.href = googleAccountChooserUrl;
       }
@@ -833,6 +851,23 @@ export default function AuthPage() {
                 <form onSubmit={handleAffiliateNext} className="flex flex-col gap-4">
                   {affStep === 1 && (
                     <>
+                      {/* Social Signup Button */}
+                      <button
+                        type="button"
+                        onClick={handleGoogleLogin}
+                        className="w-full py-2.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all flex items-center justify-center gap-2 shadow-sm"
+                      >
+                        <IconBrandGoogle className="w-4 h-4 text-red-500" />
+                        Sign up with Google
+                      </button>
+
+                      {/* Divider */}
+                      <div className="relative flex py-1 items-center">
+                        <div className="flex-grow border-t border-slate-100"></div>
+                        <span className="flex-shrink mx-4 text-[10px] text-slate-350 font-bold uppercase tracking-wider">Or register with email</span>
+                        <div className="flex-grow border-t border-slate-100"></div>
+                      </div>
+
                       <div className="flex flex-col gap-1.5">
                         <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                           Full Name
@@ -1058,6 +1093,23 @@ export default function AuthPage() {
                   <form onSubmit={handleBusinessNext} className="flex flex-col gap-4">
                     {bizStep === 1 && (
                       <>
+                        {/* Social Signup Button */}
+                        <button
+                          type="button"
+                          onClick={handleGoogleLogin}
+                          className="w-full py-2.5 rounded-full border border-slate-200 bg-[#ffffff] hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all flex items-center justify-center gap-2 shadow-sm"
+                        >
+                          <IconBrandGoogle className="w-4 h-4 text-red-500" />
+                          Sign up with Google
+                        </button>
+
+                        {/* Divider */}
+                        <div className="relative flex py-1 items-center">
+                          <div className="flex-grow border-t border-slate-100"></div>
+                          <span className="flex-shrink mx-4 text-[10px] text-slate-350 font-bold uppercase tracking-wider">Or register with email</span>
+                          <div className="flex-grow border-t border-slate-100"></div>
+                        </div>
+
                         <div className="flex flex-col gap-1.5">
                           <label className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                             Business Name
