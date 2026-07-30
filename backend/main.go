@@ -166,7 +166,7 @@ func seedDefaultUsersIfEmpty(ctx context.Context) {
 	if err == nil && len(users) > 0 {
 		return
 	}
-	log.Println("Seeding initial database with default demo accounts...")
+	log.Println("Seeding initial database with default demo accounts and rich platform data...")
 
 	// Hash for "password123"
 	hash, err := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.DefaultCost)
@@ -175,17 +175,18 @@ func seedDefaultUsersIfEmpty(ctx context.Context) {
 	}
 	hashStr := string(hash)
 
-	// Create default affiliate
-	_, _ = client.User.CreateOne(
+	// 1. Create default affiliate user
+	affiliateUser, _ := client.User.CreateOne(
 		db.User.Email.Set("affiliate@rippl.io"),
 		db.User.PasswordHash.Set(hashStr),
 		db.User.Role.Set("affiliate"),
 		db.User.Phone.Set("+2348011111111"),
 		db.User.ID.Set("affiliate-user-uuid-1111"),
 		db.User.KycTier.Set("standard"),
+		db.User.Status.Set("active"),
 	).Exec(ctx)
 
-	// Create default merchant
+	// 2. Create default merchant user & business
 	merchantUser, _ := client.User.CreateOne(
 		db.User.Email.Set("merchant@rippl.io"),
 		db.User.PasswordHash.Set(hashStr),
@@ -193,10 +194,12 @@ func seedDefaultUsersIfEmpty(ctx context.Context) {
 		db.User.Phone.Set("+2348022222222"),
 		db.User.ID.Set("business-user-uuid-2222"),
 		db.User.KycTier.Set("enhanced"),
+		db.User.Status.Set("active"),
 	).Exec(ctx)
 
+	var business *db.BusinessModel
 	if merchantUser != nil {
-		_, _ = client.Business.CreateOne(
+		business, _ = client.Business.CreateOne(
 			db.Business.User.Link(db.User.ID.Equals(merchantUser.ID)),
 			db.Business.Name.Set("Kola Stores Ltd"),
 			db.Business.CompanyRegNumber.Set("RC 1928374"),
@@ -204,7 +207,7 @@ func seedDefaultUsersIfEmpty(ctx context.Context) {
 		).Exec(ctx)
 	}
 
-	// Create default super admin
+	// 3. Create default super admin
 	_, _ = client.User.CreateOne(
 		db.User.Email.Set("admin@rippl.io"),
 		db.User.PasswordHash.Set(hashStr),
@@ -212,9 +215,98 @@ func seedDefaultUsersIfEmpty(ctx context.Context) {
 		db.User.Phone.Set("+2348033333333"),
 		db.User.ID.Set("superadmin-user-uuid-3333"),
 		db.User.KycTier.Set("enhanced"),
+		db.User.Status.Set("active"),
 	).Exec(ctx)
 
-	log.Println("Default demo accounts successfully seeded!")
+	// 4. Seed Wallets
+	if affiliateUser != nil {
+		_, _ = client.Wallet.CreateOne(
+			db.Wallet.OwnerID.Set(affiliateUser.ID),
+			db.Wallet.OwnerType.Set("affiliate"),
+			db.Wallet.PendingBalance.Set(4500000), // in kobo (₦45,000)
+			db.Wallet.ClearedBalance.Set(18500000), // in kobo (₦185,000)
+			db.Wallet.TotalEarned.Set(23000000),
+			db.Wallet.Currency.Set("NGN"),
+		).Exec(ctx)
+
+		_, _ = client.BankAccount.CreateOne(
+			db.BankAccount.User.Link(db.User.ID.Equals(affiliateUser.ID)),
+			db.BankAccount.BankName.Set("Guaranty Trust Bank"),
+			db.BankAccount.BankCode.Set("058"),
+			db.BankAccount.AccountNumber.Set("0123456789"),
+			db.BankAccount.AccountName.Set("Dwayne Tatum"),
+		).Exec(ctx)
+
+		_, _ = client.SupportTicket.CreateOne(
+			db.SupportTicket.User.Link(db.User.ID.Equals(affiliateUser.ID)),
+			db.SupportTicket.Subject.Set("NIP Withdrawal SLA Inquiry"),
+			db.SupportTicket.Category.Set("payout"),
+			db.SupportTicket.Message.Set("Hello, how long does the clearing window take for Paystack direct transfers?"),
+			db.SupportTicket.Priority.Set("medium"),
+			db.SupportTicket.Status.Set("open"),
+		).Exec(ctx)
+	}
+
+	if business != nil {
+		_, _ = client.Wallet.CreateOne(
+			db.Wallet.OwnerID.Set(business.ID),
+			db.Wallet.OwnerType.Set("business"),
+			db.Wallet.PendingBalance.Set(15000000),
+			db.Wallet.ClearedBalance.Set(125000000), // ₦1,250,000
+			db.Wallet.TotalEarned.Set(140000000),
+			db.Wallet.Currency.Set("NGN"),
+		).Exec(ctx)
+
+		// 5. Seed Products & Campaigns
+		product, _ := client.Product.CreateOne(
+			db.Product.Business.Link(db.Business.ID.Equals(business.ID)),
+			db.Product.Name.Set("Premium Italian Leather Shoes"),
+			db.Product.PriceKobo.Set(4500000), // ₦45,000
+			db.Product.Sku.Set("LSH-2026"),
+		).Exec(ctx)
+		_ = product
+
+		campaign, cErr := client.Campaign.CreateOne(
+			db.Campaign.Business.Link(db.Business.ID.Equals(business.ID)),
+			db.Campaign.Name.Set("Summer Fashion Promo 2026"),
+			db.Campaign.CommissionType.Set("percentage"),
+			db.Campaign.CommissionValue.Set(15.0),
+			db.Campaign.TargetURL.Set("https://kolastores.com/summer-promo"),
+			db.Campaign.Status.Set("active"),
+			db.Campaign.ID.Set("campaign-uuid-1111"),
+		).Exec(ctx)
+
+		if cErr == nil && campaign != nil && affiliateUser != nil {
+			// 6. Seed Referral Link & Conversions
+			link, lErr := client.ReferralLink.CreateOne(
+				db.ReferralLink.Campaign.Link(db.Campaign.ID.Equals(campaign.ID)),
+				db.ReferralLink.Affiliate.Link(db.User.ID.Equals(affiliateUser.ID)),
+				db.ReferralLink.Code.Set("SUMMER2026"),
+				db.ReferralLink.Clicks.Set(142),
+				db.ReferralLink.ID.Set("referral-link-uuid-1111"),
+			).Exec(ctx)
+
+			if lErr == nil && link != nil {
+				_, _ = client.Conversion.CreateOne(
+					db.Conversion.ReferralLink.Link(db.ReferralLink.ID.Equals(link.ID)),
+					db.Conversion.OrderValue.Set(4500000),
+					db.Conversion.CommissionAmount.Set(675000),
+					db.Conversion.ConvertedAt.Set(time.Now().Add(-24 * time.Hour)),
+					db.Conversion.Status.Set("approved"),
+				).Exec(ctx)
+
+				_, _ = client.Conversion.CreateOne(
+					db.Conversion.ReferralLink.Link(db.ReferralLink.ID.Equals(link.ID)),
+					db.Conversion.OrderValue.Set(9000000),
+					db.Conversion.CommissionAmount.Set(1350000),
+					db.Conversion.ConvertedAt.Set(time.Now()),
+					db.Conversion.Status.Set("pending"),
+				).Exec(ctx)
+			}
+		}
+	}
+
+	log.Println("Default demo accounts and initial platform data successfully seeded!")
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
